@@ -1,6 +1,29 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <button v-on:click="submit">提交</button>
+    <transition name="fade">
+      <p v-if="userInfo && show">{{ userInfo.name }}</p>
+    </transition>
+    <p>
+      For a guide and recipes on how to configure / customize this project,<br>
+      check out the
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    </p>
+    <p>
+      For a guide and recipes on how to configure / customize this project,<br>
+      check out the
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    </p>
+    <p>
+      For a guide and recipes on how to configure / customize this project,<br>
+      check out the
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    </p>
+    <p>
+      For a guide and recipes on how to configure / customize this project,<br>
+      check out the
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    </p>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -33,8 +56,19 @@
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data(){
+    return {
+      userInfo: null,
+      show: true
+    }
+  },
+  mounted(){
+    this.userInfo = this.$store.state.userInfo
+  },
+  methods: {
+    submit(){
+      this.show = !this.show
+    }
   }
 }
 </script>
@@ -54,5 +88,11 @@ li {
 }
 a {
   color: #42b983;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
