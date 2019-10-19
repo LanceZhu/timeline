@@ -1,24 +1,46 @@
 <template>
     <div class="block">
+        范围
+    <el-slider
+      v-model="value"
+      range
+      show-stops
+      @change="rangeChange"
+      >
+    </el-slider>
+        步进值
+    <el-slider
+      v-model="step"
+      show-stops
+      :min="1"
+      @change="stepChange"
+      >
+    </el-slider>
     <el-timeline>
-        <el-timeline-item timestamp="2018/4/12" placement="top">
-        <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/12 20:46</p>
-        </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/3" placement="top">
-        <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/3 20:46</p>
-        </el-card>
-        </el-timeline-item>
-        <el-timeline-item timestamp="2018/4/2" placement="top">
-        <el-card>
-            <h4>更新 Github 模板</h4>
-            <p>王小虎 提交于 2018/4/2 20:46</p>
-        </el-card>
-        </el-timeline-item>
+        <div v-for="date in Math.floor((value[1]-value[0])/step)+1" :key="date">
+            <el-timeline-item timestamp="2018/4/12" placement="top">
+                <el-card>
+                    {{ value[0] + (date-1) * step }}
+                </el-card>
+            </el-timeline-item>
+        </div>
     </el-timeline>
     </div>
 </template>
+
+<script>
+export default {
+    data(){
+        return {
+            value: [0, 100],
+            step: 1
+        }
+    },
+    methods: {
+        rangeChange: function(e){
+        },
+        stepChange: function(e){
+        }
+    }
+}
+</script>
