@@ -21,7 +21,7 @@
       >
     </el-slider>
     <el-timeline>
-        <div v-for="time in (valueEnd-valueStart)" :key="time">
+        <div v-for="time in (value[1]-value[0])" :key="time">
             <el-timeline-item :timestamp="timeline[value[0] + time - 1].date_data" placement="top">
                 <el-card>
                         <router-link :to="`/timepoint/${timeline[time].id}`" target="_blank">
@@ -41,8 +41,8 @@ export default {
     data(){
         return {
             value: [1, 100],
-            valueStart: 1,
-            valueEnd: 1,
+            valueStart: 1, // 时间点开始 固定
+            valueEnd: 1, // 时间点结束 固定
             step: 1,
             timeline: []
         }

@@ -6,7 +6,8 @@
         <el-pagination
             background
             layout="prev, pager, next"
-            :total="1">
+            :page-count="pageCount"
+            @current-change="currentChange">
         </el-pagination>
     </div>
 </template>
@@ -15,14 +16,29 @@
 export default {
     data(){
         return {
-            wikis: []
+            wikis: [],
+            pageCount: 10
         }
     },
     created: function(){
         let _this = this;
         this.$axios.get('/_api/list?page=1&?pn=10').then(res => {
             _this.$data.wikis = res.data.data.currentPage;
+            _this.$data.pageCount = res.data.data.totalPages;
         })
+    },
+    methods: {
+        currentChange: function(e){
+            console.log('currentChange: ', e);
+            this.updatePage(e);
+        },
+        updatePage: function(page=1, pn=10){
+            let _this = this;
+            this.$axios.get(`/_api/list?page=${page}&?pn=${pn}`).then(res => {
+                _this.$data.wikis = res.data.data.currentPage;
+                _this.$data.pageCount = res.data.data.totalPages;
+            })
+        }
     }
 }
 </script>
