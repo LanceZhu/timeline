@@ -6,6 +6,7 @@
         <el-menu-item index="7" route="/helloworld">helloworld</el-menu-item>
         <el-menu-item index="5" route="/wikis">词条目录</el-menu-item>
         <el-menu-item index="2" route="/timeline">时间线</el-menu-item>
+        <el-menu-item index="8" route="/timepoint">时间点</el-menu-item>
         <el-menu-item index="6" route="/wikiCreate">新建词条</el-menu-item>
         <el-menu-item>
             <el-input
@@ -55,6 +56,7 @@ min-width: 1000px;
 position: fixed;
 top: 0;
 left: 0;
+z-index: 9999;
 }
 
 .el-aside {

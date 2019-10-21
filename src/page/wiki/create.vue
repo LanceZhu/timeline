@@ -13,7 +13,7 @@
   export default {
     data () {
       return {
-        content: '<h2>I am Example</h2>',
+        content: 'hello world',
         editorOption: {
           // some quill options
         }

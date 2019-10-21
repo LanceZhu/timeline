@@ -10,6 +10,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import store from './store/store'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -17,11 +18,14 @@ Vue.use(VueRouter)
 Vue.use(VueQuillEditor)
 Vue.use(Vuex)
 
+// axios
+Vue.prototype.$axios = axios
+
 // vue-router
 const router = new VueRouter({
   routes
 })
-router.push('index')
+// router.push('index')
 
 new Vue({
   router,
