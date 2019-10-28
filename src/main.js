@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import config from '../config'
 import App from './App.vue'
 import routes from './routes/routes'
 import VueRouter from 'vue-router'
@@ -19,16 +20,18 @@ Vue.use(VueQuillEditor)
 Vue.use(Vuex)
 
 // axios
+axios.defaults.baseURL = config.baseURL
+// axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 
 // vue-router
 const router = new VueRouter({
   routes
 })
-// router.push('index')
+// router.push('/index')
 
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app')

@@ -5,15 +5,14 @@ module.exports = {
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "standard"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
     },
     // add your custom rules here
-    rules: {
-      'no-console': 'off'
+    "rules": {
+      'no-console': 'off',
     }
   }
   

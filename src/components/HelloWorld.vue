@@ -56,17 +56,17 @@
 <script>
 export default {
   name: 'HelloWorld',
-  data(){
+  data () {
     return {
       userInfo: null,
       show: true
     }
   },
-  mounted(){
+  mounted () {
     this.userInfo = this.$store.state.userInfo
   },
   methods: {
-    submit(){
+    submit () {
       this.show = !this.show
     }
   }

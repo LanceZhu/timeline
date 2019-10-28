@@ -1,19 +1,31 @@
+const path = require('path');
+function resolve (dir) {
+    return path.join(__dirname, dir)
+}
+
 module.exports = {
     publicPath: '',
     outputDir: 'dist',
     runtimeCompiler: true,
     configureWebpack: {
-        plugins: []
+        plugins: [],
+        resolve:{
+            alias:{
+                '@': resolve('src'),
+            },
+        },
     },
     devServer: {
         proxy: {
-            '/_api': {
+            '/api': {
                 target: 'http://10.102.251.251:20080/',
-                changeOrigin: true,
+                // changeOrigin: true,
                 pathRewrite: {
-                    '/_api': '/'
-                }
-            }
-        }
+                    '/api': '/'
+                },
+                onProxyRes: function(proxyRes, req, res) {
+                },
+            },
+        },
     }
 }
