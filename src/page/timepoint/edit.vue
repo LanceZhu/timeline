@@ -11,20 +11,46 @@
       </el-date-picker>
     </div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
-    <quill-editor v-model="content">
+    <quill-editor v-model="content" :editorOption=editorOption>
     </quill-editor>
     <el-button type="primary" icon="el-icon-upload2" @click="submit()">编辑</el-button>
   </div>
 </template>
 
 <script>
+import { Quill } from 'vue-quill-editor'
+import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
+import config from '../../../config'
+
+Quill.register('modules/ImageExtend', ImageExtend)
+
 export default {
   data () {
     return {
       wiki: '',
       title: '',
       content: '',
-      timepoint: ''
+      timepoint: '',
+      editorOption: {
+        modules: {
+          ImageExtend: {
+            name: 'img', // 图片参数名
+            size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
+            action: '/api/photoUpload',
+            response: (res) => {
+              return config.baseURL + res.allowList[0]
+            }
+          },
+          toolbar: {
+            container: container,
+            handlers: {
+              image: function () {
+                QuillWatch.emit(this.quill.id)
+              }
+            }
+          }
+        }
+      }
     }
   },
   methods: {

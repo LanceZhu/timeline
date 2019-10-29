@@ -43,11 +43,15 @@ export default {
       this.$router.push(`/timpoint/view/${id}`)
     },
     toRestore: function (index) {
+      const that = this
       const id = this.historyList[index].id
       this.$axios.post(`/api/restore/${id}`, {
         rev_id: id
-      }).then(res => {
-        console.log(res)
+      }).then(() => {
+        that.$message({
+          message: '恢复成功',
+          type: 'success'
+        })
       })
     }
   }

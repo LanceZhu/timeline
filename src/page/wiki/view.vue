@@ -102,9 +102,9 @@ export default {
       const _this = this
       this.content = ''
       this.timeline = []
+      this.id = this.$route.params.id
       this.$axios.get(`/api/show/${this.$route.params.id}`).then(res => {
         _this.$data.content = res.data.data.post.content
-        _this.id = res.data.data.post.id
         const timeline = res.data.data.timeline
         _this.$data.timeline = timeline
         _this.$data.constTimeline = timeline
