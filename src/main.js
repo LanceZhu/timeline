@@ -12,6 +12,7 @@ import 'quill/dist/quill.bubble.css'
 import store from './store/store'
 import Vuex from 'vuex'
 import axios from 'axios'
+import checkLogin from '@/utils/checkLogin'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -29,6 +30,21 @@ const router = new VueRouter({
   routes
 })
 // router.push('/index')
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const logged = await checkLogin.checkLogin()
+    if (!logged) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 new Vue({
   router,

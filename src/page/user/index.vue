@@ -33,8 +33,10 @@ export default {
     },
     logout () {
       // this.$store.commit('signup', null)
-      this.$axios.get('/api/logout').then(res => {
-        console.log(res)
+      const that = this
+      this.$axios.get('/api/logout').then(() => {
+        that.$store.commit('logout')
+        that.$router.push('/index')
       })
       this.$message.success('登出成功')
     }

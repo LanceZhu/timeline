@@ -12,11 +12,12 @@
                     size="medium"
                     :fetch-suggestions="querySearch"
                     @select="handleSearch"
+                    @keydown.enter.native="toSearch()"
                     >
                 </el-autocomplete>
             </el-menu-item>
-            <el-menu-item :index="'login'" :route="'/login'">注册/登录</el-menu-item>
-            <el-menu-item :index="'user'" :route="'/user'"><i class="el-icon-user"></i></el-menu-item>
+            <el-menu-item v-if="!this.$store.state.logged" :index="'login'" :route="'/login'">注册/登录</el-menu-item>
+            <el-menu-item v-if="this.$store.state.logged" :index="'user'" :route="'/user'"><i class="el-icon-user"></i></el-menu-item>
         </el-menu>
     </el-header>
     <el-main>
@@ -32,8 +33,6 @@ export default {
     return {
       activeIndex: '1',
       search: '',
-      index: '/test',
-      logged: false,
       elMenu: [
         {
           route: '/index',
@@ -58,12 +57,12 @@ export default {
   watch: {
   },
   created: function () {
-    // const that = this
-    // this.$axios.get('/api/checkLogin').then(res => {
-    //   if(res.data.login){
-    //     that.logged = true
-    //   }
-    // })
+    const that = this
+    this.$axios.get('/api/checkLogin').then(res => {
+      if (res.data.login) {
+        that.$store.commit('signin')
+      }
+    })
   },
   methods: {
     querySearch (queryString, cb) {
@@ -84,14 +83,25 @@ export default {
     },
     handleSearch (item) {
       this.$router.push(`/wiki/view/${item.id}`)
+    },
+    toSearch () {
+      this.$router.push({
+        path: '/search',
+        query: {
+          key: this.search
+        }
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
+body{
+  background-color: rgb(250, 250, 250);
+}
 .el-container{
-    padding-top: 60px;
+  padding-top: 60px;
 }
 .el-header {
 color: #333;
@@ -114,7 +124,6 @@ line-height: 200px;
 
 .el-main {
 color: #333;
-background-color: rgb(250, 250, 250);
 text-align: center;
 overflow: visible;
 position: relative;

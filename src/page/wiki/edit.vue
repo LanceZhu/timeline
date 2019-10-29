@@ -14,13 +14,36 @@
 </template>
 
 <script>
+import { Quill } from 'vue-quill-editor'
+import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
+import config from '../../../config'
+
+Quill.register('modules/ImageExtend', ImageExtend)
+
 export default {
   data () {
     return {
       title: '',
       content: '',
       editorOption: {
-        // some quill options
+        modules: {
+          ImageExtend: {
+            name: 'img', // 图片参数名
+            size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
+            action: '/api/photoUpload',
+            response: (res) => {
+              return config.baseURL + res.allowList[0]
+            }
+          },
+          toolbar: {
+            container: container,
+            handlers: {
+              image: function () {
+                QuillWatch.emit(this.quill.id)
+              }
+            }
+          }
+        }
       }
     }
   },

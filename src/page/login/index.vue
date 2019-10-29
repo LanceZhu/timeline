@@ -50,6 +50,7 @@ export default {
               message: '登陆成功',
               type: 'success'
             })
+            that.$store.commit('signin')
             setTimeout(() => {
               that.$router.push('/index')
             }, 1500)
@@ -75,15 +76,19 @@ export default {
         username: this.$data.ruleForm.username,
         password: this.$data.ruleForm.password
       }).then(res => {
-        console.log(res)
         switch (res.data.code) {
           case 100: {
-            this.$message({
+            that.$message({
               message: '登陆成功',
               type: 'success'
             })
+            that.$store.commit('signin')
             setTimeout(() => {
-              that.$router.push('/index')
+              if ('redirect' in that.$route.query) {
+                that.$router.push(that.$route.query.redirect)
+              } else {
+                that.$router.push('/index')
+              }
             }, 1500)
             break
           }

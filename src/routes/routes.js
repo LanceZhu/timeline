@@ -21,6 +21,8 @@ import TimepointHistory from '@/page/timepoint/history'
 
 import User from '@/page/user/index'
 
+import Search from '@/page/search/index'
+
 import NotFound from '@/page/404/index'
 
 export default [{
@@ -54,11 +56,13 @@ export default [{
     }, {
       path: 'wiki/add',
       name: 'wiki',
-      component: WikiAdd
+      component: WikiAdd,
+      meta: { requiresAuth: true }
     }, {
       path: 'wiki/edit/:id',
       name: 'wiki',
-      component: WikiEdit
+      component: WikiEdit,
+      meta: { requiresAuth: true }
     }, {
       path: 'wiki/history/:id',
       name: 'wiki',
@@ -78,11 +82,13 @@ export default [{
     }, {
       path: 'timepoint/add/:id',
       name: 'timepoint',
-      component: TimepointAdd
+      component: TimepointAdd,
+      meta: { requiresAuth: true }
     }, {
       path: 'timepoint/edit/:id',
       name: 'timepoint',
-      component: TimepointEdit
+      component: TimepointEdit,
+      meta: { requiresAuth: true }
     }, {
       path: 'timepoint/history/:id',
       name: 'timepoint',
@@ -90,7 +96,12 @@ export default [{
     }, {
       path: 'user',
       name: 'user',
-      component: User
+      component: User,
+      meta: { requiresAuth: true }
+    }, {
+      path: 'search',
+      name: 'search',
+      component: Search
     }, {
       path: '*',
       component: NotFound
