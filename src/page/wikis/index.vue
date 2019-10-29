@@ -30,7 +30,7 @@ export default {
     },
     updatePage: function (page = 1, pn = 10) {
       const _this = this
-      this.$axios.get(`/api/list?page=${page}&?pn=${pn}`).then(res => {
+      this.$axios.get(`/api/list?page=${page}&pn=${pn}`).then(res => {
         _this.$data.wikis = res.data.data.currentPage
         _this.$data.pageCount = res.data.data.totalPages
       })
@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .wikis{
-    width: 100%;
+    padding: 10px 60px;
 }
 a{
   text-decoration: none;

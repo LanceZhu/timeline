@@ -1,3 +1,5 @@
+// import config from './config.js'
+
 const path = require('path');
 function resolve (dir) {
     return path.join(__dirname, dir)
@@ -18,11 +20,8 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://10.102.251.251:20080/',
-                // changeOrigin: true,
-                pathRewrite: {
-                    '/api': '/'
-                },
+                target: 'http://timeline.hfzhang.wang',
+                changeOrigin: true,
                 onProxyRes: function(proxyRes, req, res) {
                 },
             },

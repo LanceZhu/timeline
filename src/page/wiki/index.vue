@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <router-link :to="'/wiki/add'">
       <el-card>添加词条</el-card>
     </router-link>
@@ -18,5 +18,8 @@ export default {
 <style scoped>
 a{
     text-decoration: none;
+}
+.container{
+    padding: 0 60px;
 }
 </style>

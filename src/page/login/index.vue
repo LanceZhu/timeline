@@ -5,7 +5,7 @@
             <el-input v-model="ruleForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-            <el-input v-model="ruleForm.password"></el-input>
+            <el-input v-model="ruleForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" @click="signup('ruleForm')">注册</el-button>
@@ -63,6 +63,9 @@ export default {
             this.$message.error('用户名不存在')
             break
           }
+          default: {
+            this.$message.error('注册失败')
+          }
         }
       })
     },
@@ -91,6 +94,9 @@ export default {
           case 102: {
             this.$message.error('用户名不存在')
             break
+          }
+          default: {
+            this.$message.error('登陆')
           }
         }
       })

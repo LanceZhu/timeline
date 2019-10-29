@@ -1,12 +1,34 @@
 <template>
+  <div>
   <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
+    <el-carousel-item v-for="wiki in wikis" :key="wiki.id" @click.native="toWikiView(wiki.id)">
+      <h3>{{ wiki.name }}</h3>
     </el-carousel-item>
   </el-carousel>
+  </div>
 </template>
 
-<style>
+<script>
+module.exports = {
+  data () {
+    return {
+      wikis: [
+        {
+          id: '29',
+          name: '互联网发展简史'
+        }
+      ]
+    }
+  },
+  methods: {
+    toWikiView: function (id) {
+      this.$router.push(`/wiki/view/${id}`)
+    }
+  }
+}
+</script>
+
+<style scoped>
   .el-carousel__item h3 {
     color: #475669;
     font-size: 18px;

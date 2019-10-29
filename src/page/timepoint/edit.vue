@@ -42,7 +42,7 @@ export default {
               type: 'success'
             })
             setTimeout(() => {
-              that.$router.push(`/wiki/view/${res.data.new_post_id}`)
+              that.$router.push(`/timepoint/view/${res.data.new_post_id}`)
             })
             break
           }

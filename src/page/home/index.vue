@@ -33,6 +33,7 @@ export default {
       activeIndex: '1',
       search: '',
       index: '/test',
+      logged: false,
       elMenu: [
         {
           route: '/index',
@@ -55,12 +56,14 @@ export default {
     }
   },
   watch: {
-    $route () {
-      console.log(this.$route)
-    }
   },
   created: function () {
-    this.$data.activeIndex = '1'
+    // const that = this
+    // this.$axios.get('/api/checkLogin').then(res => {
+    //   if(res.data.login){
+    //     that.logged = true
+    //   }
+    // })
   },
   methods: {
     querySearch (queryString, cb) {
@@ -111,6 +114,9 @@ line-height: 200px;
 
 .el-main {
 color: #333;
+background-color: rgb(250, 250, 250);
 text-align: center;
+overflow: visible;
+position: relative;
 }
 </style>
