@@ -5,16 +5,16 @@
       size="20%"
       :visible.sync="drawer"
       :direction="direction">
-      <el-menu default-active="1">
-        <el-menu-item index="1" @click="toWikiEdit">
+      <el-menu default-active="1" router>
+        <el-menu-item index="1" :route="`/wiki/edit/${this.id}`">
           <i class="el-icon-edit-outline"></i>
           <span>编辑词条</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="toTimepointAdd">
+        <el-menu-item index="2" :route="`/timepoint/add/${this.id}`">
           <i class="el-icon-document-add"></i>
         <span>添加时间点</span>
         </el-menu-item>
-        <el-menu-item index="3" @click="toWikiHistory">
+        <el-menu-item index="3" :route="`/wiki/history/${this.id}`">
           <i class="el-icon-time"></i>
         <span>词条历史</span>
         </el-menu-item>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div v-html="wiki"></div>
     <div>
       <el-date-picker
         v-model="timepoint"
@@ -27,7 +26,6 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data () {
     return {
-      wiki: '',
       title: '',
       content: '',
       timepoint: '',
@@ -82,7 +80,9 @@ export default {
   created () {
     const that = this
     this.$axios.get(`/api/show/${this.$route.params.id}`).then(res => {
-      that.wiki = res.data.data.post.content
+      that.title = res.data.data.post.title
+      that.content = res.data.data.post.content
+      that.timepoint = res.data.data.post.date_data
     })
   }
 }

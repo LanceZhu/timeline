@@ -5,16 +5,16 @@
       size="20%"
       :visible.sync="drawer"
       :direction="direction">
-      <el-menu default-active="1">
-        <el-menu-item index="1" @click="toTimepointEdit">
+      <el-menu default-active="1" router>
+        <el-menu-item index="1" :route="`/timepoint/edit/${this.id}`">
           <i class="el-icon-edit-outline"></i>
           <span>编辑时间点</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="toTimepointHistory">
+        <el-menu-item index="2" :route="`/timepoint/history/${this.id}`">
           <i class="el-icon-time"></i>
         <span>时间点历史</span>
         </el-menu-item>
-        <el-menu-item index="3" @click="toWikiView">
+        <el-menu-item index="3" :route="`/wiki/view/${this.belongTo}`">
           <i class="el-icon-s-home"></i>
         <span>查看所属词条</span>
         </el-menu-item>
@@ -32,11 +32,13 @@ export default {
       drawer: false,
       direction: 'ltr',
       belongTo: 0,
-      content: ''
+      content: '',
+      id: 0
     }
   },
   created: function () {
     const that = this
+    this.id = this.$route.params.id
     if ('id' in this.$route.params) {
       this.$axios.get(`/api/show/${this.$route.params.id}`).then(res => {
         that.$data.content = res.data.data.post.content

@@ -1,17 +1,28 @@
 <template>
     <div class="container">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
-        <el-form-item label="用户名" prop="username">
+      <el-card>
+        <div class="title">
+          <div :class="`signin ${login ? 'active' : ''}`" @click="changeTitle">
+            登陆
+          </div>
+          /
+          <div :class="`signup ${!login ? 'active' : ''}`" @click="changeTitle">
+            注册
+          </div>
+        </div>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" label-position="top">
+        <el-form-item label="用户名*">
             <el-input v-model="ruleForm.username"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码*">
             <el-input v-model="ruleForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="signup('ruleForm')">注册</el-button>
-            <el-button @click="signin('ruleForm')">登录</el-button>
+            <el-button v-if="!login" type="primary" @click="signup('ruleForm')">注册</el-button>
+            <el-button v-if="login" @click="signin('ruleForm')">登录</el-button>
         </el-form-item>
         </el-form>
+      </el-card>
     </div>
 </template>
 
@@ -21,6 +32,7 @@
 export default {
   data () {
     return {
+      login: true,
       ruleForm: {
         username: '',
         password: ''
@@ -36,6 +48,9 @@ export default {
     }
   },
   methods: {
+    changeTitle () {
+      this.login = !this.login
+    },
     signup () {
       const that = this
       this.$axios.defaults.withCredentials = true
@@ -114,9 +129,33 @@ export default {
 .container{
     display: flex;
     justify-content: center;
+    text-align: left;
+    margin-top: 50px;
 }
-.ruleForm{
-    min-width: 500px;
-    width: 40%;
+.title{
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.title .signup{
+  display: inline;
+}
+.title .signin{
+  display: inline;
+}
+.title .active{
+  color: rgb(234,111,90);
+  border-bottom: 1px solid rgb(234,111,90);
+}
+.el-card{
+  width: 380px;
+  height: 420px;
+}
+.el-input{
+  width: 100%;
+}
+.el-button{
+  margin-top: 30px;
+  width: 100%;
 }
 </style>
