@@ -22,4 +22,7 @@ a{
 .container{
     padding: 0 60px;
 }
+.el-card{
+  margin-bottom: 10px;
+}
 </style>

@@ -2,7 +2,8 @@
     <el-container>
     <el-header>
         <el-menu :default-active="this.$route.name" class="el-menu-demo" mode="horizontal" router>
-            <el-menu-item v-for="el in elMenu.length" :key="el" :index="elMenu[el-1].name" :route="elMenu[el-1].route">{{ elMenu[el-1].desc }}</el-menu-item>
+            <el-menu-item v-for="el in elMenu" :key="el.name" :index="el.name" :route="el.route">{{ el.desc }}</el-menu-item>
+            <!--
             <el-menu-item>
                 <el-autocomplete
                     placeholder="请输入查询词条"
@@ -16,12 +17,15 @@
                     >
                 </el-autocomplete>
             </el-menu-item>
-            <el-menu-item v-if="!this.$store.state.logged" :index="'login'" :route="'/login'">注册/登录</el-menu-item>
-            <el-menu-item v-if="this.$store.state.logged" :index="'user'" :route="'/user'"><i class="el-icon-user"></i></el-menu-item>
+            -->
+            <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" id="login">注册/登录</el-menu-item>
+            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" id="login"><i class="el-icon-user"></i></el-menu-item>
         </el-menu>
     </el-header>
     <el-main>
+      <transition>
         <router-view></router-view>
+      </transition>
     </el-main>
     <el-backtop></el-backtop>
     </el-container>
@@ -31,26 +35,12 @@
 export default {
   data () {
     return {
-      activeIndex: '1',
       search: '',
-      elMenu: [
-        {
-          route: '/index',
-          name: 'index',
-          desc: '首页'
-        }, {
-          route: '/wikis',
-          name: 'wikis',
-          desc: '所有词条'
-        }, {
-          route: '/wiki',
-          name: 'wiki',
-          desc: '词条'
-        }, {
-          route: '/timepoint',
-          name: 'timepoint',
-          desc: '时间点'
-        }
+      elMenu: [{
+        route: '/timeline',
+        name: 'timeline',
+        desc: '时间轴wiki'
+      }
       ]
     }
   },
@@ -97,35 +87,52 @@ export default {
 </script>
 
 <style>
+html{
+  height: 100%;
+}
 body{
+  height: 100%;
   background-color: rgb(250, 250, 250);
+}
+#app{
+  height: 100%;
 }
 .el-container{
   padding-top: 60px;
+  height: 100%;
+}
+.el-main{
+  height: 100%;
 }
 .el-header {
-color: #333;
-text-align: center;
-height: 60px;
-width: 100%;
-min-width: 1000px;
-position: fixed;
-top: 0;
-left: 0;
-z-index: 999;
+  color: #333;
+  text-align: center;
+  height: 60px;
+  width: 100%;
+  min-width: 1000px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
 }
 
 .el-aside {
-background-color: #D3DCE6;
-color: #333;
-text-align: center;
-line-height: 200px;
+  background-color: #D3DCE6;
+  color: #333;
+  text-align: center;
+  line-height: 200px;
 }
 
 .el-main {
-color: #333;
-text-align: center;
-overflow: visible;
-position: relative;
+  color: #333;
+  text-align: center;
+  overflow: visible;
+  position: relative;
+}
+.el-menu{
+  display: flex;
+}
+#login{
+  margin-left: auto;
 }
 </style>

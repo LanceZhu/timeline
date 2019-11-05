@@ -67,7 +67,7 @@ export default {
             })
             that.$store.commit('signin')
             setTimeout(() => {
-              that.$router.push('/index')
+              that.$router.push('/timeline')
             }, 1500)
             break
           }
@@ -102,7 +102,7 @@ export default {
               if ('redirect' in that.$route.query) {
                 that.$router.push(that.$route.query.redirect)
               } else {
-                that.$router.push('/index')
+                that.$router.push('/timeline')
               }
             }, 1500)
             break

@@ -53,6 +53,7 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data () {
     return {
+      id: 198,
       timepointOptions: [{
         type: 'date',
         value: '精确时间'
@@ -121,7 +122,7 @@ export default {
     submit () {
       const that = this
       if (this.datepickerShow) {
-        this.$axios.post(`/api/post/timepoint/${that.$route.params.id}`, {
+        this.$axios.post(`/api/post/timepoint/${that.id}`, {
           time: that.timepoint,
           title: that.title,
           content: that.content
@@ -143,7 +144,7 @@ export default {
           }
         })
       } else {
-        this.$axios.post(`/api/post/timepoint/${that.$route.params.id}`, {
+        this.$axios.post(`/api/post/timepoint/${that.id}`, {
           time: that.timepoint,
           title: that.title,
           content: that.content,
@@ -170,7 +171,8 @@ export default {
   },
   created () {
     const that = this
-    this.$axios.get(`/api/show/${this.$route.params.id}`).then(res => {
+    // this.id = this.$route.params.id
+    this.$axios.get(`/api/show/${this.id}`).then(res => {
       that.wiki = res.data.data.post.content
     })
   }

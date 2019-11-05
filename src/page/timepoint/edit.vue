@@ -12,6 +12,12 @@
     <el-input placeholder="请输入标题" v-model="title"></el-input>
     <quill-editor v-model="content" :editorOption=editorOption>
     </quill-editor>
+    <el-button @click="addCition">添加引用文献</el-button>
+    <el-form label-position="right" label-width="100px" :model="citionForm">
+      <el-form-item v-for="cition in citionForm.citions" :key="cition.index">
+        <el-input></el-input>
+      </el-form-item>
+    </el-form>
     <el-button type="primary" icon="el-icon-upload2" @click="submit()">编辑</el-button>
   </div>
 </template>
@@ -48,6 +54,13 @@ export default {
             }
           }
         }
+      },
+      citionForm: {
+        citions: [
+          {
+            index: 1
+          }
+        ]
       }
     }
   },
@@ -74,6 +87,11 @@ export default {
             that.$message.error('编辑失败')
           }
         }
+      })
+    },
+    addCition () {
+      this.citionForm.citions.push({
+        index: 3
       })
     }
   },

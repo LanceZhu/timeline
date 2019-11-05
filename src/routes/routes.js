@@ -25,15 +25,31 @@ import Search from '@/page/search/index'
 
 import NotFound from '@/page/404/index'
 
+import Timeline from '@/page/timeline/index'
+import TimelineDefault from '@/page/timeline/default'
+import TimelineView from '@/page/timeline/view'
+
 export default [{
   path: '/',
   component: Home,
   children: [
     {
       path: '',
-      redirect: 'index'
-    },
-    {
+      redirect: 'timeline'
+    }, {
+      path: '/timeline',
+      name: 'timeline',
+      component: Timeline,
+      children: [{
+        path: '',
+        name: 'timeline',
+        component: TimelineDefault
+      }, {
+        path: ':id',
+        name: 'timeline',
+        component: TimelineView
+      }]
+    }, {
       path: 'index',
       name: 'index',
       component: Index
@@ -79,6 +95,11 @@ export default [{
       path: 'timepoint/view/:id',
       name: 'timepoint',
       component: TimepointView
+    }, {
+      path: 'timepoint/add',
+      name: 'timepoint',
+      component: TimepointAdd,
+      meta: { requiresAuth: true }
     }, {
       path: 'timepoint/add/:id',
       name: 'timepoint',

@@ -36,7 +36,7 @@ export default {
       const that = this
       this.$axios.get('/api/logout').then(() => {
         that.$store.commit('logout')
-        that.$router.push('/index')
+        that.$router.push('/timeline')
       })
       this.$message.success('登出成功')
     }

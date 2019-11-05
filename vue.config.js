@@ -20,7 +20,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://timeline.hfzhang.wang',
+                target: 'http://internet.timeline.hfzhang.wang',
                 changeOrigin: true,
                 onProxyRes: function(proxyRes, req, res) {
                 },
