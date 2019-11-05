@@ -10,8 +10,8 @@
       <i class="el-icon-chat-line-round"></i>
     </router-link>
     -->
-  </div>
   <el-divider></el-divider>
+  </div>
   <div v-html="content" class="content">
   </div>
 </div>
@@ -50,6 +50,14 @@ export default {
 
 <style scoped>
 .title{
+  position: sticky;
+  top: 0;
+  background-color: white;
+  height: 48px;
+  line-height: 48px;
+}
+.el-divider{
+  margin: 0;
 }
 .content{
   width: 80%;

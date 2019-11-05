@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div v-html="wiki"></div>
     <!--
     <div class="timeOption">
@@ -180,8 +180,11 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  width: 90%;
+  margin: 0 auto;
+}
 .timeOption{
-
 }
 .time .el-input{
   width: 50px;

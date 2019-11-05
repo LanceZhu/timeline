@@ -48,6 +48,16 @@ export default [{
         path: ':id',
         name: 'timeline',
         component: TimelineView
+      }, {
+        path: '/timepoint/edit/:id',
+        name: 'timepoint',
+        component: TimepointEdit,
+        meta: { requiresAuth: true }
+      }, {
+        path: '/timepoint/add',
+        name: 'timepoint',
+        component: TimepointAdd,
+        meta: { requiresAuth: true }
       }]
     }, {
       path: 'index',
@@ -96,19 +106,9 @@ export default [{
       name: 'timepoint',
       component: TimepointView
     }, {
-      path: 'timepoint/add',
-      name: 'timepoint',
-      component: TimepointAdd,
-      meta: { requiresAuth: true }
-    }, {
       path: 'timepoint/add/:id',
       name: 'timepoint',
       component: TimepointAdd,
-      meta: { requiresAuth: true }
-    }, {
-      path: 'timepoint/edit/:id',
-      name: 'timepoint',
-      component: TimepointEdit,
       meta: { requiresAuth: true }
     }, {
       path: 'timepoint/history/:id',

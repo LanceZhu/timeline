@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div>
       <el-date-picker
         v-model="timepoint"
@@ -106,7 +106,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.container{
+  width: 90%;
+  margin: 0 auto;
+}
 .ql-container{
     min-height: 400px;
 }

@@ -86,6 +86,11 @@ export default {
 }
 .content{
   width: 80%;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
 }
 a{
   text-decoration: none;

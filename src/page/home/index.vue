@@ -135,4 +135,12 @@ body{
 #login{
   margin-left: auto;
 }
+
+/**
+* 编辑器全局样式
+**/
+.ql-container{
+  min-height: 250px;
+}
+
 </style>
