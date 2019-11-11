@@ -12,12 +12,14 @@
     <el-input placeholder="请输入标题" v-model="title"></el-input>
     <quill-editor v-model="content" :editorOption=editorOption>
     </quill-editor>
+    <!--
     <el-button @click="addCition">添加引用文献</el-button>
     <el-form label-position="right" label-width="100px" :model="citionForm">
       <el-form-item v-for="cition in citionForm.citions" :key="cition.index">
         <el-input></el-input>
       </el-form-item>
     </el-form>
+    -->
     <el-button type="primary" icon="el-icon-upload2" @click="submit()">编辑</el-button>
   </div>
 </template>
@@ -79,7 +81,7 @@ export default {
               type: 'success'
             })
             setTimeout(() => {
-              that.$router.push(`/timepoint/view/${res.data.new_post_id}`)
+              that.$router.push(`/timeline/${res.data.new_post_id}`)
             })
             break
           }

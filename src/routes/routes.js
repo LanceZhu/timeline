@@ -58,6 +58,10 @@ export default [{
         name: 'timepoint',
         component: TimepointAdd,
         meta: { requiresAuth: true }
+      }, {
+        path: '/timepoint/history/:id',
+        name: 'timepoint',
+        component: TimepointHistory
       }]
     }, {
       path: 'index',
@@ -110,10 +114,6 @@ export default [{
       name: 'timepoint',
       component: TimepointAdd,
       meta: { requiresAuth: true }
-    }, {
-      path: 'timepoint/history/:id',
-      name: 'timepoint',
-      component: TimepointHistory
     }, {
       path: 'user',
       name: 'user',

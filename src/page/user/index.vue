@@ -1,14 +1,32 @@
 <template>
   <div>
     <el-tabs :tab-position="'left'">
-      <el-tab-pane label="所有词条">
-        <router-link v-for="wiki in wikis" :key="wiki.id" :to="`/wiki/view/${ wiki.id }`" target="_blank">
-          <el-card>
-            {{ wiki.title }}
-          </el-card>
-        </router-link>
+      <el-tab-pane label="所有时间点">
+        <div v-if="wikis.length">
+          <el-table
+            :data="wikis"
+            style="width: 100%">
+            <el-table-column
+              prop="timestamp"
+              label="时间">
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="标题">
+            </el-table-column>
+            <el-table-column
+              label="操作">
+              <template slot-scope="scope">
+                <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
+                <el-button @click="toDelete(scope.$index)" type="text" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div v-else>
+          还没有发布时间点
+        </div>
       </el-tab-pane>
-      <el-tab-pane label="所有时间点">时间点</el-tab-pane>
       <el-tab-pane label="登出">
         <el-button @click="logout()">登出</el-button>
       </el-tab-pane>
@@ -17,6 +35,8 @@
 </template>
 
 <script>
+import parseDate from '@/utils/parseDate'
+
 export default {
   data () {
     return {
@@ -28,7 +48,17 @@ export default {
     getWikis: function () {
       const that = this
       this.$axios.get('/api/user/list').then(res => {
-        that.$data.wikis = res.data.data
+        that.wikis = res.data.data
+        that.wikis = that.wikis.map(wiki => {
+          wiki.timestamp = parseDate(wiki.timestamp)
+          return wiki
+        })
+        that.wikis = that.wikis.filter(wiki => {
+          if (wiki.status === 'publish') {
+            return true
+          }
+          return false
+        })
       })
     },
     logout () {
@@ -39,6 +69,29 @@ export default {
         that.$router.push('/timeline')
       })
       this.$message.success('登出成功')
+    },
+    toTimepointView (index) {
+      const id = this.wikis[index].id
+      this.$router.push(`/timeline/${id}`)
+    },
+    toDelete (index) {
+      const id = this.wikis[index].id
+      const that = this
+      this.$axios.post(`/api/user/delete/${id}`, {}).then(res => {
+        switch (res.data.code) {
+          case 100: {
+            that.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            that.getWikis()
+            break
+          }
+          default: {
+            that.$message.error('删除失败')
+          }
+        }
+      })
     }
   },
   created () {

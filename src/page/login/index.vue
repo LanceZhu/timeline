@@ -87,7 +87,7 @@ export default {
     },
     signin () {
       const that = this
-      this.$axios.post('/api/login', {
+      this.$axios.post('/api/user/login', {
         username: this.$data.ruleForm.username,
         password: this.$data.ruleForm.password
       }).then(res => {
@@ -116,7 +116,7 @@ export default {
             break
           }
           default: {
-            this.$message.error('登陆')
+            this.$message.error('登陆失败')
           }
         }
       })

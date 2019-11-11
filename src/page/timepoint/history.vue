@@ -1,27 +1,29 @@
   <template>
-    <el-table
-      :data="historyList"
-      style="width: 100%">
-      <el-table-column
-        prop="timestamp"
-        label="时间">
-      </el-table-column>
-      <el-table-column
-        prop="owner"
-        label="修改人">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="标题">
-      </el-table-column>
-      <el-table-column
-        label="操作">
-        <template slot-scope="scope">
-          <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
-          <el-button @click="toRestore(scope.$index)" type="text" size="small">还原</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="container">
+      <el-table
+        :data="historyList"
+        style="width: 100%">
+        <el-table-column
+          prop="timestamp"
+          label="时间">
+        </el-table-column>
+        <el-table-column
+          prop="owner"
+          label="修改人">
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="标题">
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
+            <el-button @click="toRestore(scope.$index)" type="text" size="small">还原</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </template>
 
 <script>
@@ -40,20 +42,32 @@ export default {
   methods: {
     toTimepointView: function (index) {
       const id = this.historyList[index].id
-      this.$router.push(`/timpoint/view/${id}`)
+      this.$router.push(`/timeline/${id}`)
     },
     toRestore: function (index) {
       const that = this
       const id = this.historyList[index].id
       this.$axios.post(`/api/restore/${id}`, {
         rev_id: id
-      }).then(() => {
-        that.$message({
-          message: '恢复成功',
-          type: 'success'
-        })
+      }).then((res) => {
+        switch (res.data.code) {
+          case 100: {
+            that.$message({
+              message: '恢复成功',
+              type: 'success'
+            })
+            that.$route.push(`/timeline/${res.data.new_post_id}`)
+          }
+        }
       })
     }
   }
 }
 </script>
+
+<style scoped>
+.container{
+  width: 90%;
+  margin: 0 auto;
+}
+</style>

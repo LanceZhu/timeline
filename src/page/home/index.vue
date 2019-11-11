@@ -19,7 +19,9 @@
             </el-menu-item>
             -->
             <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" id="login">注册/登录</el-menu-item>
-            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" id="login"><i class="el-icon-user"></i></el-menu-item>
+            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" id="login">
+                  <i class="el-icon-user"></i>
+            </el-menu-item>
         </el-menu>
     </el-header>
     <el-main>
@@ -135,12 +137,26 @@ body{
 #login{
   margin-left: auto;
 }
-
+.el-badge sup{
+  right: 10px;
+  top: 15px;
+}
 /**
 * 编辑器全局样式
 **/
 .ql-container{
   min-height: 250px;
 }
-
+.tooltip{
+  background-color: rgb(160,192,227) !important;
+  opacity: 0.8;
+}
+.el-tooltip__popper[x-placement^=bottom] .popper__arrow::after {
+  border-bottom-color: rgb(160,192,227) !important;
+  opacity: 0.8;
+}
+.el-tooltip__popper[x-placement^=bottom] .popper__arrow{
+  border-bottom-color: rgb(160,192,227) !important;
+  opacity: 0.8;
+}
 </style>

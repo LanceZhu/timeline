@@ -2,9 +2,21 @@
 <div>
   <div class="title">
     {{title}}
-    <router-link :to="'/timepoint/edit/'+id">
-      <i class="el-icon-edit"></i>
+    <router-link :to="'/timepoint/edit/'+id" tag="li">
+      <el-tooltip content="编辑词条" popper-class="tooltip">
+        <i class="el-icon-edit"></i>
+      </el-tooltip>
     </router-link>
+    <router-link :to="'/timepoint/history/'+id" tag="li">
+      <el-tooltip content="词条历史" popper-class="tooltip">
+        <i class="el-icon-time"></i>
+      </el-tooltip>
+    </router-link>
+    <!--
+    <router-link :to="'/timepoint/history/'+id" tag="li">
+      <i class="el-icon-warning"></i>
+    </router-link>
+    -->
     <!--
     <router-link>
       <i class="el-icon-chat-line-round"></i>
@@ -31,7 +43,6 @@ export default {
   },
   watch: {
     $route (to, from) {
-      console.log(to, from)
       this.updateContent()
     }
   },
@@ -60,7 +71,14 @@ export default {
   margin: 0;
 }
 .content{
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+  word-break: break-all;
+  box-sizing: border-box;
+  padding: 15px 0;
+}
+li{
+  display: inline-block;
+  cursor: pointer;
 }
 </style>

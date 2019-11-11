@@ -12,7 +12,7 @@ export default {
   },
   created () {
     const that = this
-    this.$axios.get('/api/show/198').then(res => {
+    this.$axios.get('/api/show/1').then(res => {
       if (res.data.code === 100) {
         that.content = res.data.data.post.content
       }

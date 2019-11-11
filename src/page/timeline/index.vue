@@ -2,16 +2,16 @@
     <div class="timeline">
         <div class="sidebar">
           <div class="title">
-            <router-link to="/timeline">{{title}}</router-link>
-            <el-tooltip content="添加时间点" popper-class="tooltip">
+            <router-link to="/timeline" tag="li">{{title}}</router-link>
+             <el-tooltip content="添加时间点" popper-class="tooltip">
                 <i class="el-icon-document-add" @click="toEdit">
                 </i>
             </el-tooltip>
           </div>
           <div class="scroll">
             <div v-for="time in timeline" :key="time.id" class="time">
-                <router-link :to="'/timeline/'+time.id">
-                  {{time.date_data}} {{time.content}}
+                <router-link :to="'/timeline/'+time.id" tag="li">
+                  {{time.date_data}} {{time.title}}
                 </router-link>
             </div>
           </div>
@@ -25,21 +25,22 @@
 </template>
 
 <script>
+import parseDate from '@/utils/parseDate'
+
 export default {
   data () {
     return {
       timeline: [
       ],
-      title: '',
-      content: ''
+      title: ''
     }
   },
   created () {
     const that = this
     this.$axios.get('/api/show/198').then(res => {
       if (res.data.code === 100) {
-        that.content = res.data.data.post.content
         that.timeline = res.data.data.timeline
+        that.timeline = that.timeline.map(time => { time.date_data = parseDate(time.date_data); return time })
         that.title = res.data.data.post.title
       }
     })
@@ -92,23 +93,17 @@ export default {
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
-a{
-  text-decoration: none;
+.router-link-active{
+  color: rgb(160,192,227);
 }
-a:link{
-  color: #666;
+li{
+  padding:0;
+  margin:0;
+  list-style:none;
+  display: inline-block;
 }
-a:visited{
-  color: #666;
-}
-a:hover{
-  color: rgb(160,192,227)
-}
-a:active{
-  color: #666;
-}
-.tooltip{
-  background-color: white;
-  color: #666;
+li:hover{
+  color:rgb(160,192,227);
+  cursor: pointer;
 }
 </style>

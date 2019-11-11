@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-html="wiki"></div>
+    <!--<div v-html="wiki"></div>-->
     <!--
     <div class="timeOption">
       <el-select v-model="selectedTimepointValue" placeholder="时间点格式选择" @change="selectedTimpointTypeChange">
@@ -53,7 +53,7 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data () {
     return {
-      id: 198,
+      id: 1,
       timepointOptions: [{
         type: 'date',
         value: '精确时间'
@@ -134,7 +134,7 @@ export default {
                 type: 'success'
               })
               setTimeout(() => {
-                that.$router.push(`/timepoint/view/${res.data.new_post_id}`)
+                that.$router.push(`/timeline/${res.data.new_post_id}`)
               }, 1500)
               break
             }
@@ -157,7 +157,7 @@ export default {
                 type: 'success'
               })
               setTimeout(() => {
-                that.$router.push(`/timepoint/view/${res.data.new_post_id}`)
+                that.$router.push('/timeline')
               }, 1500)
               break
             }
