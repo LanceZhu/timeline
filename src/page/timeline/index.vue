@@ -37,7 +37,7 @@ export default {
   },
   created () {
     const that = this
-    this.$axios.get('/api/show/198').then(res => {
+    this.$axios.get('/api/show/1').then(res => {
       if (res.data.code === 100) {
         that.timeline = res.data.data.timeline
         that.timeline = that.timeline.map(time => { time.date_data = parseDate(time.date_data); return time })
