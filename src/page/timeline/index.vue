@@ -2,7 +2,7 @@
     <div class="timeline">
         <div class="sidebar">
           <div class="title">
-            <router-link to="/timeline" tag="li">{{title}}</router-link>
+            <router-link to="/timeline" tag="li" active-class="title-active">{{title}}</router-link>
              <el-tooltip content="添加时间点" popper-class="tooltip">
                 <i class="el-icon-document-add" @click="toEdit">
                 </i>
@@ -37,7 +37,7 @@ export default {
   },
   created () {
     const that = this
-    this.$axios.get('/api/show/1').then(res => {
+    this.$axios.get('/api/show/198').then(res => {
       if (res.data.code === 100) {
         that.timeline = res.data.data.timeline
         that.timeline = that.timeline.map(time => { time.date_data = parseDate(time.date_data); return time })
@@ -93,6 +93,9 @@ export default {
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
+.title-active{
+  color: black;
+}
 .router-link-active{
   color: rgb(160,192,227);
 }
@@ -105,5 +108,8 @@ li{
 li:hover{
   color:rgb(160,192,227);
   cursor: pointer;
+}
+.el-tooltip{
+  margin-left: 10px;
 }
 </style>

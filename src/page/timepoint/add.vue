@@ -53,7 +53,7 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data () {
     return {
-      id: 1,
+      id: 198,
       timepointOptions: [{
         type: 'date',
         value: '精确时间'

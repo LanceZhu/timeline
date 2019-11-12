@@ -75,10 +75,14 @@ export default {
   margin: 0 auto;
   word-break: break-all;
   box-sizing: border-box;
-  padding: 15px 0;
+  padding: 15px 0 40px 0;
+  text-align: left;
 }
 li{
   display: inline-block;
   cursor: pointer;
+}
+.el-tooltip{
+  margin-left: 10px;
 }
 </style>
