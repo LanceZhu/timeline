@@ -87,7 +87,7 @@ export default {
     },
     signin () {
       const that = this
-      this.$axios.post('/api/user/login', {
+      this.$axios.post('/api/login', {
         username: this.$data.ruleForm.username,
         password: this.$data.ruleForm.password
       }).then(res => {

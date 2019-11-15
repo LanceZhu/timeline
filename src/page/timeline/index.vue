@@ -41,6 +41,8 @@ export default {
       if (res.data.code === 100) {
         that.timeline = res.data.data.timeline
         that.timeline = that.timeline.map(time => { time.date_data = parseDate(time.date_data); return time })
+        that.$store.commit('updateTimeline', that.timeline)
+        console.log(that.$store.state.timeline)
         that.title = res.data.data.post.title
       }
     })

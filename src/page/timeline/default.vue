@@ -25,5 +25,6 @@ export default {
 .container{
   width: 80%;
   margin: 0 auto;
+  text-align: left;
 }
 </style>

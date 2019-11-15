@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 
 const state = {
   logged: false,
-  auth: null
+  auth: null,
+  timeline: []
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   logout (state) {
     state.logged = false
+  },
+  updateTimeline (state, newTimeline) {
+    state.timeline = newTimeline
   }
 }
 
