@@ -25,6 +25,9 @@
   <el-divider></el-divider>
   </div>
   <div v-html="content" ref="content" class="content"></div>
+  <div v-if="lastEditedUser !== ''" class="last-edited-user">
+    最后编辑者：<span v-html=lastEditedUser></span>
+  </div>
   <div class="footer">
       <div v-if="prev.show" class="prev">
         <router-link :to="prev.route" tag="li">
@@ -49,6 +52,7 @@ export default {
       content: '',
       title: '',
       id: '',
+      lastEditedUser: '', // 最后编辑用户
       prev: {
         desc: '前一页',
         show: true,
@@ -76,6 +80,7 @@ export default {
         that.content = res.data.data.post.content
         that.title = res.data.data.post.title
         that.id = res.data.data.post.id
+        that.lastEditedUser = res.data.data.post.owner
         const timeline = that.$store.state.timeline
         that.prev.show = true
         that.next.show = true
@@ -102,8 +107,6 @@ export default {
 
 <style scoped>
 .title{
-  position: sticky;
-  top: 0;
   background-color: white;
   height: 48px;
   line-height: 48px;
@@ -112,6 +115,14 @@ export default {
   margin: 0;
 }
 .content{
+  width: 90%;
+  margin: 0 auto;
+  word-break: break-all;
+  box-sizing: border-box;
+  padding: 15px 0;
+  text-align: left;
+}
+.last-edited-user{
   width: 90%;
   margin: 0 auto;
   word-break: break-all;

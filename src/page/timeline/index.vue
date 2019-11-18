@@ -11,7 +11,7 @@
           <div class="scroll">
             <div v-for="time in timeline" :key="time.id" class="time">
                 <router-link :to="'/timeline/'+time.id" tag="li">
-                  {{time.date_data}} {{time.title}}
+                  {{time.date_show}} {{time.title}}
                 </router-link>
             </div>
           </div>
@@ -40,7 +40,12 @@ export default {
     this.$axios.get('/api/show/198').then(res => {
       if (res.data.code === 100) {
         that.timeline = res.data.data.timeline
-        that.timeline = that.timeline.map(time => { time.date_data = parseDate(time.date_data); return time })
+        that.timeline = that.timeline.map(time => {
+          if (time.date_show !== 'null') {
+            time.date_show = parseDate(time.date_data)
+          }
+          return time
+        })
         that.$store.commit('updateTimeline', that.timeline)
         console.log(that.$store.state.timeline)
         that.title = res.data.data.post.title
