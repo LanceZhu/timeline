@@ -1,14 +1,5 @@
 <template>
   <div class="container">
-    <div>
-      <el-date-picker
-        v-model="timepoint"
-        type="date"
-        format="yyyy/MM/dd"
-        value-format="yyyy/MM/dd"
-        placeholder="选择时间点">
-      </el-date-picker>
-    </div>
     <div class="date">
       <div>时间格式选择</div>
       <el-cascader
@@ -79,7 +70,6 @@ export default {
     return {
       title: '',
       content: '',
-      timepoint: '',
       editorOption: {
         modules: {
           ImageExtend: {
@@ -291,8 +281,15 @@ export default {
     this.$axios.get(`/api/show/${this.$route.params.id}`).then(res => {
       that.title = res.data.data.post.title
       that.content = res.data.data.post.content
-      that.timepoint = res.data.data.post.date_data
-      that.dateInitialize(res.data.data.post.date_show)
+      // that.timepoint = res.data.data.post.date_data
+      if (res.data.data.post.date_show === null) {
+        that.dateInitialize(JSON.stringify({
+          type: 100,
+          date: res.data.data.post.date_data
+        }))
+      } else {
+        that.dateInitialize(res.data.data.post.date_show)
+      }
     })
   }
 }
