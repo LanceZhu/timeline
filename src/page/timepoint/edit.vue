@@ -9,12 +9,21 @@
         placeholder="选择时间点">
       </el-date-picker>
     </div>
-    <!-- <div class="date">
+    <div class="date">
       <div>时间格式选择</div>
       <el-cascader
         v-model="dateValue"
         :options="dateOptions"
         @change="dateFormatChange"></el-cascader>
+      <div v-if="dateCategoryNumber === 100">
+        <el-date-picker
+          v-model="date_100"
+          :type="selectedTimepointType"
+          format="yyyy/MM/dd"
+          value-format="yyyy/MM/dd"
+          placeholder="选择日期">
+        </el-date-picker>
+      </div>
       <div v-if="dateCategoryNumber === 0">
         <el-input v-model="date_0"></el-input>年
       </div>
@@ -41,7 +50,7 @@
       <div v-if="dateCategoryNumber === 20">
         <el-input v-model="date_20[0]"></el-input>年 - <el-input v-model="date_20[1]"></el-input>年
       </div>
-    </div> -->
+    </div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
     <quill-editor v-model="content" :editorOption=editorOption>
     </quill-editor>
@@ -61,7 +70,7 @@
 import { Quill } from 'vue-quill-editor'
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
 import config from '../../../config'
-// import dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 Quill.register('modules/ImageExtend', ImageExtend)
 
@@ -101,6 +110,10 @@ export default {
       dateValue: '', // 时间点显示值
       dateCategoryNumber: 0, // 时间点类别值 计算方法为时间点格式选项 value 求和
       dateOptions: [ // 时间点格式选项
+        {
+          value: 100,
+          label: '精确日期'
+        },
         {
           value: 0,
           label: '年份',
@@ -142,6 +155,7 @@ export default {
           ]
         }
       ],
+      date_100: '',
       date_0: 0,
       date_1: [0, 0],
       date_10: [0, 0],
@@ -154,54 +168,66 @@ export default {
   methods: {
     submit () {
       const that = this
-      // const TIME_FORMAT = 'YYYY/MM/DD'
+      const TIME_FORMAT = 'YYYY/MM/DD'
 
-      // let show = ''
-      // let time = dayjs().format(TIME_FORMAT)
+      let show = ''
+      let time = dayjs().format(TIME_FORMAT)
 
-      // switch (this.dateCategoryNumber) {
-      //   case 0: {
-      //     show = `${this.date_0}年`
-      //     time = dayjs(new Date(this.date_0, 0, 1)).format(TIME_FORMAT) // 月份 0 开始
-      //     break
-      //   }
-      //   case 1: {
-      //     show = `${this.date_1[0]}年${this.data_1}月`
-      //     time = dayjs(new Date(this.date_1[0], this.date_1[1] - 1, 1)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   case 10: {
-      //     show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
-      //     time = dayjs(new Date((this.date_10[0] - 1) * 100 + this.date_10[1], 0, 1)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   case 11: {
-      //     show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
-      //     time = dayjs(new Date((this.date_11[0] - 1) * 100 + this.date_11[1], 0, 2)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   case 12: {
-      //     show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
-      //     time = dayjs(new Date((this.date_12[0] - 1) * 100 + this.date_12[1], 5, 1)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   case 13: {
-      //     show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
-      //     time = dayjs(new Date((this.date_13[0] - 1) * 100 + this.date_13[1], 11, 1)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   case 20: {
-      //     show = `${this.date_20[0]}年 - ${this.date_20[1]}年`
-      //     time = dayjs(new Date(this.date_20[0], 11, 31)).format(TIME_FORMAT)
-      //     break
-      //   }
-      //   default: {}
-      // }
+      switch (this.dateCategoryNumber) {
+        case 100: {
+          show = dayjs(this.date_100).format('YYYY年MM月DD日')
+          time = this.date_100
+          break
+        }
+        case 0: {
+          show = `${this.date_0}年`
+          time = dayjs(new Date(this.date_0, 0, 1)).format(TIME_FORMAT) // 月份 0 开始
+          break
+        }
+        case 1: {
+          show = `${this.date_1[0]}年${this.data_1}月`
+          time = dayjs(new Date(this.date_1[0], this.date_1[1] - 1, 1)).format(TIME_FORMAT)
+          break
+        }
+        case 10: {
+          show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
+          time = dayjs(new Date((this.date_10[0] - 1) * 100 + this.date_10[1], 0, 1)).format(TIME_FORMAT)
+          break
+        }
+        case 11: {
+          show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
+          time = dayjs(new Date((this.date_11[0] - 1) * 100 + this.date_11[1], 0, 2)).format(TIME_FORMAT)
+          break
+        }
+        case 12: {
+          show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
+          time = dayjs(new Date((this.date_12[0] - 1) * 100 + this.date_12[1], 5, 1)).format(TIME_FORMAT)
+          break
+        }
+        case 13: {
+          show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
+          time = dayjs(new Date((this.date_13[0] - 1) * 100 + this.date_13[1], 11, 1)).format(TIME_FORMAT)
+          break
+        }
+        case 20: {
+          show = `${this.date_20[0]}年 - ${this.date_20[1]}年`
+          time = dayjs(new Date(this.date_20[0], 11, 31)).format(TIME_FORMAT)
+          break
+        }
+        default: {}
+      }
+      console.log(show)
+      // show 中添加时间点格式类型
+      const jsonTypeShow = JSON.stringify({
+        type: this.dateCategoryNumber,
+        date: this[`date_${this.dateCategoryNumber}`]
+      })
 
       this.$axios.post(`/api/edit/${that.$route.params.id}`, {
-        time: that.timepoint,
+        time,
         title: that.title,
-        content: that.content
+        content: that.content,
+        show: jsonTypeShow
       }).then(res => {
         switch (res.data.code) {
           case 100: {
@@ -231,6 +257,33 @@ export default {
         acc += cur
         return acc
       }, 0)
+    },
+    dateInitialize (dateInput) {
+      const date = new Date()
+      const year = date.getFullYear()
+      const nextYear = year + 1
+      const years = Math.floor(year % 100) - Math.floor(year % 10)
+      const century = Math.floor(year / 100) + 1
+      const month = date.getMonth() + 1
+
+      this.date_100 = dayjs().format('YYYY/MM/DD')
+      this.date_0 = year // 2020 年
+      this.date_1[0] = year // 2020 年
+      this.date_1[1] = month // 1 月
+      this.date_10[0] = century // 21 世纪
+      this.date_10[1] = years // 20 年代
+      this.date_11[0] = century
+      this.date_11[1] = years
+      this.date_12[0] = century
+      this.date_12[1] = years
+      this.date_13[0] = century
+      this.date_13[1] = years
+      this.date_20[0] = year
+      this.date_20[1] = nextYear
+
+      dateInput = JSON.parse(dateInput)
+      this.dateCategoryNumber = dateInput.type
+      this[`date_${this.dateCategoryNumber}`] = dateInput.date
     }
   },
   created () {
@@ -239,6 +292,7 @@ export default {
       that.title = res.data.data.post.title
       that.content = res.data.data.post.content
       that.timepoint = res.data.data.post.date_data
+      that.dateInitialize(res.data.data.post.date_show)
     })
   }
 }
@@ -253,10 +307,14 @@ export default {
     min-height: 400px;
 }
 .el-input{
-  margin-bottom: 10px;
+  margin: 10px 0;
+}
+.date .el-date-editor{
+  width: 150px !important;
 }
 .date .el-input{
-  width: 100px;
+  width: 80px;
   height: 40px;
+  margin-right: 10px;
 }
 </style>

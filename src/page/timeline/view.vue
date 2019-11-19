@@ -107,6 +107,8 @@ export default {
 
 <style scoped>
 .title{
+  position: sticky;
+  top: 0;
   background-color: white;
   height: 48px;
   line-height: 48px;

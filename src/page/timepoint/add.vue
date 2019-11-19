@@ -8,7 +8,7 @@
         @change="dateFormatChange"></el-cascader>
       <div v-if="dateCategoryNumber === 100">
         <el-date-picker
-          v-model="timepoint"
+          v-model="date_100"
           :type="selectedTimepointType"
           format="yyyy/MM/dd"
           value-format="yyyy/MM/dd"
@@ -195,11 +195,18 @@ export default {
         }
         default: {}
       }
+      console.log(show)
+      // show 中添加时间点格式类型
+      const jsonTypeShow = JSON.stringify({
+        type: this.dateCategoryNumber,
+        date: this[`date_${this.dateCategoryNumber}`]
+      })
+
       this.$axios.post(`/api/post/timepoint/${that.id}`, {
         time,
         title: that.title,
         content: that.content,
-        show
+        show: jsonTypeShow
       }).then(res => {
         switch (res.data.code) {
           case 100: {
@@ -268,11 +275,12 @@ export default {
   float: left;
   text-align: left;
 } */
-.date .el-input{
-  width: 150px;
-  height: 40px;
+.date .el-date-editor{
+  width: 150px !important;
 }
-.date .el-date-picker{
-  width: 150px;
+.date .el-input{
+  width: 80px;
+  height: 40px;
+  margin-right: 10px;
 }
 </style>

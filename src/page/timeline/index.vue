@@ -41,13 +41,51 @@ export default {
       if (res.data.code === 100) {
         that.timeline = res.data.data.timeline
         that.timeline = that.timeline.map(time => {
-          if (time.date_show !== 'null') {
+          if (time.date_show !== null) {
+            const dateShow = JSON.parse(time.date_show)
+            const type = dateShow.type
+            const date = dateShow.date
+            switch (type) {
+              case 100: {
+                time.date_show = parseDate(date)
+                break
+              }
+              case 0: {
+                time.date_show = `${date}年`
+                break
+              }
+              case 1: {
+                time.date_show = `${date[0]}年${date[1]}月`
+                break
+              }
+              case 10: {
+                time.date_show = `${date[0]}世纪${date[1]}年代`
+                break
+              }
+              case 11: {
+                time.date_show = `${date[0]}世纪${date[1]}年代初`
+                break
+              }
+              case 12: {
+                time.date_show = `${date[0]}世纪${date[1]}年代中`
+                break
+              }
+              case 13: {
+                time.date_show = `${date[0]}世纪${date[1]}年代末`
+                break
+              }
+              case 20: {
+                time.date_show = `${date[0]}年 - ${date[1]}年`
+                break
+              }
+              default: {}
+            }
+          } else {
             time.date_show = parseDate(time.date_data)
           }
           return time
         })
         that.$store.commit('updateTimeline', that.timeline)
-        console.log(that.$store.state.timeline)
         that.title = res.data.data.post.title
       }
     })
