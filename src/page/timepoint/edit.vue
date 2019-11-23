@@ -67,6 +67,87 @@
         :options="tags"></el-cascader>
       </div>
     </div>
+    <div class="citation">
+      <el-button type="text" @click="dialogFormVisible = true">
+        <i class="el-icon-document-add"></i>
+        添加参考文献
+        </el-button>
+      <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="网络资源" name="first">
+          <el-form :model="internetResource" label-position="right">
+            <el-form-item label="文章名" :label-width="formLabelWidth">
+              <el-input v-model="internetResource.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="URL" :label-width="formLabelWidth">
+              <el-input v-model="internetResource.url" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="网站名" :label-width="formLabelWidth">
+              <el-input v-model="internetResource.websiteName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="发表日期" :label-width="formLabelWidth">
+              <el-input v-model="internetResource.publishDate" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="引用日期" :label-width="formLabelWidth">
+              <el-input v-model="internetResource.citationDate" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="著作资源" name="second">
+          <el-form :model="bookResource" label-position="right">
+            <el-form-item label="作者" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.author" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="著作名" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.paperName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="出版地" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.publishAddress" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="出版社" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.publishPress" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="出版年" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.publishYear" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="引文页码" :label-width="formLabelWidth">
+              <el-input v-model="bookResource.pageRange" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="其他资源" name="third">
+          <el-form :model="otherResource" label-position="right">
+            <el-form-item label="*" :label-width="formLabelWidth">
+              <el-input v-model="otherResource.any" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="citationSubmit">确定</el-button>
+      </span>
+      <el-divider></el-divider>
+      </el-dialog>
+      <div class="citation-added">
+        <div class="citation-list">
+          <div v-for="(citation, index) in citations" :key="index">
+            <div v-if="citation.type === 'internetResource'">
+              <div>网络资源</div>
+              <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+            </div>
+            <div v-else-if="citation.type === 'bookResource'">
+              <div>著作资源</div>
+              <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+            </div>
+            <div v-else-if="citation.type === 'otherResource'">
+              <div>其他资源</div>
+              <div>{{`${citation.content.any}`}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -76,6 +157,7 @@ import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
 import config from '../../../config'
 import dayjs from 'dayjs'
 import isJSON from '@/utils/isJSON'
+import { clone } from 'lodash'
 
 Quill.register('modules/ImageExtend', ImageExtend)
 
@@ -172,7 +254,29 @@ export default {
       date_20: [0, 0],
       date_30: 0,
       tags: [],
-      tagValue: []
+      tagValue: [],
+      dialogFormVisible: false,
+      formLabelWidth: '80px',
+      internetResource: {
+        name: '',
+        url: '',
+        websiteName: '',
+        publishDate: '',
+        citationDate: ''
+      },
+      bookResource: {
+        author: '',
+        paperName: '',
+        publishAddress: '',
+        publishPress: '',
+        publishYear: '',
+        pageRange: ''
+      },
+      otherResource: {
+        any: ''
+      },
+      activeName: 'first',
+      citations: []
     }
   },
   methods: {
@@ -261,7 +365,7 @@ export default {
         day: Number(day),
         show: showJSONFormat,
         tag: JSON.stringify(this.tagValue),
-        supplement: []
+        supplement: that.citations
       }).then(res => {
         switch (res.data.code) {
           case 100: {
@@ -334,6 +438,38 @@ export default {
         acc += cur
         return acc
       })
+    },
+    citationSubmit () {
+      this.dialogFormVisible = false
+      let newCitation = ''
+      switch (this.activeName) {
+        case 'first': {
+          newCitation = {
+            type: 'internetResource',
+            content: clone(this.internetResource)
+          }
+          break
+        }
+        case 'second': {
+          newCitation = {
+            type: 'bookResource',
+            content: clone(this.bookResource)
+          }
+          break
+        }
+        case 'third': {
+          newCitation = {
+            type: 'otherResource',
+            content: clone(this.otherResource)
+          }
+          break
+        }
+        default: {}
+      }
+      this.citations.push(newCitation)
+    },
+    handleClick (tab, event) {
+      console.log(this.activeName)
     }
   },
   created () {
@@ -390,5 +526,8 @@ export default {
 }
 .tags .desc{
   margin-bottom: 10px;
+}
+.citation{
+  text-align: left;
 }
 </style>

@@ -30,6 +30,24 @@
       <el-tag>{{ tag.label }}</el-tag>
     </el-tooltip>
   </div>
+  <div class="citation-added">
+  <div class="citation-list">
+    <div v-for="(citation, index) in citations" :key="index">
+      <div v-if="citation.type === 'internetResource'">
+        <div>网络资源</div>
+        <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+      </div>
+      <div v-else-if="citation.type === 'bookResource'">
+        <div>著作资源</div>
+        <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+      </div>
+      <div v-else-if="citation.type === 'otherResource'">
+        <div>其他资源</div>
+        <div>{{`${citation.content.any}`}}</div>
+      </div>
+    </div>
+  </div>
+</div>
   <div v-if="lastEditedUser !== ''" class="last-edited-user">
     编辑者：<span v-html=lastEditedUser></span>
   </div>
@@ -72,7 +90,8 @@ export default {
         desc: '后一页',
         show: true,
         route: '/timeline'
-      }
+      },
+      citations: []
     }
   },
   created () {
@@ -89,11 +108,12 @@ export default {
       const that = this
       that.hasTag = false
       this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-        const { content, title, _id, owner, tag = '' } = res.data.data.post
+        const { content, title, _id, owner, tag = '', supplement } = res.data.data.post
         that.content = content
         that.title = title
         that.id = _id
         that.lastEditedUser = owner
+        that.citations = supplement
         if (tag !== '' && JSON.parse(tag).length !== 0) {
           const tagNumber = JSON.parse(tag).reduce((acc, cur) => {
             acc += cur
@@ -186,5 +206,16 @@ li{
 .el-tooltip__popper[x-placement^=bottom] .popper__arrow{
   border-bottom-color: rgb(160,192,227) !important;
   opacity: 0.8;
+}
+.citation{
+  text-align: left;
+}
+.citation-added{
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+}
+.citation-list{
+  text-align: left;
 }
 </style>
