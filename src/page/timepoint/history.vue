@@ -27,6 +27,8 @@
   </template>
 
 <script>
+import parseDate from '@/utils/parseDate'
+
 export default {
   data () {
     return {
@@ -35,19 +37,23 @@ export default {
   },
   created () {
     const that = this
-    this.$axios.get(`/api/history/${this.$route.params.id}`).then(res => {
-      that.historyList = res.data.data.data
+    this.$axios.get(`/api/timepoint/history/${this.$route.params.id}`).then(res => {
+      that.historyList = res.data.data
+      that.historyList = that.historyList.map(time => {
+        time.timestamp = parseDate(time.timestamp * 1000)
+        return time
+      })
     })
   },
   methods: {
     toTimepointView: function (index) {
-      const id = this.historyList[index].id
+      const id = this.historyList[index]._id
       this.$router.push(`/timeline/${id}`)
     },
     toRestore: function (index) {
       const that = this
       const id = this.historyList[index].id
-      this.$axios.post(`/api/restore/${id}`, {
+      this.$axios.post(`/api/timepoint/restore/${that.$route.params.id}`, {
         rev_id: id
       }).then((res) => {
         switch (res.data.code) {
@@ -57,7 +63,14 @@ export default {
               type: 'success'
             })
             that.$route.push(`/timeline/${res.data.new_post_id}`)
+            that.$axios.get('/api/timeline/list').then(res => {
+              if (res.data.code === 100) {
+                that.$store.commit('updateTimeline', that.timeline)
+              }
+            })
+            break
           }
+          default: {}
         }
       })
     }

@@ -2,16 +2,15 @@
     <div class="timeline">
         <div class="sidebar">
           <div class="title">
-            <router-link to="/timeline" tag="li" active-class="title-active">{{title}}</router-link>
              <el-tooltip content="添加时间点" popper-class="tooltip">
-                <i class="el-icon-document-add" @click="toEdit">
+                <i class="el-icon-document-add" @click="toAdd">
                 </i>
             </el-tooltip>
           </div>
           <div class="scroll">
             <div v-for="time in timeline" :key="time.id" class="time">
-                <router-link :to="'/timeline/'+time.id" tag="li">
-                  {{time.date_show}} {{time.title}}
+                <router-link :to="'/timeline/'+time._id" tag="li">
+                  {{time.show}} {{time.title}}
                 </router-link>
             </div>
           </div>
@@ -25,73 +24,33 @@
 </template>
 
 <script>
-import parseDate from '@/utils/parseDate'
+import isJSON from '@/utils/isJSON'
 
 export default {
   data () {
     return {
-      timeline: [
-      ],
-      title: ''
+      timeline: []
     }
   },
   created () {
     const that = this
-    this.$axios.get('/api/show/198').then(res => {
+    this.$axios.get('/api/timepoint/list').then(res => {
       if (res.data.code === 100) {
-        that.timeline = res.data.data.timeline
+        that.timeline = res.data.data
         that.timeline = that.timeline.map(time => {
-          if (time.date_show !== null) {
-            const dateShow = JSON.parse(time.date_show)
-            const type = dateShow.type
-            const date = dateShow.date
-            switch (type) {
-              case 100: {
-                time.date_show = parseDate(date)
-                break
-              }
-              case 0: {
-                time.date_show = `${date}年`
-                break
-              }
-              case 1: {
-                time.date_show = `${date[0]}年${date[1]}月`
-                break
-              }
-              case 10: {
-                time.date_show = `${date[0]}世纪${date[1]}年代`
-                break
-              }
-              case 11: {
-                time.date_show = `${date[0]}世纪${date[1]}年代初`
-                break
-              }
-              case 12: {
-                time.date_show = `${date[0]}世纪${date[1]}年代中`
-                break
-              }
-              case 13: {
-                time.date_show = `${date[0]}世纪${date[1]}年代末`
-                break
-              }
-              case 20: {
-                time.date_show = `${date[0]}年 - ${date[1]}年`
-                break
-              }
-              default: {}
-            }
-          } else {
-            time.date_show = parseDate(time.date_data)
+          if (isJSON(time.show)) {
+            time.show = JSON.parse(time.show).show
           }
           return time
         })
         that.$store.commit('updateTimeline', that.timeline)
-        that.title = res.data.data.post.title
+      } else {
+        that.$message.error('请求出错！')
       }
     })
   },
   methods: {
-    toEdit () {
+    toAdd () {
       this.$router.push('/timepoint/add')
     }
   }

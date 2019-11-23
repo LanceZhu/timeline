@@ -40,44 +40,36 @@ import parseDate from '@/utils/parseDate'
 export default {
   data () {
     return {
-      wikis: [],
-      timepoints: []
+      wikis: []
     }
   },
   methods: {
     getWikis: function () {
       const that = this
-      this.$axios.get('/api/user/list').then(res => {
+      this.$axios.get('/api/user/getPostList').then(res => {
         that.wikis = res.data.data
         that.wikis = that.wikis.map(wiki => {
-          wiki.timestamp = parseDate(wiki.timestamp)
+          wiki.timestamp = parseDate(wiki.timestamp * 1000) // 单位 s -> ms
           return wiki
-        })
-        that.wikis = that.wikis.filter(wiki => {
-          if (wiki.status === 'publish') {
-            return true
-          }
-          return false
         })
       })
     },
     logout () {
-      // this.$store.commit('signup', null)
       const that = this
-      this.$axios.get('/api/logout').then(() => {
+      this.$axios.get('/api/user/logout').then(() => {
         that.$store.commit('logout')
         that.$router.push('/timeline')
       })
       this.$message.success('登出成功')
     },
     toTimepointView (index) {
-      const id = this.wikis[index].id
+      const id = this.wikis[index]._id
       this.$router.push(`/timeline/${id}`)
     },
     toDelete (index) {
-      const id = this.wikis[index].id
+      const id = this.wikis[index]._id
       const that = this
-      this.$axios.post(`/api/user/delete/${id}`, {}).then(res => {
+      this.$axios.get(`/api/user/delPost/${id}`).then(res => {
         switch (res.data.code) {
           case 100: {
             that.$message({
@@ -108,11 +100,6 @@ export default {
 }
 .wikis{
   margin-top: 10px;
-}
-.timepoints{
-  height: 200px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
-  margin-bottom: 10px;
 }
 .el-card{
   margin-bottom: 10px;

@@ -2,44 +2,48 @@
   <div class="container">
     <div class="date">
       <div>时间格式选择</div>
-      <el-cascader
-        v-model="dateValue"
-        :options="dateOptions"
-        @change="dateFormatChange"></el-cascader>
-      <div v-if="dateCategoryNumber === 100">
-        <el-date-picker
-          v-model="date_100"
-          :type="selectedTimepointType"
-          format="yyyy/MM/dd"
-          value-format="yyyy/MM/dd"
-          placeholder="选择日期">
-        </el-date-picker>
-      </div>
-      <div v-if="dateCategoryNumber === 0">
-        <el-input v-model="date_0"></el-input>年
-      </div>
-      <div v-if="dateCategoryNumber === 1">
-        <el-input v-model="date_1[0]"></el-input>年
-        <el-input v-model="date_1[1]"></el-input>月
-      </div>
-      <div v-if="dateCategoryNumber === 10">
-        <el-input v-model="date_10[0]"></el-input>世纪
-        <el-input v-model="date_10[1]"></el-input>年代
-      </div>
-      <div v-if="dateCategoryNumber === 11">
-        <el-input v-model="date_11[0]"></el-input>世纪
-        <el-input v-model="date_11[1]"></el-input>年代初
-      </div>
-      <div v-if="dateCategoryNumber === 12">
-        <el-input v-model="date_12[0]"></el-input>世纪
-        <el-input v-model="date_12[1]"></el-input>年代中
-      </div>
-      <div v-if="dateCategoryNumber === 13">
-        <el-input v-model="date_13[0]"></el-input>世纪
-        <el-input v-model="date_13[1]"></el-input>年代末
-      </div>
-      <div v-if="dateCategoryNumber === 20">
-        <el-input v-model="date_20[0]"></el-input>年 - <el-input v-model="date_20[1]"></el-input>年
+      <div class="date-format">
+        <el-cascader
+          v-model="dateValue"
+          :options="dateOptions"
+          @change="dateTypeChange"></el-cascader>
+        <div v-if="dateType === 100">
+          <el-date-picker
+            v-model="date_100"
+            format="yyyy/MM/dd"
+            value-format="yyyy/MM/dd"
+            placeholder="选择日期">
+          </el-date-picker>
+        </div>
+        <div v-if="dateType === 0">
+          <el-input v-model="date_0"></el-input>年
+        </div>
+        <div v-if="dateType === 1">
+          <el-input v-model="date_1[0]"></el-input>年
+          <el-input v-model="date_1[1]"></el-input>月
+        </div>
+        <div v-if="dateType === 10">
+          <el-input v-model="date_10[0]"></el-input>世纪
+          <el-input v-model="date_10[1]"></el-input>年代
+        </div>
+        <div v-if="dateType === 11">
+          <el-input v-model="date_11[0]"></el-input>世纪
+          <el-input v-model="date_11[1]"></el-input>年代初
+        </div>
+        <div v-if="dateType === 12">
+          <el-input v-model="date_12[0]"></el-input>世纪
+          <el-input v-model="date_12[1]"></el-input>年代中
+        </div>
+        <div v-if="dateType === 13">
+          <el-input v-model="date_13[0]"></el-input>世纪
+          <el-input v-model="date_13[1]"></el-input>年代末
+        </div>
+        <div v-if="dateType === 20">
+          <el-input v-model="date_20[0]"></el-input>年 - <el-input v-model="date_20[1]"></el-input>年
+        </div>
+        <div v-if="dateType === 30">
+          公元前<el-input v-model="date_30"></el-input>年
+        </div>
       </div>
     </div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
@@ -48,6 +52,15 @@
     :options="editorOption">
     </quill-editor>
     <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
+    <div class="tags">
+      <div class="desc">添加标签（只能一项）</div>
+      <div>
+        <el-cascader
+        v-model="tagValue"
+        @change="tagChange"
+        :options="tags"></el-cascader>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -62,7 +75,6 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data () {
     return {
-      id: 198, // 后端词条 id
       title: '',
       content: '',
       editorOption: {
@@ -86,8 +98,8 @@ export default {
           }
         }
       },
-      dateValue: '', // 时间点显示值
-      dateCategoryNumber: 100, // 时间点类别值 计算方法为时间点格式选项 value 求和，默认为精确日期
+      dateValue: [100], // 时间点显示值
+      dateType: 100,
       dateOptions: [ // 时间点格式选项
         {
           value: 100,
@@ -132,6 +144,9 @@ export default {
               label: '起止年份'
             }
           ]
+        }, {
+          value: 30,
+          label: '公元前'
         }
       ],
       date_100: 0, // 精确时间
@@ -141,72 +156,107 @@ export default {
       date_11: [0, 0],
       date_12: [0, 0],
       date_13: [0, 0],
-      date_20: [0, 0]
+      date_20: [0, 0],
+      date_30: 0, // 公元前
+      tags: [], // 标签选择,
+      tagValue: []
     }
   },
   methods: {
     submit () {
       const that = this
-      const TIME_FORMAT = 'YYYY/MM/DD'
 
       let show = ''
-      let time = dayjs().format(TIME_FORMAT)
+      const now = new Date()
+      let year = now.getFullYear()
+      let month = now.getMonth() // 月份从 0 开始
+      let day = now.getDate()
 
-      switch (this.dateCategoryNumber) {
+      const { dateType } = this
+      switch (dateType) {
         case 100: {
           show = dayjs(this.date_100).format('YYYY年MM月DD日')
-          time = this.date_100
+          const dateList = this.date_100.split('/')
+          year = dateList[0]
+          month = dateList[1]
+          day = dateList[2]
           break
         }
         case 0: {
           show = `${this.date_0}年`
-          time = dayjs(new Date(this.date_0, 0, 1)).format(TIME_FORMAT) // 月份 0 开始
+          year = this.date_0
+          month = 0
+          year = 1
           break
         }
         case 1: {
           show = `${this.date_1[0]}年${this.data_1}月`
-          time = dayjs(new Date(this.date_1[0], this.date_1[1] - 1, 1)).format(TIME_FORMAT)
+          year = this.date_1[0]
+          month = this.date_1[0] - 1
+          day = 1
           break
         }
         case 10: {
           show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
-          time = dayjs(new Date((this.date_10[0] - 1) * 100 + this.date_10[1], 0, 1)).format(TIME_FORMAT)
+          year = (this.date_10[0] - 1) * 100 + this.date_10[1]
+          month = 0
+          day = 1
           break
         }
         case 11: {
           show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
-          time = dayjs(new Date((this.date_11[0] - 1) * 100 + this.date_11[1], 0, 2)).format(TIME_FORMAT)
+          year = (this.date_11[0] - 1) * 100 + this.date_11[1]
+          month = 0
+          day = 2
           break
         }
         case 12: {
           show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
-          time = dayjs(new Date((this.date_12[0] - 1) * 100 + this.date_12[1], 5, 1)).format(TIME_FORMAT)
+          year = (this.date_12[0] - 1) * 100 + this.date_12[1]
+          month = 5
+          day = 1
           break
         }
         case 13: {
           show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
-          time = dayjs(new Date((this.date_13[0] - 1) * 100 + this.date_13[1], 11, 1)).format(TIME_FORMAT)
+          year = (this.date_13[0] - 1) * 100 + this.date_13[1]
+          month = 11
+          day = 1
           break
         }
         case 20: {
           show = `${this.date_20[0]}年 - ${this.date_20[1]}年`
-          time = dayjs(new Date(this.date_20[0], 11, 31)).format(TIME_FORMAT)
+          year = this.date_20[0]
+          month = 11
+          day = 31
+          break
+        }
+        case 30: {
+          show = `公元前${this.date_30}年`
+          year = this.date_30
+          month = 0
+          day = 1
           break
         }
         default: {}
       }
-      console.log(show)
-      // show 中添加时间点格式类型
-      const jsonTypeShow = JSON.stringify({
-        type: this.dateCategoryNumber,
-        date: this[`date_${this.dateCategoryNumber}`]
+
+      // 供编辑时间点时初始化时间点显示使用
+      const showJSONFormat = JSON.stringify({
+        type: this.dateValue, // 用于选择器定位
+        date: this[`date_${dateType}`], // 用于日期输入框初始化
+        show // 用于日期显示
       })
 
-      this.$axios.post(`/api/post/timepoint/${that.id}`, {
-        time,
+      this.$axios.post('/api/post/timepoint/new', {
         title: that.title,
         content: that.content,
-        show: jsonTypeShow
+        year: Number(year),
+        month: Number(month),
+        day: Number(day),
+        show: showJSONFormat,
+        tag: JSON.stringify(that.tagValue),
+        supplement: []
       }).then(res => {
         switch (res.data.code) {
           case 100: {
@@ -216,6 +266,11 @@ export default {
             })
             setTimeout(() => {
               that.$router.push(`/timeline/${res.data.new_post_id}`)
+              that.$axios.get('/api/timeline/list').then(res => {
+                if (res.data.code === 100) {
+                  that.$store.commit('updateTimeline', that.timeline)
+                }
+              })
             }, 1500)
             break
           }
@@ -226,8 +281,8 @@ export default {
       })
     },
     // 格式化显示时间
-    dateFormatChange () {
-      this.dateCategoryNumber = this.dateValue.reduce((acc, cur) => {
+    dateTypeChange () {
+      this.dateType = this.dateValue.reduce((acc, cur) => {
         acc += cur
         return acc
       }, 0)
@@ -255,9 +310,11 @@ export default {
       this.date_13[1] = years
       this.date_20[0] = year
       this.date_20[1] = nextYear
+      this.date_30 = 0
     }
   },
   created () {
+    this.tags = config.tags
     this.dateInitialize()
   }
 }
@@ -271,16 +328,28 @@ export default {
 .el-input{
   margin: 10px 0;
 }
-/* .date{
-  float: left;
+.date{
   text-align: left;
-} */
+}
+.date-format{
+  display: flex;
+  align-items: center;
+}
+.date .el-cascader{
+  margin-right: 20px;
+}
 .date .el-date-editor{
   width: 150px !important;
 }
 .date .el-input{
   width: 80px;
   height: 40px;
-  margin-right: 10px;
+  margin: 10px;
+}
+.tags{
+  text-align: left;
+}
+.tags .desc{
+  margin-bottom: 10px;
 }
 </style>

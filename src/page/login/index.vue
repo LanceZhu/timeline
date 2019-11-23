@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// import resCode from '@/utils/res-code'
 
 export default {
   data () {
@@ -54,10 +53,12 @@ export default {
     signup () {
       const that = this
       this.$axios.defaults.withCredentials = true
-      this.$axios.post('/api/register', {
+      this.$axios.post('/api/user/register', {
         username: this.$data.ruleForm.username,
         password: this.$data.ruleForm.password,
-        nickname: this.$data.ruleForm.username
+        nickname: this.$data.ruleForm.username,
+        captcha: '',
+        mobile: ''
       }).then(res => {
         switch (res.data.code) {
           case 100: {
@@ -87,7 +88,7 @@ export default {
     },
     signin () {
       const that = this
-      this.$axios.post('/api/login', {
+      this.$axios.post('/api/user/login', {
         username: this.$data.ruleForm.username,
         password: this.$data.ruleForm.password
       }).then(res => {

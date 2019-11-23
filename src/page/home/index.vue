@@ -50,7 +50,7 @@ export default {
   },
   created: function () {
     const that = this
-    this.$axios.get('/api/checkLogin').then(res => {
+    this.$axios.get('/api/user/checkLogin').then(res => {
       if (res.data.login) {
         that.$store.commit('signin')
       }
