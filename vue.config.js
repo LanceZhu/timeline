@@ -1,4 +1,5 @@
 // import config from './config.js'
+const UglifyPlugin = require('uglifyjs-webpack-plugin')
 
 const path = require('path')
 function resolve (dir) {
@@ -15,6 +16,19 @@ module.exports = {
       alias: {
         '@': resolve('src')
       }
+    },
+    optimization: {
+      minimizer: [new UglifyPlugin({
+        uglifyOptions: {
+            warnings: false,
+            compress: {
+              drop_console: true, 
+              drop_debugger: false,
+              pure_funcs: ['console.log'] 
+            }
+        }
+     })
+      ]
     }
   },
   devServer: {
