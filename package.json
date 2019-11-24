@@ -6,9 +6,11 @@
     "serve": "vue-cli-service serve --open",
     "serve:internet": "vue-cli-service serve --mode internet",
     "serve:education": "vue-cli-service serve --mode education",
+    "serve:invention": "vue-cli-service serve --mode invention",
     "build": "vue-cli-service build",
     "build:internet": "vue-cli-service build --mode internet",
     "build:education": "vue-cli-service build --mode education",
+    "build:invention": "vue-cli-service build --mode invention",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

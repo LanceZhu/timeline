@@ -1,71 +1,61 @@
 <template>
-<div>
-  <div class="title">
-    {{title}}
-    <router-link :to="'/timepoint/edit/' + id" tag="li">
-      <el-tooltip content="编辑词条" popper-class="tooltip">
-        <i class="el-icon-edit"></i>
-      </el-tooltip>
-    </router-link>
-    <router-link :to="'/timepoint/history/' + id" tag="li">
-      <el-tooltip content="词条历史" popper-class="tooltip">
-        <i class="el-icon-time"></i>
-      </el-tooltip>
-    </router-link>
-    <!--
-    <router-link :to="'/timepoint/history/'+id" tag="li">
-      <i class="el-icon-warning"></i>
-    </router-link>
-    -->
-    <!--
-    <router-link>
-      <i class="el-icon-chat-line-round"></i>
-    </router-link>
-    -->
-  <el-divider></el-divider>
-  </div>
-  <div v-html="content" ref="content" class="content"></div>
-  <div v-if="hasTag" class="tags">
-    <el-tooltip effect="dark" :content="tag.desc">
-      <el-tag>{{ tag.label }}</el-tag>
-    </el-tooltip>
-  </div>
-  <div class="citation-added">
-  <div class="citation-list">
-    <div v-for="(citation, index) in citations" :key="index">
-      <div v-if="citation.type === 'internetResource'">
-        <div>网络资源</div>
-        <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
-      </div>
-      <div v-else-if="citation.type === 'bookResource'">
-        <div>著作资源</div>
-        <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
-      </div>
-      <div v-else-if="citation.type === 'otherResource'">
-        <div>其他资源</div>
-        <div>{{`${citation.content.any}`}}</div>
-      </div>
+  <div>
+    <div class="title">
+      {{title}}
+      <router-link :to="'/timepoint/edit/' + id" tag="li">
+        <el-tooltip content="编辑词条" popper-class="tooltip">
+          <i class="el-icon-edit"></i>
+        </el-tooltip>
+      </router-link>
+      <router-link :to="'/timepoint/history/' + id" tag="li">
+        <el-tooltip content="词条历史" popper-class="tooltip">
+          <i class="el-icon-time"></i>
+        </el-tooltip>
+      </router-link>
+    <el-divider></el-divider>
     </div>
-  </div>
-</div>
-  <div v-if="lastEditedUser !== ''" class="last-edited-user">
-    编辑者：<span v-html=lastEditedUser></span>
-  </div>
-  <div class="footer">
+    <div class="content">
+      <div v-html="content" ref="content" class="article"></div>
+        <div v-if="hasTag" class="tags">
+          <el-tooltip :content="tag.desc" popper-class="tooltip">
+            <el-tag>{{ tag.label }}</el-tag>
+          </el-tooltip>
+        </div>
+        <div class="citation">
+          <div v-for="(citation, index) in citations" :key="index">
+            <div v-if="citation.type === 'internetResource'">
+              <div>网络资源</div>
+              <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+            </div>
+            <div v-else-if="citation.type === 'bookResource'">
+              <div>著作资源</div>
+              <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+            </div>
+            <div v-else-if="citation.type === 'otherResource'">
+              <div>其他资源</div>
+              <div>{{`${citation.content.any}`}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="last-edited-user">
+          编辑者：<span v-html=lastEditedUser></span>
+        </div>
+    </div>
+    <div class="footer">
       <div v-if="prev.show" class="prev">
         <router-link :to="prev.route" tag="li">
             <i class="el-icon-back"></i>
             {{prev.desc}}
         </router-link>
       </div>
-    <div v-if="next.show" class="next">
-      <router-link :to="next.route" tag="li">
-        {{next.desc}}
-        <i class="el-icon-right"></i>
-      </router-link>
+      <div v-if="next.show" class="next">
+        <router-link :to="next.route" tag="li">
+          {{next.desc}}
+          <i class="el-icon-right"></i>
+        </router-link>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -79,7 +69,7 @@ export default {
       id: '',
       tag: {}, // {label: '名称', desc: '描述'}
       hasTag: false,
-      tagTable: {}, // value -> tag
+      tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
       prev: {
         desc: '前一页',
@@ -95,7 +85,6 @@ export default {
     }
   },
   created () {
-    this.tagTable = config.tagTable
     this.updateContent()
   },
   watch: {
@@ -149,14 +138,19 @@ export default {
 </script>
 
 <style scoped>
+li{
+  display: inline-block;
+  cursor: pointer;
+}
+.el-tooltip{
+  margin-left: 10px;
+}
 .title{
-  position: sticky;
-  top: 0;
   background-color: white;
   height: 48px;
   line-height: 48px;
 }
-.el-divider{
+.title .el-divider{
   margin: 0;
 }
 .content{
@@ -164,20 +158,13 @@ export default {
   margin: 0 auto;
   word-break: break-all;
   box-sizing: border-box;
-  padding: 15px 0;
   text-align: left;
+  padding: 15px;
 }
-.tags{
-  width: 90%;
-  float: left;
-  text-align: left
-}
-.last-edited-user{
-  width: 90%;
-  margin: 0 auto;
-  word-break: break-all;
-  box-sizing: border-box;
-  padding: 15px 0 40px 0;
+.content .article{}
+.content .tags{}
+.content .citation{}
+.content .last-edited-user{
   text-align: right;
   color: rgb(254,149,170);
 }
@@ -191,31 +178,5 @@ export default {
 }
 .footer .next{
   float: right;
-}
-li{
-  display: inline-block;
-  cursor: pointer;
-}
-.el-tooltip{
-  margin-left: 10px;
-}
-.el-tooltip__popper[x-placement^=bottom] .popper__arrow::after {
-  border-bottom-color: rgb(160,192,227) !important;
-  opacity: 0.8;
-}
-.el-tooltip__popper[x-placement^=bottom] .popper__arrow{
-  border-bottom-color: rgb(160,192,227) !important;
-  opacity: 0.8;
-}
-.citation{
-  text-align: left;
-}
-.citation-added{
-  text-align: left;
-  width: 90%;
-  margin: 0 auto;
-}
-.citation-list{
-  text-align: left;
 }
 </style>

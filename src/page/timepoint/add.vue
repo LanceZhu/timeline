@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-add">
     <div class="date">
       <div>时间格式选择</div>
       <div class="date-format">
@@ -53,11 +53,10 @@
     </quill-editor>
     <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
     <div class="tags">
-      <div class="desc">添加标签（只能一项）</div>
+      <div class="desc">添加标签（必填一项）</div>
       <div>
         <el-cascader
         v-model="tagValue"
-        @change="tagChange"
         :options="tags"></el-cascader>
       </div>
     </div>
@@ -67,7 +66,7 @@
         添加参考文献
         </el-button>
       <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
         <el-tab-pane label="网络资源" name="first">
           <el-form :model="internetResource" label-position="right">
             <el-form-item label="文章名" :label-width="formLabelWidth">
@@ -240,7 +239,7 @@ export default {
       date_13: [0, 0],
       date_20: [0, 0],
       date_30: 0, // 公元前
-      tags: [], // 标签选择,
+      tags: config.tags, // 标签选择,
       tagValue: [],
       dialogFormVisible: false,
       formLabelWidth: '80px',
@@ -289,56 +288,56 @@ export default {
         case 0: {
           show = `${this.date_0}年`
           year = this.date_0
-          month = 0
+          month = 1
           year = 1
           break
         }
         case 1: {
-          show = `${this.date_1[0]}年${this.data_1}月`
+          show = `${this.date_1[0]}年${this.date_1[1]}月`
           year = this.date_1[0]
-          month = this.date_1[0] - 1
+          month = this.date_1[1]
           day = 1
           break
         }
         case 10: {
           show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
           year = (this.date_10[0] - 1) * 100 + this.date_10[1]
-          month = 0
+          month = 1
           day = 1
           break
         }
         case 11: {
           show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
           year = (this.date_11[0] - 1) * 100 + this.date_11[1]
-          month = 0
+          month = 1
           day = 2
           break
         }
         case 12: {
           show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
           year = (this.date_12[0] - 1) * 100 + this.date_12[1]
-          month = 5
+          month = 6
           day = 1
           break
         }
         case 13: {
           show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
           year = (this.date_13[0] - 1) * 100 + this.date_13[1]
-          month = 11
+          month = 12
           day = 1
           break
         }
         case 20: {
           show = `${this.date_20[0]}年 - ${this.date_20[1]}年`
           year = this.date_20[0]
-          month = 11
+          month = 12
           day = 31
           break
         }
         case 30: {
           show = `公元前${this.date_30}年`
-          year = this.date_30
-          month = 0
+          year = -this.date_30
+          month = 1
           day = 1
           break
         }
@@ -444,20 +443,16 @@ export default {
         default: {}
       }
       this.citations.push(newCitation)
-    },
-    handleClick (tab, event) {
-      console.log(this.activeName)
     }
   },
   created () {
-    this.tags = config.tags
     this.dateInitialize()
   }
 }
 </script>
 
 <style scoped>
-.container{
+.container-add{
   width: 90%;
   margin: 0 auto;
 }

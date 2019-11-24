@@ -98,6 +98,14 @@ if (process.env.VUE_APP_DOMAIN_NAME === 'internet') {
       desc: '各个高校具有重大影响的事件'
     }
   ]
+} else if (process.env.VUE_APP_DOMAIN_NAME === 'invention') {
+  tags = [
+    {
+      value: 0,
+      label: '默认',
+      desc: '默认'
+    }
+  ]
 }
 
 const tags2tagTable = (tags, initialValue = 0) => {

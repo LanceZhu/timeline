@@ -52,6 +52,9 @@ export default {
           wiki.timestamp = parseDate(wiki.timestamp * 1000) // 单位 s -> ms
           return wiki
         })
+        that.wikis = that.wikis.filter(wiki => {
+          return wiki.status === 'publish'
+        })
       })
     },
     logout () {

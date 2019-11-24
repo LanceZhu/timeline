@@ -1,26 +1,26 @@
 <template>
-    <div class="timeline">
-        <div class="sidebar">
-          <div class="title">
-             <el-tooltip content="添加时间点" popper-class="tooltip">
-                <i class="el-icon-document-add" @click="toAdd">
-                </i>
-            </el-tooltip>
-          </div>
-          <div class="scroll">
-            <div v-for="time in timeline" :key="time.id" class="time">
-                <router-link :to="'/timeline/'+time._id" tag="li">
-                  {{time.show}} {{time.title}}
-                </router-link>
-            </div>
+  <div class="container">
+      <div class="sidebar">
+        <div class="title">
+            <el-tooltip content="添加时间点" popper-class="tooltip">
+              <i class="el-icon-document-add" @click="toAdd">
+              </i>
+          </el-tooltip>
+        </div>
+        <div class="scroll">
+          <div v-for="time in timeline" :key="time.id" class="time">
+              <router-link :to="'/timeline/'+time._id" tag="li">
+                {{time.show}} {{time.title}}
+              </router-link>
           </div>
         </div>
-        <div class="content">
-          <transition>
-            <router-view></router-view>
-          </transition>
-        </div>
-    </div>
+      </div>
+      <div class="content">
+        <transition>
+          <router-view></router-view>
+        </transition>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style scoped>
-.timeline{
+.container{
   height: 100%;
   position: relative;
   display: flex;
@@ -96,9 +96,6 @@ export default {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   height: 100%;
-}
-.title-active{
-  color: black;
 }
 .router-link-active{
   color: rgb(160,192,227);

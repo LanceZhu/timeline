@@ -19,14 +19,13 @@ module.exports = {
       }
     },
     optimization: {
-      minimizer: true,
       minimizer: [new TerserPlugin()]
     }
   },
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://internet.timeline.hfzhang.wang',
+        target: `http://${process.env.VUE_APP_DOMAIN_NAME}.timeline.hfzhang.wang`,
         changeOrigin: true,
         onProxyRes: function (proxyRes, req, res) {
         }
