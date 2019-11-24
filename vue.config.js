@@ -1,5 +1,6 @@
 // import config from './config.js'
-const UglifyPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const path = require('path')
 function resolve (dir) {
@@ -18,17 +19,8 @@ module.exports = {
       }
     },
     optimization: {
-      minimizer: [new UglifyPlugin({
-        uglifyOptions: {
-            warnings: false,
-            compress: {
-              drop_console: true, 
-              drop_debugger: false,
-              pure_funcs: ['console.log'] 
-            }
-        }
-     })
-      ]
+      minimizer: true,
+      minimizer: [new TerserPlugin()]
     }
   },
   devServer: {
