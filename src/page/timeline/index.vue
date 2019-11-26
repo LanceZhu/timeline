@@ -8,7 +8,7 @@
           </el-tooltip>
         </div>
         <div class="scroll">
-          <div v-for="time in timeline" :key="time.id" class="time">
+          <div v-for="time in timelineUpdated" :key="time.id" class="time">
               <router-link :to="'/timeline/'+time._id" tag="li">
                 {{time.show}} {{time.title}}
               </router-link>
@@ -24,12 +24,17 @@
 </template>
 
 <script>
-import isJSON from '@/utils/isJSON'
+// import isJSON from '@/utils/isJSON'
 
 export default {
   data () {
     return {
       timeline: []
+    }
+  },
+  computed: {
+    timelineUpdated () {
+      return this.$store.state.timeline
     }
   },
   created () {
@@ -38,8 +43,13 @@ export default {
       if (res.data.code === 100) {
         that.timeline = res.data.data
         that.timeline = that.timeline.map(time => {
-          if (isJSON(time.show)) {
-            time.show = JSON.parse(time.show).show
+          if (typeof time.show === 'object') {
+            const { show } = time.show
+            if (show) {
+              time.show = time.show.show
+            } else {
+              time.show = time.show.date
+            }
           }
           return time
         })

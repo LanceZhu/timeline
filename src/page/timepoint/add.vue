@@ -44,6 +44,9 @@
         <div v-if="dateType === 30">
           公元前<el-input v-model="date_30"></el-input>年
         </div>
+        <div v-if="dateType === 40">
+          公元前<el-input v-model="date_40[0]"></el-input>年 - 公元前 <el-input v-model="date_40[1]"></el-input>年
+        </div>
       </div>
     </div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
@@ -122,21 +125,19 @@
       </span>
       <el-divider></el-divider>
       </el-dialog>
-      <div class="citation-added">
-        <div class="citation-list">
-          <div v-for="(citation, index) in citations" :key="index">
-            <div v-if="citation.type === 'internetResource'">
-              <div>网络资源</div>
-              <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
-            </div>
-            <div v-else-if="citation.type === 'bookResource'">
-              <div>著作资源</div>
-              <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
-            </div>
-            <div v-else-if="citation.type === 'otherResource'">
-              <div>其他资源</div>
-              <div>{{`${citation.content.any}`}}</div>
-            </div>
+      <div class="citation-list">
+        <div v-for="(citation, index) in citations" :key="index">
+          <div v-if="citation.type === 'internetResource'">
+            <div class="title">网络资源</div>
+            <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+          </div>
+          <div v-else-if="citation.type === 'bookResource'">
+            <div class="title">著作资源</div>
+            <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+          </div>
+          <div v-else-if="citation.type === 'otherResource'">
+            <div class="title">其他资源</div>
+            <div>{{`${citation.content.any}`}}</div>
           </div>
         </div>
       </div>
@@ -228,6 +229,9 @@ export default {
         }, {
           value: 30,
           label: '公元前'
+        }, {
+          value: 40,
+          label: '公元前-时间段'
         }
       ],
       date_100: 0, // 精确时间
@@ -239,6 +243,7 @@ export default {
       date_13: [0, 0],
       date_20: [0, 0],
       date_30: 0, // 公元前
+      date_40: [0, 0], // 公元前 0 年 - 公元前 0 年
       tags: config.tags, // 标签选择,
       tagValue: [],
       dialogFormVisible: false,
@@ -301,28 +306,28 @@ export default {
         }
         case 10: {
           show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
-          year = (this.date_10[0] - 1) * 100 + this.date_10[1]
+          year = Number(this.date_10[0] - 1) * 100 + Number(this.date_10[1])
           month = 1
           day = 1
           break
         }
         case 11: {
           show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
-          year = (this.date_11[0] - 1) * 100 + this.date_11[1]
+          year = Number(this.date_11[0] - 1) * 100 + Number(this.date_11[1])
           month = 1
           day = 2
           break
         }
         case 12: {
           show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
-          year = (this.date_12[0] - 1) * 100 + this.date_12[1]
+          year = Number(this.date_12[0] - 1) * 100 + Number(this.date_12[1])
           month = 6
           day = 1
           break
         }
         case 13: {
           show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
-          year = (this.date_13[0] - 1) * 100 + this.date_13[1]
+          year = Number(this.date_13[0] - 1) * 100 + Number(this.date_13[1])
           month = 12
           day = 1
           break
@@ -341,15 +346,22 @@ export default {
           day = 1
           break
         }
+        case 40: {
+          show = `公元前${this.date_40[0]}年 - 公元前${this.date_40[1]}年`
+          year = -this.date_40[0]
+          month = 1
+          day = 1
+          break
+        }
         default: {}
       }
 
       // 供编辑时间点时初始化时间点显示使用
-      const showJSONFormat = JSON.stringify({
-        type: this.dateValue, // 用于选择器定位
+      const showObject = {
+        type: this.dateValue, // 用于选择器定位 数组
         date: this[`date_${dateType}`], // 用于日期输入框初始化
-        show // 用于日期显示
-      })
+        show // 用于日期显示 字符串
+      }
 
       this.$axios.post('/api/post/timepoint/new', {
         title: that.title,
@@ -357,7 +369,7 @@ export default {
         year: Number(year),
         month: Number(month),
         day: Number(day),
-        show: showJSONFormat,
+        show: showObject,
         tag: JSON.stringify(that.tagValue),
         supplement: that.citations
       }).then(res => {
@@ -369,9 +381,21 @@ export default {
             })
             setTimeout(() => {
               that.$router.push(`/timeline/${res.data.new_post_id}`)
-              that.$axios.get('/api/timeline/list').then(res => {
+              that.$axios.get('/api/timepoint/list').then(res => {
                 if (res.data.code === 100) {
-                  that.$store.commit('updateTimeline', that.timeline)
+                  let timeline = res.data.data
+                  timeline = timeline.map(time => {
+                    if (typeof time.show === 'object') {
+                      const { show } = time.show
+                      if (show) {
+                        time.show = time.show.show
+                      } else {
+                        time.show = time.show.date
+                      }
+                    }
+                    return time
+                  })
+                  that.$store.commit('updateTimeline', timeline)
                 }
               })
             }, 1500)
@@ -485,6 +509,12 @@ export default {
 }
 .citation{
   text-align: left;
+}
+.citation-list{
+  text-align: left;
+}
+.citation-list .title{
+  font-weight: bold;
 }
 .el-dialog{
   margin: 0;

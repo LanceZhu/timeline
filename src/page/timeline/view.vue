@@ -21,18 +21,18 @@
             <el-tag>{{ tag.label }}</el-tag>
           </el-tooltip>
         </div>
-        <div class="citation">
+        <div class="citation-list">
           <div v-for="(citation, index) in citations" :key="index">
             <div v-if="citation.type === 'internetResource'">
-              <div>网络资源</div>
+              <div class="citation-title">网络资源</div>
               <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
             </div>
             <div v-else-if="citation.type === 'bookResource'">
-              <div>著作资源</div>
+              <div class="citation-title">著作资源</div>
               <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
             </div>
             <div v-else-if="citation.type === 'otherResource'">
-              <div>其他资源</div>
+              <div class="citation-title">其他资源</div>
               <div>{{`${citation.content.any}`}}</div>
             </div>
           </div>
@@ -42,15 +42,15 @@
         </div>
     </div>
     <div class="footer">
-      <div v-if="prev.show" class="prev">
-        <router-link :to="prev.route" tag="li">
+      <div v-if="prevUpdated.show" class="prev">
+        <router-link :to="prevUpdated.route" tag="li">
             <i class="el-icon-back"></i>
-            {{prev.desc}}
+            {{prevUpdated.desc}}
         </router-link>
       </div>
-      <div v-if="next.show" class="next">
-        <router-link :to="next.route" tag="li">
-          {{next.desc}}
+      <div v-if="nextUpdated.show" class="next">
+        <router-link :to="nextUpdated.route" tag="li">
+          {{nextUpdated.desc}}
           <i class="el-icon-right"></i>
         </router-link>
       </div>
@@ -87,6 +87,50 @@ export default {
   created () {
     this.updateContent()
   },
+  computed: {
+    prevUpdated () {
+      const { timeline = [] } = this.$store.state
+      const prevUpdated = {
+        desc: '前一页',
+        show: true,
+        route: '/timeline'
+      }
+
+      // 获取当前时间点前后词条
+      for (let i = (timeline.length - 1); i >= 0; i--) {
+        if (timeline[i]._id === this.id) {
+          if (i === 0) {
+            prevUpdated.show = false
+          }
+          prevUpdated.desc = i > 0 ? timeline[i - 1].title : '已无时间点'
+          prevUpdated.route = i > 0 ? `/timeline/${timeline[i - 1]._id}` : '/timeline'
+          break
+        }
+      }
+      return prevUpdated
+    },
+    nextUpdated () {
+      const { timeline = [] } = this.$store.state
+      const nextUpdated = {
+        desc: '后一页',
+        show: true,
+        route: '/timeline'
+      }
+
+      // 获取当前时间点前后词条
+      for (let i = (timeline.length - 1); i >= 0; i--) {
+        if (timeline[i]._id === this.id) {
+          if (i === (timeline.length - 1)) {
+            nextUpdated.show = false
+          }
+          nextUpdated.desc = i < (timeline.length - 1) ? timeline[i + 1].title : '已无时间点'
+          nextUpdated.route = i < (timeline.length - 1) ? `/timeline/${timeline[i + 1]._id}` : '/timeline'
+          break
+        }
+      }
+      return nextUpdated
+    }
+  },
   watch: {
     $route (to, from) {
       this.updateContent()
@@ -101,7 +145,13 @@ export default {
         that.content = content
         that.title = title
         that.id = _id
-        that.lastEditedUser = owner
+        that.$axios.get(`/api/user/getNickname?uid=${owner}`).then(res => {
+          if (res.data.code === 100) {
+            that.lastEditedUser = res.data.nickname
+          } else {
+            that.lastEditedUser = owner
+          }
+        })
         that.citations = supplement
         if (tag !== '' && JSON.parse(tag).length !== 0) {
           const tagNumber = JSON.parse(tag).reduce((acc, cur) => {
@@ -110,26 +160,6 @@ export default {
           }, 0)
           that.tag = that.tagTable[tagNumber]
           that.hasTag = true
-        }
-        const { timeline = [] } = that.$store.state
-        that.prev.show = true
-        that.next.show = true
-
-        // 获取当前时间点前后词条
-        for (let i = (timeline.length - 1); i >= 0; i--) {
-          if (timeline[i]._id === that.id) {
-            if (i === 0) {
-              that.prev.show = false
-            }
-            if (i === (timeline.length - 1)) {
-              that.next.show = false
-            }
-            that.prev.desc = i > 0 ? timeline[i - 1].title : '已无时间点'
-            that.next.desc = i < (timeline.length - 1) ? timeline[i + 1].title : '已无时间点'
-            that.prev.route = i > 0 ? `/timeline/${timeline[i - 1]._id}` : '/timeline'
-            that.next.route = i < (timeline.length - 1) ? `/timeline/${timeline[i + 1]._id}` : '/timeline'
-            break
-          }
         }
       })
     }
@@ -163,7 +193,13 @@ li{
 }
 .content .article{}
 .content .tags{}
-.content .citation{}
+.content .citation-list{
+  margin-top: 20px;
+  text-align: left;
+}
+.content .citation-list .citation-title{
+  font-weight: bold;
+}
 .content .last-edited-user{
   text-align: right;
   color: rgb(254,149,170);

@@ -45,6 +45,9 @@
         <div v-if="dateType === 30">
           公元前<el-input v-model="date_30"></el-input>年
         </div>
+        <div v-if="dateType === 40">
+          公元前<el-input v-model="date_40[0]"></el-input>年 - 公元前<el-input v-model="date_40[1]"></el-input>年
+        </div>
       </div>
     </div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
@@ -73,7 +76,7 @@
         添加参考文献
         </el-button>
       <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
         <el-tab-pane label="网络资源" name="first">
           <el-form :model="internetResource" label-position="right">
             <el-form-item label="文章名" :label-width="formLabelWidth">
@@ -129,21 +132,19 @@
       </span>
       <el-divider></el-divider>
       </el-dialog>
-      <div class="citation-added">
-        <div class="citation-list">
-          <div v-for="(citation, index) in citations" :key="index">
-            <div v-if="citation.type === 'internetResource'">
-              <div>网络资源</div>
-              <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
-            </div>
-            <div v-else-if="citation.type === 'bookResource'">
-              <div>著作资源</div>
-              <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
-            </div>
-            <div v-else-if="citation.type === 'otherResource'">
-              <div>其他资源</div>
-              <div>{{`${citation.content.any}`}}</div>
-            </div>
+      <div class="citation-list">
+        <div v-for="(citation, index) in citations" :key="index">
+          <div v-if="citation.type === 'internetResource'">
+            <div class="title">网络资源</div>
+            <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+          </div>
+          <div v-else-if="citation.type === 'bookResource'">
+            <div class="title">著作资源</div>
+            <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+          </div>
+          <div v-else-if="citation.type === 'otherResource'">
+            <div class="title">其他资源</div>
+            <div>{{`${citation.content.any}`}}</div>
           </div>
         </div>
       </div>
@@ -242,6 +243,9 @@ export default {
         }, {
           value: 30,
           label: '公元前'
+        }, {
+          value: 40,
+          label: '公元前-时间段'
         }
       ],
       date_100: '',
@@ -253,6 +257,7 @@ export default {
       date_13: [0, 0],
       date_20: [0, 0],
       date_30: 0,
+      date_40: [0, 0],
       tags: [],
       tagValue: [],
       dialogFormVisible: false,
@@ -314,28 +319,28 @@ export default {
         }
         case 10: {
           show = `${this.date_10[0]}世纪${this.date_10[1]}年代`
-          year = (this.date_10[0] - 1) * 100 + this.date_10[1]
+          year = Number(this.date_10[0] - 1) * 100 + Number(this.date_10[1])
           month = 1
           day = 1
           break
         }
         case 11: {
           show = `${this.date_11[0]}世纪${this.date_11[1]}年代初`
-          year = (this.date_11[0] - 1) * 100 + this.date_11[1]
+          year = Number(this.date_11[0] - 1) * 100 + Number(this.date_11[1])
           month = 1
           day = 2
           break
         }
         case 12: {
           show = `${this.date_12[0]}世纪${this.date_12[1]}年代中`
-          year = (this.date_12[0] - 1) * 100 + this.date_12[1]
+          year = Number(this.date_12[0] - 1) * 100 + Number(this.date_12[1])
           month = 6
           day = 1
           break
         }
         case 13: {
           show = `${this.date_13[0]}世纪${this.date_13[1]}年代末`
-          year = (this.date_13[0] - 1) * 100 + this.date_13[1]
+          year = Number(this.date_13[0] - 1) * 100 + Number(this.date_13[1])
           month = 12
           day = 1
           break
@@ -354,15 +359,22 @@ export default {
           day = 1
           break
         }
+        case 40: {
+          show = `公元前${this.date_40[0]}年 - 公元前${this.date_40[1]}年`
+          year = -this.date_40[0]
+          month = 1
+          day = 1
+          break
+        }
         default: {}
       }
 
       // 供编辑时间点时初始化时间点显示使用
-      const showJSONFormat = JSON.stringify({
+      const showObject = {
         type: this.dateValue,
         date: this[`date_${dateType}`],
         show
-      })
+      }
 
       this.$axios.post(`/api/timepoint/edit/${that.$route.params.id}`, {
         title: that.title,
@@ -370,7 +382,7 @@ export default {
         year: Number(year),
         month: Number(month),
         day: Number(day),
-        show: showJSONFormat,
+        show: showObject,
         tag: JSON.stringify(this.tagValue),
         supplement: that.citations
       }).then(res => {
@@ -382,9 +394,21 @@ export default {
             })
             setTimeout(() => {
               that.$router.push(`/timeline/${res.data.new_post_id}`)
-              that.$axios.get('/api/timeline/list').then(res => {
+              that.$axios.get('/api/timepoint/list').then(res => {
                 if (res.data.code === 100) {
-                  that.$store.commit('updateTimeline', that.timeline)
+                  let timeline = res.data.data
+                  timeline = timeline.map(time => {
+                    if (typeof time.show === 'object') {
+                      const { show } = time.show
+                      if (show) {
+                        time.show = time.show.show
+                      } else {
+                        time.show = time.show.date
+                      }
+                    }
+                    return time
+                  })
+                  that.$store.commit('updateTimeline', timeline)
                 }
               })
             })
@@ -408,38 +432,38 @@ export default {
         return acc
       }, 0)
     },
-    // dateInitialize (dateInput) {
-    //   const date = new Date()
-    //   const year = date.getFullYear()
-    //   const nextYear = year + 1
-    //   const years = Math.floor(year % 100) - Math.floor(year % 10)
-    //   const century = Math.floor(year / 100) + 1
-    //   const month = date.getMonth() + 1
+    dateInitialize (dateInput) {
+      const date = new Date()
+      const year = date.getFullYear()
+      const nextYear = year + 1
+      const years = Math.floor(year % 100) - Math.floor(year % 10)
+      const century = Math.floor(year / 100) + 1
+      const month = date.getMonth() + 1
 
-    //   this.date_100 = dayjs().format('YYYY/MM/DD')
-    //   this.date_0 = year // 2020 年
-    //   this.date_1[0] = year // 2020 年
-    //   this.date_1[1] = month // 1 月
-    //   this.date_10[0] = century // 21 世纪
-    //   this.date_10[1] = years // 20 年代
-    //   this.date_11[0] = century
-    //   this.date_11[1] = years
-    //   this.date_12[0] = century
-    //   this.date_12[1] = years
-    //   this.date_13[0] = century
-    //   this.date_13[1] = years
-    //   this.date_20[0] = year
-    //   this.date_20[1] = nextYear
-    //   this.date_30 = 0
+      this.date_100 = dayjs().format('YYYY/MM/DD')
+      this.date_0 = year // 2020 年
+      this.date_1[0] = year // 2020 年
+      this.date_1[1] = month // 1 月
+      this.date_10[0] = century // 21 世纪
+      this.date_10[1] = years // 20 年代
+      this.date_11[0] = century
+      this.date_11[1] = years
+      this.date_12[0] = century
+      this.date_12[1] = years
+      this.date_13[0] = century
+      this.date_13[1] = years
+      this.date_20[0] = year
+      this.date_20[1] = nextYear
+      this.date_30 = 0
 
-    //   dateInput = JSON.parse(dateInput)
-    //   this.dateValue = dateInput.type
-    //   const dateType = this.dateValue.reduce((acc, cur) => {
-    //     acc += cur
-    //     return acc
-    //   })
-    //   this[`date_${dateType}`] = dateInput.date
-    // },
+      this.dateValue = dateInput.type
+      const dateType = this.dateValue.reduce((acc, cur) => {
+        acc += cur
+        return acc
+      })
+      this[`date_${dateType}`] = dateInput.date
+      this.dateType = dateType
+    },
     dateTypeChange () {
       this.dateType = this.dateValue.reduce((acc, cur) => {
         acc += cur
@@ -474,30 +498,27 @@ export default {
         default: {}
       }
       this.citations.push(newCitation)
-    },
-    handleClick (tab, event) {
-      console.log(this.activeName)
     }
   },
   created () {
     this.tags = config.tags
     const that = this
     this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-      const { title, content, tag, supplement } = res.data.data.post
+      const { title, content, tag, supplement, show } = res.data.data.post
       that.title = title
       that.content = content
       that.citations = supplement
       if (tag !== '') {
         this.tagValue = JSON.parse(tag)
       }
-      // if (isJSON(show)) {
-      //   that.dateInitialize(show)
-      // } else {
-      //   that.dateInitialize(JSON.stringify({
-      //     type: [100],
-      //     date: show
-      //   }))
-      // }
+      if (typeof show === 'object') {
+        that.dateInitialize(show)
+      } else {
+        that.dateInitialize({
+          type: [100],
+          date: show
+        })
+      }
     })
   }
 }
@@ -537,5 +558,11 @@ export default {
 }
 .citation{
   text-align: left;
+}
+.citation-list{
+  text-align: left;
+}
+.citation-list .title{
+  font-weight: bold;
 }
 </style>

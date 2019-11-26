@@ -41,7 +41,8 @@ if (process.env.VUE_APP_DOMAIN_NAME === 'internet') {
       children: [
         {
           value: 0,
-          label: '其他'
+          label: '其他',
+          desc: '其他'
         }, {
           value: 1,
           label: '电商',
@@ -108,18 +109,22 @@ if (process.env.VUE_APP_DOMAIN_NAME === 'internet') {
   ]
 }
 
-const tags2tagTable = (tags, initialValue = 0) => {
+const tags2tagTable = (tags, initialValue = 0, initialLabel = '') => {
   let tagTable = {}
   for (let i = 0; i < tags.length; i++) {
     const { value, label, desc, children } = tags[i]
+    let concatedLabel = label
+    if (initialLabel !== '') {
+      concatedLabel = [initialLabel, label].join('/')
+    }
     if (desc !== undefined) {
       tagTable[String(initialValue + value)] = {
-        label: label,
+        label: concatedLabel,
         desc: desc
       }
     }
     if (children !== undefined) {
-      tagTable = Object.assign(tagTable, tags2tagTable(children, initialValue + value))
+      tagTable = Object.assign(tagTable, tags2tagTable(children, initialValue + value, concatedLabel))
     }
   }
   return tagTable
