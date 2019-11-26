@@ -5,13 +5,13 @@ const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 // webpack 插件
 const webpackPlugins = []
-if(process.env.ANALYZER){
+if (process.env.ANALYZER) {
   webpackPlugins.push(new BundleAnalyzer())
 }
 
 // webpack 打包优化插件
 const minimizers = []
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
   minimizers.push(new TerserPlugin({
     terserOptions: {
       ecma: 6,
