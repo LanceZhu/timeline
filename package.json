@@ -8,10 +8,11 @@
     "serve:education": "vue-cli-service serve --mode education",
     "serve:invention": "vue-cli-service serve --mode invention",
     "build": "vue-cli-service build",
-    "build:internet": "vue-cli-service build --mode internet",
-    "build:education": "vue-cli-service build --mode education",
-    "build:invention": "vue-cli-service build --mode invention",
-    "lint": "vue-cli-service lint"
+    "build:internet": "NODE_ENV='production' vue-cli-service build --mode internet",
+    "build:education": "NODE_ENV='production' vue-cli-service build --mode education",
+    "build:invention": "NODE_ENV='production' vue-cli-service build --mode invention",
+    "lint": "vue-cli-service lint",
+    "analyzer": "ANALYZER=true vue-cli-service serve"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -38,7 +39,8 @@
     "eslint-plugin-vue": "^5.0.0",
     "quill-image-extend-module": "^1.1.2",
     "terser-webpack-plugin": "^2.2.1",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "eslintConfig": {
     "root": true,

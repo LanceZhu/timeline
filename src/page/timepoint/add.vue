@@ -150,7 +150,8 @@ import { Quill } from 'vue-quill-editor'
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
 import config from '../../../config'
 import dayjs from 'dayjs'
-import { clone } from 'lodash'
+// import { clone } from 'lodash'
+import clone from 'lodash/clone'
 
 Quill.register('modules/ImageExtend', ImageExtend)
 
