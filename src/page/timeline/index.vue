@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     toAdd () {
-      this.$router.push('/timepoint/add')
+      this.$router.push('/timeline/add')
     }
   }
 }

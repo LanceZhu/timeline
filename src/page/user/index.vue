@@ -55,6 +55,7 @@ export default {
         that.wikis = that.wikis.filter(wiki => {
           return wiki.status === 'publish'
         })
+        that.wikis = that.wikis.reverse()
       })
     },
     logout () {

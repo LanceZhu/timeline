@@ -54,7 +54,9 @@
     v-model="content"
     :options="editorOption">
     </quill-editor>
-    <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
+    <div class="submit">
+      <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
+    </div>
     <div class="tags">
       <div class="desc">添加标签（必填一项）</div>
       <div>
@@ -66,7 +68,7 @@
     <div class="citation">
       <el-button type="text" @click="dialogFormVisible = true">
         <i class="el-icon-document-add"></i>
-        添加参考文献
+        <span class="title">添加参考文献</span>
         </el-button>
       <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
         <el-tabs v-model="activeName">
@@ -484,6 +486,9 @@ export default {
 .el-input{
   margin: 10px 0;
 }
+.submit{
+  margin-top: 10px;
+}
 .date{
   text-align: left;
 }
@@ -510,6 +515,11 @@ export default {
 }
 .citation{
   text-align: left;
+}
+.citation .title{
+  color: black;
+  font-weight: normal;
+  font-size: 15px;
 }
 .citation-list{
   text-align: left;

@@ -61,7 +61,9 @@
       </el-form-item>
     </el-form>
     -->
-    <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
+    <div class="submit">
+      <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
+    </div>
     <div class="tags">
       <div class="desc">添加标签（必填一项）</div>
       <div>
@@ -532,6 +534,9 @@ export default {
 }
 .ql-container{
     min-height: 400px;
+}
+.submit{
+  margin-top: 10px;
 }
 .el-input{
   margin: 10px 0;

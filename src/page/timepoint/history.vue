@@ -5,18 +5,22 @@
         style="width: 100%">
         <el-table-column
           prop="timestamp"
-          label="时间">
+          label="时间"
+          min-width="150">
         </el-table-column>
         <el-table-column
           prop="owner"
-          label="修改人">
+          label="修改人"
+          min-width="150">
         </el-table-column>
         <el-table-column
           prop="title"
-          label="标题">
+          label="标题"
+          min-width="400">
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作"
+          min-width="120">
           <template slot-scope="scope">
             <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
             <el-button @click="toRestore(scope.$index)" type="text" size="small">还原</el-button>

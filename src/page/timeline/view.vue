@@ -2,12 +2,12 @@
   <div>
     <div class="title">
       {{title}}
-      <router-link :to="'/timepoint/edit/' + id" tag="li">
+      <router-link :to="id + '/edit'" tag="li">
         <el-tooltip content="编辑词条" popper-class="tooltip">
           <i class="el-icon-edit"></i>
         </el-tooltip>
       </router-link>
-      <router-link :to="'/timepoint/history/' + id" tag="li">
+      <router-link :to="id + '/history'" tag="li">
         <el-tooltip content="词条历史" popper-class="tooltip">
           <i class="el-icon-time"></i>
         </el-tooltip>
