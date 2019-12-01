@@ -531,6 +531,7 @@ export default {
 .container-edit{
   width: 90%;
   margin: 0 auto;
+  min-width: 720px;
 }
 .ql-container{
     min-height: 400px;

@@ -55,6 +55,11 @@
         </router-link>
       </div>
     </div>
+    <div class="feedback">
+      <el-divider></el-divider>
+      遇到问题请联系：
+      <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a>
+    </div>
   </div>
 </template>
 
@@ -168,6 +173,25 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 720px) {
+  .content{
+    width: 90%;
+    margin: 0 auto;
+    word-break: break-all;
+    box-sizing: border-box;
+    text-align: left;
+    padding: 15px;
+  }
+}
+@media (min-width: 720px) {
+  .content{
+    width: 100%;
+    margin: 0 auto;
+    word-break: break-all;
+    box-sizing: border-box;
+    text-align: left;
+  }
+}
 li{
   display: inline-block;
   cursor: pointer;
@@ -183,16 +207,11 @@ li{
 .title .el-divider{
   margin: 0;
 }
-.content{
-  width: 90%;
-  margin: 0 auto;
-  word-break: break-all;
-  box-sizing: border-box;
-  text-align: left;
-  padding: 15px;
-}
 .content .article{}
-.content .tags{}
+.content .tags{
+  display: flex;
+  justify-content: flex-start;
+}
 .content .citation-list{
   margin-top: 20px;
   text-align: left;
@@ -208,6 +227,8 @@ li{
   width: 90%;
   margin: 0 auto;
   color: rgb(49,151,230);
+  height: 25px;
+  margin-bottom: 15px;
 }
 .footer .prev{
   float: left;

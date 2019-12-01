@@ -2,6 +2,9 @@
     <el-container>
     <el-header>
         <el-menu :default-active="this.$route.name" class="el-menu-demo" mode="horizontal" router>
+            <div class="sidebar-button" @click="showSidebar()">
+              <i class="el-icon-s-operation"></i>
+            </div>
             <el-menu-item v-for="el in elMenu" :key="el.name" :index="el.name" :route="el.route">{{ el.desc }}</el-menu-item>
             <!--
             <el-menu-item>
@@ -20,13 +23,16 @@
             -->
             <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" id="login">注册/登录</el-menu-item>
             <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" id="login">
-                  <i class="el-icon-user"></i>
+                  <div class="user">
+                    <el-badge is-dot class="badge" v-if="hasMessage"></el-badge>
+                    <i class="el-icon-user"></i>
+                  </div>
             </el-menu-item>
         </el-menu>
     </el-header>
     <el-main>
       <transition>
-        <router-view></router-view>
+        <router-view :showSidebar="sidebar" @close-sidebar="closeSidebar"></router-view>
       </transition>
     </el-main>
     <el-backtop></el-backtop>
@@ -42,11 +48,10 @@ export default {
         route: '/timeline',
         name: 'timeline',
         desc: '时间轴wiki'
-      }
-      ]
+      }],
+      sidebar: false,
+      hasMessage: false
     }
-  },
-  watch: {
   },
   created: function () {
     const that = this
@@ -83,6 +88,12 @@ export default {
           key: this.search
         }
       })
+    },
+    showSidebar () {
+      this.sidebar = true
+    },
+    closeSidebar () {
+      this.sidebar = false
     }
   }
 }
@@ -91,6 +102,7 @@ export default {
 <style>
 html{
   height: 100%;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 body{
   height: 100%;
@@ -99,6 +111,16 @@ body{
 #app{
   height: 100%;
 }
+.feedback{
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+.feedback a{
+  text-decoration: none;
+}
+/**
+* Element UI 全局样式
+*/
 .el-container{
   padding-top: 60px;
   height: 100%;
@@ -111,7 +133,7 @@ body{
   text-align: center;
   height: 60px;
   width: 100%;
-  min-width: 1000px;
+  min-width: 300px;
   position: fixed;
   top: 0;
   left: 0;
@@ -133,6 +155,9 @@ body{
 }
 .el-menu{
   display: flex;
+}
+.el-drawer__body{
+  height: 100%;
 }
 #login{
   margin-left: auto;
@@ -158,5 +183,25 @@ body{
 .el-tooltip__popper[x-placement^=bottom] .popper__arrow{
   border-bottom-color: rgb(160,192,227) !important;
   opacity: 0.8;
+}
+@media (min-width: 720px) {
+  .sidebar-button{
+    display: none;
+  }
+}
+@media (max-width: 720px) {
+  .sidebar-button{
+    display: block;
+    line-height: 60px;
+  }
+}
+
+/**
+* 本页面样式
+*/
+.badge{
+  position: absolute !important;
+  left: 40px;
+  margin-top: -10px;
 }
 </style>

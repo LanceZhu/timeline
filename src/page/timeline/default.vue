@@ -1,5 +1,11 @@
 <template>
-  <div v-html="content" class="container">
+  <div class="container-timeline-default">
+    <div v-html="content"></div>
+    <div class="feedback">
+      <el-divider></el-divider>
+      遇到问题请联系：
+      <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a>
+    </div>
   </div>
 </template>
 

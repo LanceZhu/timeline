@@ -482,6 +482,7 @@ export default {
 .container-add{
   width: 90%;
   margin: 0 auto;
+  min-width: 720px;
 }
 .el-input{
   margin: 10px 0;

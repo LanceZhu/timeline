@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-user">
     <el-tabs :tab-position="'left'">
       <el-tab-pane label="所有时间点">
         <div v-if="wikis.length">
@@ -97,6 +97,9 @@ export default {
 </script>
 
 <style scoped>
+.container-user{
+  min-width: 720px;
+}
 .messages{
   height: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12);

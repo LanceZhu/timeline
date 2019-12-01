@@ -5,22 +5,18 @@
         style="width: 100%">
         <el-table-column
           prop="timestamp"
-          label="时间"
-          min-width="150">
+          label="时间">
         </el-table-column>
         <el-table-column
           prop="owner"
-          label="修改人"
-          min-width="150">
+          label="修改人">
         </el-table-column>
         <el-table-column
           prop="title"
-          label="标题"
-          min-width="400">
+          label="标题">
         </el-table-column>
         <el-table-column
-          label="操作"
-          min-width="120">
+          label="操作">
           <template slot-scope="scope">
             <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
             <el-button @click="toRestore(scope.$index)" type="text" size="small">还原</el-button>
@@ -95,8 +91,16 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  width: 90%;
-  margin: 0 auto;
+@media (min-width: 720px) {
+  .container{
+    width: 90%;
+    margin: 0 auto;
+    min-width: 720px;
+  }
+}
+@media (max-width: 720px) {
+  .container{
+    min-width: 720px;
+  }
 }
 </style>

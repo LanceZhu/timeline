@@ -1,5 +1,11 @@
 <template>
-  <div class="container">
+  <div class="container" v-loading="loading">
+    <el-drawer
+      title="时间轴"
+      :visible.sync="showSidebar"
+      direction="ltr"
+      :before-close="beforeClose"
+      size="50%">
       <div class="sidebar">
         <div class="title">
             <el-tooltip content="添加时间点" popper-class="tooltip">
@@ -9,17 +15,35 @@
         </div>
         <div class="scroll">
           <div v-for="time in timelineUpdated" :key="time.id" class="time">
+              <router-link :to="'/timeline/'+time._id" tag="li" @click.native="beforeClose">
+                {{time.show}} {{time.title}}
+              </router-link>
+          </div>
+        </div>
+      </div>
+    </el-drawer>
+    <div class="pc">
+      <div class="sidebar">
+        <div class="title">
+            <el-tooltip content="添加时间点" popper-class="tooltip">
+              <i class="el-icon-document-add" @click="toAdd">
+              </i>
+          </el-tooltip>
+        </div>
+        <div class="scroll" @click="beforeClose">
+          <div v-for="time in timelineUpdated" :key="time.id" class="time">
               <router-link :to="'/timeline/'+time._id" tag="li">
                 {{time.show}} {{time.title}}
               </router-link>
           </div>
         </div>
       </div>
-      <div class="content">
-        <transition>
-          <router-view></router-view>
-        </transition>
-      </div>
+    </div>
+    <div class="content">
+      <transition>
+        <router-view></router-view>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -29,7 +53,15 @@
 export default {
   data () {
     return {
+      loading: true,
+      drawer: false,
       timeline: []
+    }
+  },
+  props: {
+    showSidebar: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -57,70 +89,141 @@ export default {
       } else {
         that.$message.error('请求出错！')
       }
+    }).finally(() => {
+      that.loading = false
     })
   },
   methods: {
     toAdd () {
       this.$router.push('/timeline/add')
+      this.$emit('close-sidebar')
+    },
+    beforeClose () {
+      this.$emit('close-sidebar')
     }
   }
 }
 </script>
 
 <style scoped>
-.container{
-  height: 100%;
-  position: relative;
-  display: flex;
+@media (max-width: 720px) {
+  .container {
+    height: 100%;
+    position: relative;
+    display: flex;
+  }
+  .pc{
+    display: none;
+  }
+  .mobile{
+  }
+  .sidebar{
+    box-sizing: border-box;
+    padding: 40px 0 0;
+    height: 100%;
+    border-right: 1px solid #C4C4C4;
+    background-color: rgb(247, 247, 247);
+  }
+  .title{
+  }
+  .scroll{
+    box-sizing: border-box;
+    padding: 0 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
+  .time{
+    color: #666;
+    font-size: 12px;
+    text-align: left;
+    margin: 6px 0;
+  }
+  .content{
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+    width: 100%;
+  }
+  .router-link-active{
+    color: rgb(160,192,227);
+  }
+  li{
+    padding:0;
+    margin:0;
+    list-style:none;
+    display: inline-block;
+  }
+  li:hover{
+    color:rgb(160,192,227);
+    cursor: pointer;
+  }
+  .el-tooltip{
+    margin-left: 10px;
+  }
 }
-.sidebar{
-  box-sizing: border-box;
-  padding: 40px 0 0;
-  height: 100%;
-  width: 20%;
-  border-right: 1px solid #C4C4C4;
-  background-color: rgb(247, 247, 247);
-}
-.title{
-  position: absolute;
-  top: 0;
-}
-.scroll{
-  box-sizing: border-box;
-  padding: 0 10px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  height: 100%;
-}
-.time{
-  color: #666;
-  font-size: 12px;
-  text-align: left;
-  margin: 6px 0;
-}
-.content{
-  width: 80%;
-  box-sizing: border-box;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  height: 100%;
-}
-.router-link-active{
-  color: rgb(160,192,227);
-}
-li{
-  padding:0;
-  margin:0;
-  list-style:none;
-  display: inline-block;
-}
-li:hover{
-  color:rgb(160,192,227);
-  cursor: pointer;
-}
-.el-tooltip{
-  margin-left: 10px;
+@media (min-width: 720px) {
+  .container {
+    height: 100%;
+    position: relative;
+    display: flex;
+  }
+  .mobile{
+    display: none;
+  }
+  .pc{
+    height: 100%;
+    width: 20%;
+  }
+  .sidebar{
+    box-sizing: border-box;
+    padding: 40px 0 0;
+    height: 100%;
+    border-right: 1px solid #C4C4C4;
+    background-color: rgb(247, 247, 247);
+  }
+  .title{
+    position: absolute;
+    top: 0;
+  }
+  .scroll{
+    box-sizing: border-box;
+    padding: 0 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
+  .time{
+    color: #666;
+    font-size: 12px;
+    text-align: left;
+    margin: 6px 0;
+  }
+  .content{
+    width: 80%;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    height: 100%;
+  }
+  .router-link-active{
+    color: rgb(160,192,227);
+  }
+  li{
+    padding:0;
+    margin:0;
+    list-style:none;
+    display: inline-block;
+  }
+  li:hover{
+    color:rgb(160,192,227);
+    cursor: pointer;
+  }
+  .el-tooltip{
+    margin-left: 10px;
+  }
 }
 </style>
