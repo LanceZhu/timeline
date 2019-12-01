@@ -58,7 +58,11 @@ npm run lint
 ## TODO
 
 - [ ] JavaScript => TypeScript
+- [ ] 移动端优化
 
+
+## 遇到的问题
+[传送门:flushed:](./docs/questions.md)
 
 
 ## 更新日志
