@@ -7,6 +7,7 @@
     "serve:internet": "vue-cli-service serve --mode internet",
     "serve:education": "vue-cli-service serve --mode education",
     "serve:invention": "vue-cli-service serve --mode invention",
+    "serve:dev": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build",
     "build:internet": "NODE_ENV='production' vue-cli-service build --mode internet",
     "build:education": "NODE_ENV='production' vue-cli-service build --mode education",

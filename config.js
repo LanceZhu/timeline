@@ -107,6 +107,14 @@ if (process.env.VUE_APP_DOMAIN_NAME === 'internet') {
       desc: '默认'
     }
   ]
+} else {
+  tags = [
+    {
+      value: 0,
+      label: '默认',
+      desc: '默认'
+    }
+  ]
 }
 
 const tags2tagTable = (tags, initialValue = 0, initialLabel = '') => {
@@ -133,7 +141,8 @@ const tags2tagTable = (tags, initialValue = 0, initialLabel = '') => {
 const tagTable = tags2tagTable(tags)
 
 export default {
-  baseURL: process.env.NODE_ENV === 'production' ? '' : '',
+  // baseURL: `http://${process.env.VUE_APP_DOMAIN_NAME}.timeline.hfzhang.wang`, // Chrome 升级，需后端带有 SameSite 字段
+  baseURL: '',
   urlPrefix: process.env.NODE_ENV === 'production' ? '/api' : '/',
   tags,
   tagTable
