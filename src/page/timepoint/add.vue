@@ -77,8 +77,11 @@
             <el-form-item label="文章名" :label-width="formLabelWidth">
               <el-input v-model="internetResource.name" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="URL" :label-width="formLabelWidth">
-              <el-input v-model="internetResource.url" autocomplete="off"></el-input>
+            <el-form-item label="网站链接" :label-width="formLabelWidth">
+              <div class="url-preview">
+                <el-input v-model="internetResource.url" autocomplete="off"></el-input>
+                <a :href="internetResource.url" target="_blank"><i class="el-icon-view"></i></a>
+              </div>
             </el-form-item>
             <el-form-item label="网站名" :label-width="formLabelWidth">
               <el-input v-model="internetResource.websiteName" autocomplete="off"></el-input>
@@ -130,16 +133,20 @@
       <div class="citation-list">
         <div v-for="(citation, index) in citations" :key="index">
           <div v-if="citation.type === 'internetResource'">
-            <div class="title">网络资源</div>
-            <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+            <!-- <div class="title">网络资源</div> -->
+            <div>
+              {{index + 1}}.
+              {{ `${citation.content.name} ` }}<a :href="citation.content.url" target="_blank">{{citation.content.websiteName}}<i class="el-icon-view"></i></a>
+              <span class="citation-date">{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
+            </div>
           </div>
           <div v-else-if="citation.type === 'bookResource'">
-            <div class="title">著作资源</div>
-            <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+            <!-- <div class="title">著作资源</div> -->
+            <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版地：${citation.content.publishAddress} 出版社：${citation.content.publishPress} 出版年：${citation.content.publishYear} 引文页码：${citation.content.pageRange}`}}</div>
           </div>
           <div v-else-if="citation.type === 'otherResource'">
-            <div class="title">其他资源</div>
-            <div>{{`${citation.content.any}`}}</div>
+            <!-- <div class="title">其他资源</div> -->
+            <div>{{`其他：${citation.content.any}`}}</div>
           </div>
         </div>
       </div>
@@ -522,11 +529,28 @@ export default {
   font-weight: normal;
   font-size: 15px;
 }
+.citation .url-preview{
+  display: flex;
+  align-items: center;
+}
+.citation .url-preview a{
+  padding-left: 5px;
+}
 .citation-list{
   text-align: left;
 }
 .citation-list .title{
   font-weight: bold;
+}
+.citation-list a{
+  text-decoration: none;
+}
+.citation a:hover{
+  text-decoration-line: underline;
+}
+.citation-date{
+  font-size: 15px;
+  color: gray;
 }
 .el-dialog{
   margin: 0;

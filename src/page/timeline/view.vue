@@ -24,16 +24,21 @@
         <div class="citation-list">
           <div v-for="(citation, index) in citations" :key="index">
             <div v-if="citation.type === 'internetResource'">
-              <div class="citation-title">网络资源</div>
-              <div>{{ `文章名：${citation.content.name} 网站名：${citation.content.websiteName} 发表日期：${citation.content.publishDate}`}}</div>
+              <!-- <div class="citation-title">网络资源</div> -->
+                <div>
+                  {{index + 1}}.<span>{{ ` ${citation.content.name} ` }}</span><a :href="citation.content.url" target="_blank">{{citation.content.websiteName}}<i class="el-icon-view"></i></a>
+                  <span class="citation-date">{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
+                </div>
             </div>
             <div v-else-if="citation.type === 'bookResource'">
-              <div class="citation-title">著作资源</div>
-              <div>{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版年${citation.content.publishYear}`}}</div>
+              <!-- <div class="citation-title">著作资源</div> -->
+                <div>
+                  {{index + 1}}.{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版地：${citation.content.publishAddress} 出版社：${citation.content.publishPress} 出版年：${citation.content.publishYear} 引文页码：${citation.content.pageRange}`}}</div>
             </div>
             <div v-else-if="citation.type === 'otherResource'">
-              <div class="citation-title">其他资源</div>
-              <div>{{`${citation.content.any}`}}</div>
+              <!-- <div class="citation-title">其他资源</div> -->
+              <div>
+                {{index + 1}}.{{`${citation.content.any}`}}</div>
             </div>
           </div>
         </div>
@@ -183,7 +188,7 @@ export default {
     padding: 15px;
   }
 }
-@media (min-width: 720px) {
+@media (max-width: 720px) {
   .content{
     width: 100%;
     margin: 0 auto;
@@ -216,8 +221,12 @@ li{
   margin-top: 20px;
   text-align: left;
 }
-.content .citation-list .citation-title{
+.citation-title{
   font-weight: bold;
+}
+.citation-date{
+  font-size: 15px;
+  color: gray;
 }
 .content .last-edited-user{
   text-align: right;
