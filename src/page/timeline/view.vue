@@ -12,6 +12,25 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
       </router-link>
+      <el-tooltip content="举报该词条" popper-class="tooltip">
+        <i class="el-icon-warning-outline" @click="showFeedback = true"></i>
+      </el-tooltip>
+      <el-dialog title="举报该词条" :visible.sync="showFeedback" :append-to-body="true">
+        <el-form>
+          <el-form-item>
+            <el-input
+              type="textarea"
+              v-model="feedback.comment"
+              maxlength="50"
+              show-word-limit>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitFeedback()">提交反馈</el-button>
+            <el-button @click="showFeedback = false">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
     <el-divider></el-divider>
     </div>
     <div class="content">
@@ -91,7 +110,13 @@ export default {
         show: true,
         route: '/timeline'
       },
-      citations: []
+      citations: [],
+      showFeedback: false,
+      feedback: {
+        type: 'complain',
+        target_id: '',
+        comment: ''
+      }
     }
   },
   created () {
@@ -170,6 +195,23 @@ export default {
           }, 0)
           that.tag = that.tagTable[tagNumber]
           that.hasTag = true
+        }
+      })
+    },
+    submitFeedback () {
+      const that = this
+      this.feedback.target_id = this.id
+      this.$axios.post('/api/user/makeReq', that.feedback).then(res => {
+        if (res.data.code === 100) {
+          that.$message({
+            type: 'success',
+            message: '反馈成功，管理员会及时处理！'
+          })
+          setTimeout(() => {
+            that.showFeedback = false
+          }, 1500)
+        } else {
+          that.$message.error('反馈失败！')
         }
       })
     }

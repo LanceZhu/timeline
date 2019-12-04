@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import parseDate from '@/utils/parseDate'
+// import parseDate from '@/utils/parseDate'
+import dayjs from 'dayjs'
 
 export default {
   data () {
@@ -49,7 +50,8 @@ export default {
       this.$axios.get('/api/user/getPostList').then(res => {
         that.wikis = res.data.data
         that.wikis = that.wikis.map(wiki => {
-          wiki.timestamp = parseDate(wiki.timestamp * 1000) // 单位 s -> ms
+          // wiki.timestamp = parseDate(wiki.timestamp * 1000) // 单位 s -> ms
+          wiki.timestamp = dayjs(wiki.timestamp * 1000).format('YYYY-MM-DD HH:mm')
           return wiki
         })
         that.wikis = that.wikis.filter(wiki => {

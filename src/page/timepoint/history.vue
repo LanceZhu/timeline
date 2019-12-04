@@ -27,7 +27,8 @@
   </template>
 
 <script>
-import parseDate from '@/utils/parseDate'
+// import parseDate from '@/utils/parseDate'
+import dayjs from 'dayjs'
 
 export default {
   data () {
@@ -40,7 +41,8 @@ export default {
     this.$axios.get(`/api/timepoint/history/${this.$route.params.id}`).then(res => {
       that.historyList = res.data.data
       that.historyList = that.historyList.map(time => {
-        time.timestamp = parseDate(time.timestamp * 1000)
+        // time.timestamp = parseDate(time.timestamp * 1000)
+        time.timestamp = dayjs(time.timestamp * 1000).format('YYYY-MM-DD HH:mm')
         return time
       })
     })
