@@ -51,6 +51,10 @@ module.exports = {
         changeOrigin: true,
         onProxyRes: function (proxyRes, req, res) {
         }
+      },
+      '/attachment': {
+        target: `http://${process.env.VUE_APP_DOMAIN_NAME}.timeline.hfzhang.wang`,
+        changeOrigin: true
       }
     }
   }
