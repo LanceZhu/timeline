@@ -15,10 +15,14 @@
               label="标题">
             </el-table-column>
             <el-table-column
+              prop="status"
+              label="所处状态">
+            </el-table-column>
+            <el-table-column
               label="操作">
               <template slot-scope="scope">
                 <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
-                <el-button @click="toDelete(scope.$index)" type="text" size="small">删除</el-button>
+                <!-- <el-button @click="toDelete(scope.$index)" type="text" size="small">删除</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -54,9 +58,19 @@ export default {
           wiki.timestamp = dayjs(wiki.timestamp * 1000).format('YYYY-MM-DD HH:mm')
           return wiki
         })
-        that.wikis = that.wikis.filter(wiki => {
-          return wiki.status === 'publish'
-        })
+        // wiki 所处状态 wiki.status delete publish revision
+        // that.wikis = that.wikis.filter(wiki => {
+        //   return (wiki.status === 'publish' || wiki.status === 'revision')
+        // })
+        const wikiStatusTable = {
+          publish: '发表中',
+          delete: '已删除',
+          revision: '已更新'
+        }
+        for (let i = that.wikis.length - 1; i >= 0; i--) {
+          const status = that.wikis[i].status
+          that.wikis[i].status = wikiStatusTable[status]
+        }
         that.wikis = that.wikis.reverse()
       })
     },
