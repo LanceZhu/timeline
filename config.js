@@ -87,7 +87,7 @@ if (process.env.VUE_APP_DOMAIN_NAME === 'internet') {
       desc: '工程教育的教育理念'
     }, {
       value: 10,
-      label: '工程教育的教育理念',
+      label: '工程教育的举措与进展',
       desc: '教育主体进行的具体教育改革措施'
     }, {
       value: 20,
