@@ -36,7 +36,7 @@
     <div class="content">
       <div v-html="content" ref="content" class="article"></div>
         <div v-if="hasTag" class="tags">
-          <el-tooltip :content="tag.desc" popper-class="tooltip">
+          <el-tooltip :content="tag.desc" popper-class="tooltip" placement="right-start">
             <el-tag>{{ tag.label }}</el-tag>
           </el-tooltip>
         </div>
@@ -262,6 +262,10 @@ li{
 .content .citation-list{
   margin-top: 20px;
   text-align: left;
+  color: gray;
+}
+.citation-list a{
+  color: gray;
 }
 .citation-title{
   font-weight: bold;
@@ -272,7 +276,7 @@ li{
 }
 .content .last-edited-user{
   text-align: right;
-  color: rgb(254,149,170);
+  color: lightgray;
 }
 .footer{
   width: 90%;
@@ -286,5 +290,11 @@ li{
 }
 .footer .next{
   float: right;
+}
+.feedback{
+  color: gray;
+}
+.feedback a{
+  color: gray;
 }
 </style>
