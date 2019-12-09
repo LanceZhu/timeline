@@ -140,10 +140,16 @@ const tags2tagTable = (tags, initialValue = 0, initialLabel = '') => {
 
 const tagTable = tags2tagTable(tags)
 
+// quill editor 配置
+const quillEditorOptions = {
+  imageUploadAPI: '/api/supplement/upload'
+}
+
 export default {
   // baseURL: `http://${process.env.VUE_APP_DOMAIN_NAME}.timeline.hfzhang.wang`, // Chrome 升级，需后端带有 SameSite 字段
   baseURL: '',
   urlPrefix: process.env.NODE_ENV === 'production' ? '/api' : '/',
   tags,
-  tagTable
+  tagTable,
+  quillEditorOptions
 }
