@@ -174,15 +174,18 @@ body{
 }
 .tooltip{
   background-color: rgb(160,192,227) !important;
-  opacity: 0.8;
 }
 .el-tooltip__popper[x-placement^=bottom] .popper__arrow::after {
   border-bottom-color: rgb(160,192,227) !important;
-  opacity: 0.8;
 }
 .el-tooltip__popper[x-placement^=bottom] .popper__arrow{
   border-bottom-color: rgb(160,192,227) !important;
-  opacity: 0.8;
+}
+.el-tooltip__popper[x-placement^=right-start] .popper__arrow::after {
+  border-right-color: rgb(160,192,227) !important;
+}
+.el-tooltip__popper[x-placement^=right-start] .popper__arrow{
+  border-right-color: rgb(160,192,227) !important;
 }
 @media (min-width: 720px) {
   .sidebar-button{
