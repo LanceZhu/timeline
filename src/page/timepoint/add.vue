@@ -66,58 +66,58 @@
       </div>
     </div>
     <div class="citation">
-      <el-button type="text" @click="dialogFormVisible = true">
+      <el-button type="text" @click="addCitation()">
         <i class="el-icon-document-add"></i>
         <span class="title">添加参考文献</span>
         </el-button>
       <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
         <el-tabs v-model="activeName">
-        <el-tab-pane label="网络资源" name="first">
-          <el-form :model="internetResource" label-position="right">
-            <el-form-item label="文章名" :label-width="formLabelWidth">
+        <el-tab-pane label="网络资源" name="internetResource">
+          <el-form :model="internetResource" label-position="right" :rules="internetResourceRules" ref="internetResource">
+            <el-form-item label="文章名" :label-width="formLabelWidth" prop="name">
               <el-input v-model="internetResource.name" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="网站链接" :label-width="formLabelWidth">
+            <el-form-item label="网站链接" :label-width="formLabelWidth" prop="url">
               <div class="url-preview">
                 <el-input v-model="internetResource.url" autocomplete="off"></el-input>
                 <a :href="internetResource.url" target="_blank"><i class="el-icon-view"></i></a>
               </div>
             </el-form-item>
-            <el-form-item label="网站名" :label-width="formLabelWidth">
+            <el-form-item label="网站名" :label-width="formLabelWidth" prop="websiteName">
               <el-input v-model="internetResource.websiteName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="发表日期" :label-width="formLabelWidth">
+            <el-form-item label="发表日期" :label-width="formLabelWidth" prop="publishDate">
               <el-input v-model="internetResource.publishDate" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="引用日期" :label-width="formLabelWidth">
+            <el-form-item label="引用日期" :label-width="formLabelWidth" prop="citationDate">
               <el-input v-model="internetResource.citationDate" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="著作资源" name="second">
-          <el-form :model="bookResource" label-position="right">
-            <el-form-item label="作者" :label-width="formLabelWidth">
+        <el-tab-pane label="著作资源" name="bookResource">
+          <el-form :model="bookResource" label-position="right" :rules="bookResourceRules" ref="bookResource">
+            <el-form-item label="作者" :label-width="formLabelWidth" prop="author">
               <el-input v-model="bookResource.author" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="著作名" :label-width="formLabelWidth">
+            <el-form-item label="著作名" :label-width="formLabelWidth" prop="paperName">
               <el-input v-model="bookResource.paperName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="出版地" :label-width="formLabelWidth">
+            <el-form-item label="出版地" :label-width="formLabelWidth" prop="publishAddress">
               <el-input v-model="bookResource.publishAddress" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="出版社" :label-width="formLabelWidth">
+            <el-form-item label="出版社" :label-width="formLabelWidth" prop="publishPress">
               <el-input v-model="bookResource.publishPress" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="出版年" :label-width="formLabelWidth">
+            <el-form-item label="出版年" :label-width="formLabelWidth" prop="publishYear">
               <el-input v-model="bookResource.publishYear" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="引文页码" :label-width="formLabelWidth">
+            <el-form-item label="引文页码" :label-width="formLabelWidth" prop="pageRange">
               <el-input v-model="bookResource.pageRange" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="其他资源" name="third">
-          <el-form :model="otherResource" label-position="right">
+        <el-tab-pane label="其他资源" name="otherResource">
+          <el-form :model="otherResource" label-position="right" ref="otherResource">
             <el-form-item label="*" :label-width="formLabelWidth">
               <el-input v-model="otherResource.any" autocomplete="off"></el-input>
             </el-form-item>
@@ -131,7 +131,7 @@
       <el-divider></el-divider>
       </el-dialog>
       <div class="citation-list">
-        <div v-for="(citation, index) in citations" :key="index">
+        <div v-for="(citation, index) in citations" :key="index" class="citation-item">
           <div v-if="citation.type === 'internetResource'">
             <!-- <div class="title">网络资源</div> -->
             <div>
@@ -148,6 +148,7 @@
             <!-- <div class="title">其他资源</div> -->
             <div>{{`其他：${citation.content.any}`}}</div>
           </div>
+          <i class="el-icon-delete" @click="deleteCitation(index)"></i><i class="el-icon-edit" @click="editCitation(index)"></i>
         </div>
       </div>
     </div>
@@ -175,9 +176,9 @@ export default {
           ImageExtend: {
             name: 'img', // 图片参数名
             size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
-            action: '/api/photoUpload',
+            action: config.quillEditorOptions.imageUploadAPI,
             response: (res) => {
-              return config.baseURL + res.allowList[0]
+              return config.baseURL + res.allowList[0].filepath
             }
           },
           toolbar: {
@@ -265,6 +266,23 @@ export default {
         publishDate: '',
         citationDate: ''
       },
+      internetResourceRules: {
+        name: [
+          { required: true, message: '请输入名称', trigger: 'blur' }
+        ],
+        url: [
+          { required: true, message: '请输网站链接', trigger: 'blur' }
+        ],
+        websiteName: [
+          { required: true, message: '请输入网站名称', trigger: 'blur' }
+        ],
+        publishDate: [
+          { required: true, message: '请输入发表日期', trigger: 'blur' }
+        ],
+        citationDate: [
+          { required: true, message: '请输入引用日期', trigger: 'blur' }
+        ]
+      },
       bookResource: {
         author: '',
         paperName: '',
@@ -273,10 +291,30 @@ export default {
         publishYear: '',
         pageRange: ''
       },
+      bookResourceRules: {
+        author: [
+          { required: true, message: '请输入作者', trigger: 'blur' }
+        ],
+        paperName: [
+          { required: true, message: '请输入文章名', trigger: 'blur' }
+        ],
+        publishAddress: [
+          { required: true, message: '请输入出版地址', trigger: 'blur' }
+        ],
+        publishPress: [
+          { required: true, message: '请输入出版社', trigger: 'blur' }
+        ],
+        publishYear: [
+          { required: true, message: '请输入出版年份', trigger: 'blur' }
+        ],
+        pageRange: [
+          { required: true, message: '请输入引用页码', trigger: 'blur' }
+        ]
+      },
       otherResource: {
         any: ''
       },
-      activeName: 'first',
+      activeName: 'internetResource',
       citations: []
     }
   },
@@ -373,6 +411,8 @@ export default {
         show // 用于日期显示 字符串
       }
 
+      if (!this.paramsValidate()) return
+
       this.$axios.post('/api/post/timepoint/new', {
         title: that.title,
         content: that.content,
@@ -450,33 +490,69 @@ export default {
       this.date_30 = 0
     },
     citationSubmit () {
-      this.dialogFormVisible = false
-      let newCitation = ''
-      switch (this.activeName) {
-        case 'first': {
-          newCitation = {
-            type: 'internetResource',
-            content: clone(this.internetResource)
+      this.$refs[this.activeName].validate(valid => {
+        if (valid) {
+          this.dialogFormVisible = false
+          const newCitation = {
+            type: this.activeName,
+            content: clone(this[this.activeName])
           }
-          break
-        }
-        case 'second': {
-          newCitation = {
-            type: 'bookResource',
-            content: clone(this.bookResource)
+          if (this.citationOperationType === 'edit') {
+            this.citations[this.citationOperationIndex] = newCitation
+          } else {
+            this.citations.push(newCitation)
           }
-          break
+        } else {
+          this.$message.error('请补全内容！')
+          return false
         }
-        case 'third': {
-          newCitation = {
-            type: 'otherResource',
-            content: clone(this.otherResource)
-          }
-          break
-        }
-        default: {}
+      })
+      // switch (this.activeName) {
+      //   case 'internetResource': {
+      //     newCitation = {
+      //       type: 'internetResource',
+      //       content: clone(this.internetResource)
+      //     }
+      //     break
+      //   }
+      //   case 'bookResource': {
+      //     newCitation = {
+      //       type: 'bookResource',
+      //       content: clone(this.bookResource)
+      //     }
+      //     break
+      //   }
+      //   case 'otherResource': {
+      //     newCitation = {
+      //       type: 'otherResource',
+      //       content: clone(this.otherResource)
+      //     }
+      //     break
+      //   }
+      //   default: {}
+      // }
+    },
+    addCitation () {
+      this.dialogFormVisible = true
+      this.citationOperationType = 'add'
+    },
+    editCitation (index) {
+      this.citationOperationType = 'edit'
+      this.citationOperationIndex = index
+      this.activeName = this.citations[index].type
+      this.dialogFormVisible = true
+      this[this.activeName] = clone(this.citations[index].content)
+    },
+    deleteCitation (index) {
+      this.citations.splice(index, 1)
+    },
+    // 提交参数验证，返回布尔值
+    paramsValidate () {
+      if (this.citations.length === 0) {
+        this.$message.error('至少添加一个参考文献！')
+        return false
       }
-      this.citations.push(newCitation)
+      return true
     }
   },
   created () {
@@ -538,6 +614,16 @@ export default {
 }
 .citation-list{
   text-align: left;
+  color: gray;
+}
+.citation-list a{
+  color: gray;
+}
+.citation-item{
+  display: flex;
+}
+.citation-item i{
+  margin-left: 10px;
 }
 .citation-list .title{
   font-weight: bold;
