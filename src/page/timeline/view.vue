@@ -45,7 +45,8 @@
             <div v-if="citation.type === 'internetResource'">
               <!-- <div class="citation-title">网络资源</div> -->
                 <div>
-                  {{index + 1}}.<span>{{ ` ${citation.content.name} ` }}</span><a :href="citation.content.url" target="_blank">{{citation.content.websiteName}}<i class="el-icon-view"></i></a>
+                  {{index + 1}}.<a :href="citation.content.url" target="_blank">{{ ` ${citation.content.name} ` }}<i class="el-icon-view"></i></a>
+                  <span>{{citation.content.websiteName}}</span>
                   <span class="citation-date">{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
                 </div>
             </div>
@@ -81,8 +82,8 @@
     </div>
     <div class="feedback">
       <el-divider></el-divider>
-      遇到问题请联系：
-      <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a>
+      遇到问题请联系：ee_chronicle2019@163.com
+      <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
     </div>
   </div>
 </template>
@@ -266,6 +267,10 @@ li{
 }
 .citation-list a{
   color: gray;
+  text-decoration: none;
+}
+.citation-list a:hover{
+  text-decoration-line: underline;
 }
 .citation-title{
   font-weight: bold;

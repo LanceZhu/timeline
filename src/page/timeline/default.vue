@@ -3,8 +3,8 @@
     <div v-html="content"></div>
     <div class="feedback">
       <el-divider></el-divider>
-      遇到问题请联系：
-      <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a>
+      遇到问题请联系：e_chronicle2019@163.com
+      <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
     </div>
   </div>
 </template>

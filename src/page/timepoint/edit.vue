@@ -143,7 +143,8 @@
             <!-- <div class="title">网络资源</div> -->
             <div>
               {{index + 1}}.
-              {{ `${citation.content.name} ` }}<a :href="citation.content.url" target="_blank">{{citation.content.websiteName}}<i class="el-icon-view"></i></a>
+              <a :href="citation.content.url" target="_blank">{{ `${citation.content.name} ` }}<i class="el-icon-view"></i></a>
+              <span>{{citation.content.websiteName}}</span>
               <span class="citation-date">{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
             </div>
           </div>
