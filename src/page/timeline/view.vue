@@ -22,6 +22,7 @@
               type="textarea"
               v-model="feedback.comment"
               maxlength="50"
+              :autosize="{ minRows: 3, maxRows: 4}"
               show-word-limit>
             </el-input>
           </el-form-item>
@@ -63,7 +64,10 @@
           </div>
         </div>
         <div class="last-edited-user">
-          编辑者：<span v-html=lastEditedUser></span>
+          创建者：<span v-html="creator"></span>
+        </div>
+        <div class="last-edited-user">
+          最后编辑者：<span v-html="lastEditedUser"></span>
         </div>
     </div>
     <div class="footer">
@@ -101,6 +105,7 @@ export default {
       hasTag: false,
       tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
+      creator: '', // 词条最初创建者
       prev: {
         desc: '前一页',
         show: true,
@@ -177,7 +182,7 @@ export default {
       const that = this
       that.hasTag = false
       this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-        const { content, title, _id, owner, tag = '', supplement } = res.data.data.post
+        const { content, title, _id, owner, tag = '', supplement, create_owner: createOwner } = res.data.data.post
         that.content = content
         that.title = title
         that.id = _id
@@ -186,6 +191,13 @@ export default {
             that.lastEditedUser = res.data.nickname
           } else {
             that.lastEditedUser = owner
+          }
+        })
+        that.$axios.get(`/api/user/getNickname?uid=${createOwner}`).then(res => {
+          if (res.data.code === 100) {
+            that.creator = res.data.nickname
+          } else {
+            that.creator = createOwner
           }
         })
         that.citations = supplement
