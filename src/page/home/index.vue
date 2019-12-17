@@ -21,10 +21,18 @@
                 </el-autocomplete>
             </el-menu-item>
             -->
-            <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" id="login">注册/登录</el-menu-item>
-            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" id="login">
+            <el-menu-item id="search">
+              <el-autocomplete
+                v-model="search"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入内容"
+                @select="handleSearch"
+              ></el-autocomplete>
+            </el-menu-item>
+            <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'">注册/登录</el-menu-item>
+            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'">
                   <div class="user">
-                    <el-badge is-dot class="badge" v-if="hasMessage"></el-badge>
+                    <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
                     <i class="el-icon-user"></i>
                   </div>
             </el-menu-item>
@@ -49,37 +57,52 @@ export default {
         name: 'timeline',
         desc: '时间轴wiki'
       }],
-      sidebar: false,
-      hasMessage: false
+      sidebar: false
     }
   },
-  created: function () {
-    const that = this
-    this.$axios.get('/api/user/checkLogin').then(res => {
+  created: async function () {
+    try {
+      const res = await this.$axios.get('/api/user/checkLogin')
       if (res.data.login) {
-        that.$store.commit('signin')
+        this.$store.commit('signin')
       }
-    })
+    } catch (err) {
+      console.error(err)
+    }
+    try {
+      // 消息通知
+      const res = await this.$axios.get('/api/user/getDetail')
+      const { msg = [] } = res.data.data.mongo
+      this.$store.commit('updateMessages', msg)
+    } catch (err) {
+      console.error(err)
+    }
+  },
+  computed: {
+    hasMsg: function () {
+      return !!this.$store.state.messages.length
+    }
   },
   methods: {
-    querySearch (queryString, cb) {
-      this.$axios.post('/api/search', {
-        search: queryString
-      }).then(res => {
-        const resLists = res.data.data.result
-        const len = resLists.length
-        const results = []
-        for (let i = 0; i < len; i++) {
-          results.push({
-            value: resLists[i].title,
-            id: resLists[i].id
-          })
-        }
+    async querySearch (queryString, cb) {
+      try {
+        const res = await this.$axios.post('/api/timepoint/search', {
+          search: this.search
+        })
+        const resList = res.data.data
+        const results = resList.map(res => {
+          return {
+            id: res._id,
+            value: res.title
+          }
+        })
         cb(results)
-      })
+      } catch (err) {
+        console.error(err)
+      }
     },
     handleSearch (item) {
-      this.$router.push(`/wiki/view/${item.id}`)
+      this.$router.push(`/timeline/${item.id}`)
     },
     toSearch () {
       this.$router.push({
@@ -159,7 +182,7 @@ body{
 .el-drawer__body{
   height: 100%;
 }
-#login{
+#search{
   margin-left: auto;
 }
 .el-badge sup{
