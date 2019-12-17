@@ -4,7 +4,9 @@ import Vuex from 'vuex'
 const state = {
   logged: false,
   auth: null,
-  timeline: []
+  timeline: [],
+  messages: [], // 是否有消息通知,
+  userGroup: [] // 用户组 user admin
 }
 
 const mutations = {
@@ -14,8 +16,14 @@ const mutations = {
   logout (state) {
     state.logged = false
   },
-  updateTimeline (state, newTimeline) {
-    state.timeline = newTimeline
+  updateTimeline (state, timeline) {
+    state.timeline = timeline
+  },
+  updateMessages (state, messages) {
+    state.messages = messages
+  },
+  updateUserGroup (state, userGroup) {
+    state.userGroup = userGroup
   }
 }
 
