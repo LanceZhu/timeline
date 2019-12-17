@@ -12,10 +12,10 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
       </router-link>
-      <el-tooltip content="举报该词条" popper-class="tooltip">
+      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="!this.showDelete">
         <i class="el-icon-warning-outline" @click="showFeedback = true"></i>
       </el-tooltip>
-      <el-dialog title="举报该词条" :visible.sync="showFeedback" :append-to-body="true">
+      <el-dialog title="删除该词条" :visible.sync="showFeedback" :append-to-body="true" v-if="!this.showDelete">
         <el-form>
           <el-form-item>
             <el-input
@@ -32,6 +32,9 @@
           </el-form-item>
         </el-form>
       </el-dialog>
+      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
+        <i class="el-icon-delete" @click="showFeedback = true"></i>
+      </el-tooltip>
     <el-divider></el-divider>
     </div>
     <div class="content">
@@ -42,6 +45,7 @@
           </el-tooltip>
         </div>
         <div class="citation-list">
+          <div>文献列表：</div>
           <div v-for="(citation, index) in citations" :key="index">
             <div v-if="citation.type === 'internetResource'">
               <!-- <div class="citation-title">网络资源</div> -->
@@ -69,6 +73,10 @@
         <div class="last-edited-user">
           最后编辑者：<span v-html="lastEditedUser"></span>
         </div>
+        <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
+          <span>发明人：{{ ruleForm.inventor }}</span>
+          <span>国籍：{{ ruleForm.nationality }}</span>
+        </div>
     </div>
     <div class="footer">
       <div v-if="prevUpdated.show" class="prev">
@@ -93,11 +101,14 @@
 </template>
 
 <script>
+import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
 
 export default {
   data () {
     return {
+      showObject: {},
+      ruleForm: {},
       content: '',
       title: '',
       id: '',
@@ -126,6 +137,7 @@ export default {
     }
   },
   created () {
+    customizeViewByMode.bind(this)()
     this.updateContent()
   },
   computed: {
@@ -170,6 +182,11 @@ export default {
         }
       }
       return nextUpdated
+    },
+    // 显示管理员删除词条 icon
+    showDelete: function () {
+      console.log(this.$store.state.userGroup)
+      return this.$store.state.userGroup.includes('user')
     }
   },
   watch: {
@@ -182,10 +199,14 @@ export default {
       const that = this
       that.hasTag = false
       this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-        const { content, title, _id, owner, tag = '', supplement, create_owner: createOwner } = res.data.data.post
+        const { content, title, _id, owner, tag = '', supplement, create_owner: createOwner, nationality, inventor } = res.data.data.post
         that.content = content
         that.title = title
         that.id = _id
+        Object.assign(that.ruleForm, {
+          nationality: nationality !== null ? nationality : '暂无',
+          inventor: inventor !== null ? inventor : '暂无'
+        })
         that.$axios.get(`/api/user/getNickname?uid=${owner}`).then(res => {
           if (res.data.code === 100) {
             that.lastEditedUser = res.data.nickname
@@ -313,5 +334,8 @@ li{
 }
 .feedback a{
   color: gray;
+}
+.nationality-inventor span{
+  padding-right: 10px;
 }
 </style>

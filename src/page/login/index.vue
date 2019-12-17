@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item>
             <el-button v-if="!login" type="primary" @click="signup('ruleForm')">注册</el-button>
-            <el-button v-if="login" @click="signin('ruleForm')">登录</el-button>
+            <el-button v-if="login" type="primary" @click="signin('ruleForm')">登录</el-button>
         </el-form-item>
         </el-form>
       </el-card>
@@ -50,25 +50,25 @@ export default {
     changeTitle () {
       this.login = !this.login
     },
-    signup () {
-      const that = this
+    async signup () {
       this.$axios.defaults.withCredentials = true
-      this.$axios.post('/api/user/register', {
-        username: this.$data.ruleForm.username,
-        password: this.$data.ruleForm.password,
-        nickname: this.$data.ruleForm.username,
-        captcha: '',
-        mobile: ''
-      }).then(res => {
+      try {
+        const res = this.$axios.post('/api/user/register', {
+          username: this.$data.ruleForm.username,
+          password: this.$data.ruleForm.password,
+          nickname: this.$data.ruleForm.username,
+          captcha: '',
+          mobile: ''
+        })
         switch (res.data.code) {
           case 100: {
             this.$message({
               message: '登陆成功',
               type: 'success'
             })
-            that.$store.commit('signin')
+            this.$store.commit('signin')
             setTimeout(() => {
-              that.$router.push('/timeline')
+              this.$router.push('/timeline')
             }, 1500)
             break
           }
@@ -84,26 +84,37 @@ export default {
             this.$message.error('注册失败')
           }
         }
-      })
+      } catch (err) {
+        console.error(err)
+      }
+      try {
+        // 消息通知 管理员删除词条
+        const res = await this.$axios('/api/user/getDetail')
+        const { msg = [], group = [] } = res.data.data.mongo
+        this.$store.commit('updateMessages', msg)
+        this.$store.commit('updateUserGroup', group)
+      } catch (err) {
+        console.error(err)
+      }
     },
-    signin () {
-      const that = this
-      this.$axios.post('/api/user/login', {
-        username: this.$data.ruleForm.username,
-        password: this.$data.ruleForm.password
-      }).then(res => {
+    async signin () {
+      try {
+        const res = await this.$axios.post('/api/user/login', {
+          username: this.$data.ruleForm.username,
+          password: this.$data.ruleForm.password
+        })
         switch (res.data.code) {
           case 100: {
-            that.$message({
+            this.$message({
               message: '登陆成功',
               type: 'success'
             })
-            that.$store.commit('signin')
+            this.$store.commit('signin')
             setTimeout(() => {
-              if ('redirect' in that.$route.query) {
-                that.$router.push(that.$route.query.redirect)
+              if ('redirect' in this.$route.query) {
+                this.$router.push(this.$route.query.redirect)
               } else {
-                that.$router.push('/timeline')
+                this.$router.push('/timeline')
               }
             }, 1500)
             break
@@ -120,7 +131,19 @@ export default {
             this.$message.error('登陆失败')
           }
         }
-      })
+      } catch (err) {
+        this.$message.error('登陆失败！')
+      }
+
+      try {
+      // 消息通知 管理员删除词条
+        const res = await this.$axios('/api/user/getDetail')
+        const { msg = [], group = [] } = res.data.data.mongo
+        this.$store.commit('updateMessages', msg)
+        this.$store.commit('updateUserGroup', group)
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 }

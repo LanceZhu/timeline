@@ -31,6 +31,9 @@
           还没有发布时间点
         </div>
       </el-tab-pane>
+      <el-tab-pane label="消息通知">
+        {{ messages.length === 0 ? "暂无通知" : messages }}
+      </el-tab-pane>
       <el-tab-pane label="登出">
         <el-button @click="logout()">登出</el-button>
       </el-tab-pane>
@@ -108,6 +111,11 @@ export default {
   },
   created () {
     this.getWikis()
+  },
+  computed: {
+    messages () {
+      return this.$store.state.messages
+    }
   }
 }
 </script>
