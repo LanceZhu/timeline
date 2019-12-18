@@ -203,8 +203,8 @@ export default {
         that.title = title
         that.id = _id
         Object.assign(that.ruleForm, {
-          nationality: nationality !== null ? nationality : '暂无',
-          inventor: inventor !== null ? inventor : '暂无'
+          nationality: [null, undefined].includes(nationality) ? '暂无' : nationality,
+          inventor: [null, undefined].includes(inventor) ? '暂无' : inventor
         })
         that.$axios.get(`/api/user/getNickname?uid=${owner}`).then(res => {
           if (res.data.code === 100) {
