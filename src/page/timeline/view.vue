@@ -33,7 +33,7 @@
         </el-form>
       </el-dialog>
       <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
-        <i class="el-icon-delete" @click="showFeedback = true"></i>
+        <i class="el-icon-delete" @click="deleteTimepoint"></i>
       </el-tooltip>
     <el-divider></el-divider>
     </div>
@@ -185,8 +185,7 @@ export default {
     },
     // 显示管理员删除词条 icon
     showDelete: function () {
-      console.log(this.$store.state.userGroup)
-      return this.$store.state.userGroup.includes('user')
+      return this.$store.state.userGroup.includes('admin')
     }
   },
   watch: {
@@ -247,6 +246,12 @@ export default {
         } else {
           that.$message.error('反馈失败！')
         }
+      })
+    },
+    deleteTimepoint () {
+      this.$message({
+        type: 'success',
+        message: '开发ing'
       })
     }
   }
