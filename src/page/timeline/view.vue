@@ -12,10 +12,14 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
       </router-link>
-      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="!this.showDelete">
-        <i class="el-icon-warning-outline" @click="showFeedback = true"></i>
+      <span v-if="!this.showDelete">
+        <el-tooltip content="删除该词条" popper-class="tooltip">
+        <i class="el-icon-delete" @click="showFeedback = true; feedback.type='delete'; feedback.title='删除理由：'"></i>
       </el-tooltip>
-      <el-dialog title="删除该词条" :visible.sync="showFeedback" :append-to-body="true" v-if="!this.showDelete">
+      <el-tooltip content="举报该词条" popper-class="tooltip">
+        <i class="el-icon-warning-outline" @click="showFeedback = true; feedback.type='complain'; feedback.title='举报理由：'"></i>
+      </el-tooltip>
+      <el-dialog :title="this.feedback.title" :visible.sync="showFeedback" :append-to-body="true">
         <el-form>
           <el-form-item>
             <el-input
@@ -32,6 +36,7 @@
           </el-form-item>
         </el-form>
       </el-dialog>
+      </span>
       <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
         <i class="el-icon-delete" @click="deleteTimepoint"></i>
       </el-tooltip>
@@ -130,6 +135,7 @@ export default {
       citations: [],
       showFeedback: false,
       feedback: {
+        title: '举报该词条',
         type: 'complain',
         target_id: '',
         comment: ''
@@ -231,28 +237,54 @@ export default {
         }
       })
     },
-    submitFeedback () {
-      const that = this
+    async submitFeedback () {
       this.feedback.target_id = this.id
-      this.$axios.post('/api/user/makeReq', that.feedback).then(res => {
+      const { type = 'complain', target_id: targetId = '', comment = '' } = this.feedback
+      const feedback = {
+        type,
+        target_id: targetId,
+        comment
+      }
+      try {
+        const res = await this.$axios.post('/api/user/makeReq', feedback)
         if (res.data.code === 100) {
-          that.$message({
+          this.$message({
             type: 'success',
             message: '反馈成功，管理员会及时处理！'
           })
           setTimeout(() => {
-            that.showFeedback = false
+            this.showFeedback = false
           }, 1500)
         } else {
-          that.$message.error('反馈失败！')
+          this.$message.error('反馈失败！')
         }
-      })
+      } catch (err) {
+        this.$message.error('反馈失败！')
+      }
     },
-    deleteTimepoint () {
-      this.$message({
-        type: 'success',
-        message: '开发ing'
-      })
+    async deleteTimepoint () {
+      try {
+        await this.$confirm('确认删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        })
+        const res = await this.$axios.get(`/api/admin/delPost/${this.id}`)
+        if (res.data.code === 100) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        } else {
+          this.$message.error('操作失败！')
+        }
+      } catch (err) {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      }
     }
   }
 }
