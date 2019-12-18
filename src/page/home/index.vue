@@ -179,6 +179,10 @@ body{
 .el-menu{
   display: flex;
 }
+/* 去除导航栏选中后底部样式 */
+.el-menu-item{
+  border-bottom-color:#ffffff!important;
+}
 .el-drawer__body{
   height: 100%;
 }
