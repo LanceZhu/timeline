@@ -38,6 +38,10 @@
     <el-divider></el-divider>
     </div>
     <div class="content">
+      <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
+        <div>发明人：{{ ruleForm.inventor }}</div>
+        <div>发明国家：{{ ruleForm.nationality }}</div>
+      </div>
       <div v-html="content" ref="content" class="article"></div>
         <div v-if="hasTag" class="tags">
           <el-tooltip :content="tag.desc" popper-class="tooltip" placement="right-start">
@@ -72,10 +76,6 @@
         </div>
         <div class="last-edited-user">
           最后编辑者：<span v-html="lastEditedUser"></span>
-        </div>
-        <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
-          <span>发明人：{{ ruleForm.inventor }}</span>
-          <span>国籍：{{ ruleForm.nationality }}</span>
         </div>
     </div>
     <div class="footer">
@@ -203,8 +203,8 @@ export default {
         that.title = title
         that.id = _id
         Object.assign(that.ruleForm, {
-          nationality: [null, undefined].includes(nationality) ? '暂无' : nationality,
-          inventor: [null, undefined].includes(inventor) ? '暂无' : inventor
+          nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
+          inventor: [null, undefined].includes(inventor) ? '不详' : inventor
         })
         that.$axios.get(`/api/user/getNickname?uid=${owner}`).then(res => {
           if (res.data.code === 100) {
