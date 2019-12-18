@@ -39,6 +39,17 @@ export default {
       // 时间点选择字段
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
+      let nationalityAndCreator = {}
+      if (this.showObject.nationalityAndCreator) {
+        // 发明简史国籍和发明人字段
+        try {
+          nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()
+        } catch (err) {
+          console.error(err)
+          return
+        }
+      }
+
       // 文献字段
       let citations = []
       try {
@@ -54,7 +65,8 @@ export default {
       // 标题和内容字段
       const { title, content } = this.$refs.Editor.getData()
 
-      const res = await this.$axios.post('/api/post/timepoint/new', {
+      // post 请求参数
+      const params = {
         title,
         content,
         year,
@@ -63,7 +75,11 @@ export default {
         show,
         tag,
         supplement: citations
-      })
+      }
+
+      Object.assign(params, nationalityAndCreator)
+
+      const res = await this.$axios.post('/api/post/timepoint/new', params)
       switch (res.data.code) {
         case 100: {
           this.$message({
