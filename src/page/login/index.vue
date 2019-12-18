@@ -53,7 +53,7 @@ export default {
     async signup () {
       this.$axios.defaults.withCredentials = true
       try {
-        const res = this.$axios.post('/api/user/register', {
+        const res = await this.$axios.post('/api/user/register', {
           username: this.$data.ruleForm.username,
           password: this.$data.ruleForm.password,
           nickname: this.$data.ruleForm.username,
@@ -98,6 +98,7 @@ export default {
       }
     },
     async signin () {
+      this.$axios.defaults.withCredentials = true
       try {
         const res = await this.$axios.post('/api/user/login', {
           username: this.$data.ruleForm.username,
@@ -135,6 +136,7 @@ export default {
         this.$message.error('登陆失败！')
       }
 
+      // 直接在此处请求 浏览器未设置 cookie
       try {
       // 消息通知 管理员删除词条
         const res = await this.$axios('/api/user/getDetail')
