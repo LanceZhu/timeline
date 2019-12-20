@@ -37,7 +37,7 @@
         </el-form>
       </el-dialog>
       </span>
-      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="!this.showDelete">
+      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
         <i class="el-icon-delete" @click="deleteTimepoint"></i>
       </el-tooltip>
     <el-divider></el-divider>
