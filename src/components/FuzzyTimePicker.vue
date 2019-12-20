@@ -216,7 +216,6 @@ export default {
           show = `${this.date_0}年`
           year = this.date_0
           month = 1
-          year = 1
           break
         }
         case 1: {
@@ -291,6 +290,7 @@ export default {
         date: this[`date_${dateType}`], // 用于日期输入框初始化
         show // 用于日期显示 字符串
       }
+
       return {
         year: Number(year),
         month: Number(month),
