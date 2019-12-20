@@ -37,7 +37,7 @@
         </el-form>
       </el-dialog>
       </span>
-      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
+      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="!this.showDelete">
         <i class="el-icon-delete" @click="deleteTimepoint"></i>
       </el-tooltip>
     <el-divider></el-divider>
@@ -108,6 +108,7 @@
 <script>
 import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
+import updateTimeline from '../../utils/updateTimeline'
 
 export default {
   data () {
@@ -276,6 +277,10 @@ export default {
             type: 'success',
             message: '删除成功!'
           })
+          setTimeout(async () => {
+            await updateTimeline()
+            this.$router.push('/timeline')
+          }, 1000)
         } else {
           this.$message.error('操作失败！')
         }
