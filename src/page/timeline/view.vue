@@ -313,6 +313,7 @@ export default {
     word-break: break-all;
     box-sizing: border-box;
     text-align: left;
+    padding: 15px;
   }
 }
 li{

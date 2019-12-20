@@ -1,7 +1,7 @@
 <template>
     <el-container>
     <el-header>
-        <el-menu :default-active="this.$route.name" class="el-menu-demo" mode="horizontal" router>
+        <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" router>
             <div class="sidebar-button" @click="showSidebar()">
               <i class="el-icon-s-operation"></i>
             </div>
@@ -122,34 +122,28 @@ export default {
 }
 </script>
 
-<style>
-html{
-  height: 100%;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+<style scoped>
+@media (min-width: 720px) {
+  .sidebar-button{
+    display: none;
+  }
 }
-body{
-  height: 100%;
-  background-color: rgb(250, 250, 250);
+@media (max-width: 720px) {
+  .sidebar-button{
+    display: block;
+    line-height: 60px;
+  }
 }
-#app{
-  height: 100%;
-}
-.feedback{
-  margin-bottom: 15px;
-  font-size: 13px;
-}
-.feedback a{
-  text-decoration: none;
-}
-/**
-* Element UI 全局样式
-*/
 .el-container{
-  padding-top: 60px;
-  height: 100%;
+  padding-top: 60px !important;
+  height: 100% !important;
 }
 .el-main{
   height: 100%;
+  color: #333;
+  text-align: center;
+  overflow: visible;
+  position: relative;
 }
 .el-header {
   color: #333;
@@ -162,19 +156,11 @@ body{
   left: 0;
   z-index: 999;
 }
-
 .el-aside {
   background-color: #D3DCE6;
   color: #333;
   text-align: center;
   line-height: 200px;
-}
-
-.el-main {
-  color: #333;
-  text-align: center;
-  overflow: visible;
-  position: relative;
 }
 .el-menu{
   display: flex;
@@ -189,49 +175,20 @@ body{
 #search{
   margin-left: auto;
 }
-.el-badge sup{
-  right: 10px;
-  top: 15px;
-}
-/**
-* 编辑器全局样式
-**/
-.ql-container{
-  min-height: 250px;
-}
-.tooltip{
-  background-color: rgb(160,192,227) !important;
-}
-.el-tooltip__popper[x-placement^=bottom] .popper__arrow::after {
-  border-bottom-color: rgb(160,192,227) !important;
-}
-.el-tooltip__popper[x-placement^=bottom] .popper__arrow{
-  border-bottom-color: rgb(160,192,227) !important;
-}
-.el-tooltip__popper[x-placement^=right-start] .popper__arrow::after {
-  border-right-color: rgb(160,192,227) !important;
-}
-.el-tooltip__popper[x-placement^=right-start] .popper__arrow{
-  border-right-color: rgb(160,192,227) !important;
-}
-@media (min-width: 720px) {
-  .sidebar-button{
-    display: none;
-  }
-}
-@media (max-width: 720px) {
-  .sidebar-button{
-    display: block;
-    line-height: 60px;
-  }
-}
-
-/**
-* 本页面样式
-*/
 .badge{
   position: absolute !important;
   left: 40px;
   margin-top: -10px;
+}
+.el-badge sup{
+  right: 10px;
+  top: 15px;
+}
+/deep/ .feedback{
+  margin-bottom: 15px;
+  font-size: 13px;
+}
+/deep/ .feedback a{
+  text-decoration: none;
 }
 </style>
