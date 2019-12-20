@@ -31,25 +31,38 @@
           还没有发布时间点
         </div>
       </el-tab-pane>
-      <el-tab-pane label="消息通知">
+      <el-tab-pane label="词条管理" v-if="this.$store.state.userGroup.includes('admin')">
         {{ messages.length === 0 ? "暂无通知" : messages }}
+      </el-tab-pane>
+      <el-tab-pane label="站内私信">
+        <WriteMessage></WriteMessage>
+      </el-tab-pane>
+      <el-tab-pane label="我的消息">
+        <Messages></Messages>
       </el-tab-pane>
       <el-tab-pane label="登出">
         <el-button @click="logout()">登出</el-button>
       </el-tab-pane>
     </el-tabs>
+    <div>
+    </div>
   </div>
 </template>
 
 <script>
-// import parseDate from '@/utils/parseDate'
 import dayjs from 'dayjs'
+import WriteMessage from '@/components/WriteMessage'
+import Messages from '@/components/Messages'
 
 export default {
   data () {
     return {
       wikis: []
     }
+  },
+  components: {
+    WriteMessage,
+    Messages
   },
   methods: {
     getWikis: function () {
@@ -121,6 +134,9 @@ export default {
 </script>
 
 <style scoped>
+.el-menu{
+  width: 200px;
+}
 .container-user{
   min-width: 720px;
 }
