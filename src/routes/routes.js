@@ -15,11 +15,6 @@ import Login from '../page/login/index'
 
 import Timepoint from '../page/timepoint/index'
 import TimepointView from '@/page/timepoint/view'
-import TimepointAdd from '@/page/timepoint/add'
-import TimepointEdit from '@/page/timepoint/edit'
-import TimepointHistory from '@/page/timepoint/history'
-
-import User from '@/page/user/index'
 
 import Search from '@/page/search/index'
 
@@ -28,6 +23,11 @@ import NotFound from '@/page/404/index'
 import Timeline from '@/page/timeline/index'
 import TimelineDefault from '@/page/timeline/default'
 import TimelineView from '@/page/timeline/view'
+const TimepointAdd = () => import('@/page/timepoint/add')
+const TimepointEdit = () => import('@/page/timepoint/edit')
+const TimepointHistory = () => import('@/page/timepoint/history')
+
+const User = () => import('@/page/user/index')
 
 export default [{
   path: '/',
