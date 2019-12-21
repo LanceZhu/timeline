@@ -59,6 +59,7 @@ npm run lint
 
 - [ ] JavaScript => TypeScript
 - [ ] 移动端优化
+- [ ] SSR(Server Side Renderer) 服务端渲染
 
 
 ## 遇到的问题
