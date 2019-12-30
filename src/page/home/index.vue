@@ -55,7 +55,7 @@ export default {
       elMenu: [{
         route: '/timeline',
         name: 'timeline',
-        desc: '时间轴wiki'
+        desc: '时间轴wiki（beta版）'
       }],
       sidebar: false
     }
