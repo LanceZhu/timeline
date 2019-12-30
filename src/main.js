@@ -51,6 +51,27 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
+// 百度统计
+if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined) {
+  var _hmt = _hmt || []
+  window._hmt = _hmt; // 修改为window 全局变量
+  (function () {
+    var hm = document.createElement('script')
+    hm.src = process.env.VUE_APP_BAIDU_ANALYSIS
+    var s = document.getElementsByTagName('script')[0]
+    s.parentNode.insertBefore(hm, s)
+  })()
+
+  router.beforeEach((to, from, next) => {
+    if (window._hmt) {
+      if (to.path) {
+        window._hmt.push(['_trackPageview', '/#' + to.fullPath])
+      }
+    }
+    next()
+  })
+}
+
 new Vue({
   router,
   store,
