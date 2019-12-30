@@ -97,11 +97,7 @@
         </router-link>
       </div>
     </div>
-    <div class="feedback">
-      <el-divider></el-divider>
-      遇到问题请联系：ee_chronicle2019@163.com
-      <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
-    </div>
+    <Footer/>
   </div>
 </template>
 
@@ -109,6 +105,8 @@
 import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
 import updateTimeline from '../../utils/updateTimeline'
+
+import Footer from '../../components/Footer'
 
 export default {
   data () {
@@ -142,6 +140,9 @@ export default {
         comment: ''
       }
     }
+  },
+  components: {
+    Footer
   },
   created () {
     customizeViewByMode.bind(this)()
@@ -371,12 +372,6 @@ li{
 }
 .footer .next{
   float: right;
-}
-.feedback{
-  color: gray;
-}
-.feedback a{
-  color: gray;
 }
 .nationality-inventor span{
   padding-right: 10px;
