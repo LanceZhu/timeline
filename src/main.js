@@ -3,8 +3,6 @@ import config from '../config'
 import App from './App.vue'
 import routes from './routes/routes'
 import VueRouter from 'vue-router'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -14,8 +12,44 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import checkLogin from '@/utils/checkLogin'
 
+import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
+
 Vue.config.productionTip = false
-Vue.use(ElementUI)
+
+// element-ui
+Vue.use(Dialog)
+Vue.use(Autocomplete)
+Vue.use(Menu)
+Vue.use(Submenu)
+Vue.use(MenuItem)
+Vue.use(Input)
+Vue.use(Select)
+Vue.use(Button)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(DatePicker)
+Vue.use(TimePicker)
+Vue.use(Tooltip)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Backtop)
+Vue.use(Loading)
+Vue.use(Container)
+Vue.use(Drawer)
+Vue.use(Header)
+Vue.use(Main)
+Vue.use(Badge)
+Vue.use(Divider)
+Vue.use(Card)
+Vue.use(Tag)
+Vue.use(Cascader)
+
+Vue.use(Loading.directive)
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$message = Message
+
 Vue.use(VueRouter)
 Vue.use(VueQuillEditor)
 Vue.use(Vuex)
