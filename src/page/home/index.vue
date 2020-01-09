@@ -1,42 +1,46 @@
 <template>
-    <el-container>
+  <el-container>
     <el-header>
-        <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" router>
-            <div class="sidebar-button" @click="showSidebar()">
-              <i class="el-icon-s-operation"></i>
+      <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router >
+        <div class="sidebar-button" @click="showSidebar()">
+          <i class="el-icon-s-fold"></i>
+        </div>
+        <el-menu-item
+          v-for="el in elMenu"
+          :key="el.name"
+          :index="el.name"
+          :route="el.route"
+        >{{ el.desc }}</el-menu-item>
+        <el-menu-item id="search" class="pc">
+          <el-autocomplete
+            v-model="search"
+            :fetch-suggestions="querySearch"
+            placeholder="请输入内容"
+            @select="handleSearch"
+          ></el-autocomplete>
+        </el-menu-item>
+        <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" class="pc">注册/登录</el-menu-item>
+        <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" class="pc">
+          <div class="user">
+            <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
+            <i class="el-icon-user"></i>
+          </div>
+        </el-menu-item>
+        <el-submenu class="mobile">
+          <template slot="title">
+            <i class="el-icon-s-operation"></i>
+          </template>
+          <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'">注册/登录</el-menu-item>
+          <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'">
+            <div class="user">
+              <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
+              <i class="el-icon-user"></i>
             </div>
-            <el-menu-item v-for="el in elMenu" :key="el.name" :index="el.name" :route="el.route">{{ el.desc }}</el-menu-item>
-            <!--
-            <el-menu-item>
-                <el-autocomplete
-                    placeholder="请输入查询词条"
-                    v-model="search"
-                    clearable
-                    prefix-icon="el-icon-search"
-                    size="medium"
-                    :fetch-suggestions="querySearch"
-                    @select="handleSearch"
-                    @keydown.enter.native="toSearch()"
-                    >
-                </el-autocomplete>
-            </el-menu-item>
-            -->
-            <el-menu-item id="search">
-              <el-autocomplete
-                v-model="search"
-                :fetch-suggestions="querySearch"
-                placeholder="请输入内容"
-                @select="handleSearch"
-              ></el-autocomplete>
-            </el-menu-item>
-            <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'">注册/登录</el-menu-item>
-            <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'">
-                  <div class="user">
-                    <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
-                    <i class="el-icon-user"></i>
-                  </div>
-            </el-menu-item>
-        </el-menu>
+          </el-menu-item>
+          <!-- TODO -->
+          <!-- <el-menu-item>搜索</el-menu-item> -->
+        </el-submenu>
+      </el-menu>
     </el-header>
     <el-main>
       <transition>
@@ -44,7 +48,7 @@
       </transition>
     </el-main>
     <el-backtop></el-backtop>
-    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -52,11 +56,13 @@ export default {
   data () {
     return {
       search: '',
-      elMenu: [{
-        route: '/timeline',
-        name: 'timeline',
-        desc: '时间轴wiki（beta版）'
-      }],
+      elMenu: [
+        {
+          route: '/timeline',
+          name: 'timeline',
+          desc: '时间轴wiki（beta版）'
+        }
+      ],
       sidebar: false
     }
   },
@@ -124,21 +130,24 @@ export default {
 
 <style scoped>
 @media (min-width: 720px) {
-  .sidebar-button{
+  .sidebar-button {
     display: none;
   }
 }
 @media (max-width: 720px) {
-  .sidebar-button{
+  .sidebar-button {
     display: block;
     line-height: 60px;
   }
+  .mobile{
+    margin-left: auto;
+  }
 }
-.el-container{
+.el-container {
   padding-top: 60px !important;
   height: 100% !important;
 }
-.el-main{
+.el-main {
   height: 100%;
   color: #333;
   text-align: center;
@@ -157,38 +166,54 @@ export default {
   z-index: 999;
 }
 .el-aside {
-  background-color: #D3DCE6;
+  background-color: #d3dce6;
   color: #333;
   text-align: center;
   line-height: 200px;
 }
-.el-menu{
+.el-menu {
   display: flex;
 }
-/* 去除导航栏选中后底部样式 */
-.el-menu-item{
-  border-bottom-color:#ffffff!important;
-}
-.el-drawer__body{
+.el-drawer__body {
   height: 100%;
 }
-#search{
+#search {
   margin-left: auto;
 }
-.badge{
+.badge {
   position: absolute !important;
   left: 40px;
   margin-top: -10px;
 }
-.el-badge sup{
+.el-badge sup {
   right: 10px;
   top: 15px;
 }
-/deep/ .feedback{
+/deep/ .feedback {
   margin-bottom: 15px;
   font-size: 13px;
 }
-/deep/ .feedback a{
+/deep/ .feedback a {
   text-decoration: none;
+}
+</style>
+
+<style>
+@media screen and (min-width: 720px){
+  .mobile{
+    display: none;
+  }
+}
+@media screen and (max-width: 720px) {
+  .pc{
+    display: none;
+  }
+}
+/* 去除导航栏选中后底部样式 */
+.el-menu-item{
+  border-bottom-color: #ffffff !important;
+}
+.el-submenu__title{
+  border-bottom-color: #ffffff !important;
 }
 </style>
