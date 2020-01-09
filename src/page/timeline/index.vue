@@ -5,7 +5,9 @@
       :visible.sync="showSidebar"
       direction="ltr"
       :before-close="beforeClose"
-      size="50%">
+      size="50%"
+      custom-class="custom-drawer"
+      :with-header="false">
       <div class="sidebar">
         <div class="title">
             <el-tooltip content="添加时间点" popper-class="tooltip">
@@ -125,6 +127,8 @@ export default {
     background-color: rgb(247, 247, 247);
   }
   .title{
+    position: absolute;
+    top: 10px;
   }
   .scroll{
     box-sizing: border-box;
@@ -226,4 +230,10 @@ export default {
     margin-left: 10px;
   }
 }
+</style>
+
+<style>
+  .custom-drawer .el-drawer__body{
+    height: 100%;
+  }
 </style>
