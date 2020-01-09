@@ -8,7 +8,7 @@
 <script>
 import { preface } from '../../../config'
 
-import Footer from '../../components/Footer'
+const Footer = () => import('../../components/Footer')
 
 export default {
   data () {

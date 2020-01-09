@@ -106,7 +106,7 @@ import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
 import updateTimeline from '../../utils/updateTimeline'
 
-import Footer from '../../components/Footer'
+const Footer = () => import('../../components/Footer')
 
 export default {
   data () {

@@ -14,11 +14,11 @@
 <script>
 import customizeViewByMode from '@/utils/customizeViewByMode'
 
-import NationalityAndInventor from '@/components/NationalityAndInventor'
-import FuzzyTimePicker from '@/components/FuzzyTimePicker'
-import Citation from '@/components/Citation'
-import Tags from '@/components/Tags'
-import Editor from '@/components/Editor'
+const NationalityAndInventor = () => import('@/components/NationalityAndInventor')
+const FuzzyTimePicker = () => import('@/components/FuzzyTimePicker')
+const Citation = () => import('@/components/Citation')
+const Tags = () => import('@/components/Tags')
+const Editor = () => import('@/components/Editor')
 
 export default {
   data () {

@@ -12,43 +12,45 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import checkLogin from '@/utils/checkLogin'
 
-import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
+// import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
+import ElementUI from 'element-ui'
 
 Vue.config.productionTip = false
 
 // element-ui
-Vue.use(Dialog)
-Vue.use(Autocomplete)
-Vue.use(Menu)
-Vue.use(Submenu)
-Vue.use(MenuItem)
-Vue.use(Input)
-Vue.use(Select)
-Vue.use(Button)
-Vue.use(Table)
-Vue.use(TableColumn)
-Vue.use(DatePicker)
-Vue.use(TimePicker)
-Vue.use(Tooltip)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Tabs)
-Vue.use(TabPane)
-Vue.use(Backtop)
-Vue.use(Loading)
-Vue.use(Container)
-Vue.use(Drawer)
-Vue.use(Header)
-Vue.use(Main)
-Vue.use(Badge)
-Vue.use(Divider)
-Vue.use(Card)
-Vue.use(Tag)
-Vue.use(Cascader)
+Vue.use(ElementUI)
+// Vue.use(Dialog)
+// Vue.use(Autocomplete)
+// Vue.use(Menu)
+// Vue.use(Submenu)
+// Vue.use(MenuItem)
+// Vue.use(Input)
+// Vue.use(Select)
+// Vue.use(Button)
+// Vue.use(Table)
+// Vue.use(TableColumn)
+// Vue.use(DatePicker)
+// Vue.use(TimePicker)
+// Vue.use(Tooltip)
+// Vue.use(Form)
+// Vue.use(FormItem)
+// Vue.use(Tabs)
+// Vue.use(TabPane)
+// Vue.use(Backtop)
+// Vue.use(Loading)
+// Vue.use(Container)
+// Vue.use(Drawer)
+// Vue.use(Header)
+// Vue.use(Main)
+// Vue.use(Badge)
+// Vue.use(Divider)
+// Vue.use(Card)
+// Vue.use(Tag)
+// Vue.use(Cascader)
 
-Vue.use(Loading.directive)
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$message = Message
+// Vue.use(Loading.directive)
+// Vue.prototype.$confirm = MessageBox.confirm
+// Vue.prototype.$message = Message
 
 Vue.use(VueRouter)
 Vue.use(VueQuillEditor)

@@ -1,10 +1,10 @@
-import Home from '../page/home/index'
+const Home = () => import('../page/home/index')
 
-import Login from '../page/login/index'
+const Timeline = () => import('@/page/timeline/index')
+const TimelineDefault = () => import('@/page/timeline/default')
+const TimelineView = () => import('@/page/timeline/view')
 
-import Timeline from '@/page/timeline/index'
-import TimelineDefault from '@/page/timeline/default'
-import TimelineView from '@/page/timeline/view'
+const Login = () => import('../page/login/index')
 
 const Search = () => import('@/page/search/index')
 
