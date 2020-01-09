@@ -18,9 +18,12 @@ export default {
 <style scoped>
 .feedback{
   color: gray;
+  margin-bottom: 15px;
+  font-size: 13px;
 }
 .feedback a{
   color: gray;
+  text-decoration: none;
 }
 .feedback span{
   margin: 0 10px;

@@ -10,6 +10,7 @@
           :key="el.name"
           :index="el.name"
           :route="el.route"
+          class="website-title"
         >{{ el.desc }}</el-menu-item>
         <el-menu-item id="search" class="pc">
           <el-autocomplete
@@ -189,13 +190,6 @@ export default {
   right: 10px;
   top: 15px;
 }
-/deep/ .feedback {
-  margin-bottom: 15px;
-  font-size: 13px;
-}
-/deep/ .feedback a {
-  text-decoration: none;
-}
 </style>
 
 <style>
@@ -215,5 +209,9 @@ export default {
 }
 .el-submenu__title{
   border-bottom-color: #ffffff !important;
+}
+.website-title{
+  font-size: 20px !important;
+  color: black !important;
 }
 </style>
