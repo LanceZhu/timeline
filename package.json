@@ -9,10 +9,10 @@
     "serve:invention": "vue-cli-service serve --mode invention",
     "serve:dev": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build",
-    "build:internet": "vue-cli-service build --mode internet",
-    "build:education": "vue-cli-service build --mode education",
-    "build:invention": "vue-cli-service build --mode invention",
-    "build:dev": "vue-cli-service build --mode dev",
+    "build:internet": "cross-env NODE_ENV=production vue-cli-service build --mode internet",
+    "build:education": "cross-env NODE_ENV=production vue-cli-service build --mode education",
+    "build:invention": "cross-env NODE_ENV=production vue-cli-service build --mode invention",
+    "build:dev": "cross-env NODE_ENV=production vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint",
     "analyzer": "ANALYZER=true vue-cli-service serve",
     "release": "standard-version"
@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^3.1.2",
+    "cross-env": "^6.0.3",
     "dayjs": "^1.8.17",
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
