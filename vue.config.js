@@ -65,10 +65,10 @@ module.exports = {
       }
     },
     externals: {
-      'axios': 'axios',
-      'vue': 'Vue',
+      axios: 'axios',
+      vue: 'Vue',
       'vue-router': 'VueRouter',
-      'vuex': 'Vuex',
+      vuex: 'Vuex',
       'element-ui': 'ELEMENT'
       // 'vue-quill-editor': 'VueQuillEditor'
     }

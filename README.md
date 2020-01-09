@@ -67,6 +67,10 @@ npm run lint
 
 
 ## 更新日志
+2020-1-9
+
+- 优化包体积：使用 Vue 懒加载，Webpack SplitChunkPlugin，通过 CDN 加载 script
+
 2019-11-18
 
 - 添加时间点快捷切换链接，最后编辑者显示，样式优化
