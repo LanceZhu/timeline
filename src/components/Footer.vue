@@ -1,8 +1,10 @@
 <template>
   <div class="feedback">
     <el-divider></el-divider>
-    <span>遇到问题请联系：ee_chronicle2019@163.com</span>
-    <span>京ICP备19056350号-1</span>
+    <div class="wrapper">
+      <span>遇到问题请联系：ee_chronicle2019@163.com</span>
+      <span>京ICP备19056350号-1</span>
+    </div>
     <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
   </div>
 </template>
@@ -21,6 +23,11 @@ export default {
   color: gray;
 }
 .feedback span{
-  margin-right: 15px;
+  margin: 0 10px;
+}
+.wrapper{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 </style>
