@@ -14,6 +14,9 @@
               <i class="el-icon-document-add" @click="toAdd">
               </i>
           </el-tooltip>
+          <span class="analysis">
+              共{{timelineUpdated.length}}个词条
+          </span>
         </div>
         <div class="scroll">
           <div v-for="time in timelineUpdated" :key="time.id" class="time">
@@ -31,9 +34,12 @@
               <i class="el-icon-document-add" @click="toAdd">
               </i>
           </el-tooltip>
+          <span class="analysis">
+              共{{timelineUpdated.length}}个词条
+          </span>
         </div>
         <div class="scroll" @click="beforeClose">
-          <div v-for="time in timelineUpdated" :key="time.id" class="time">
+          <div v-for="time in timelineUpdated" :key="time.id" class="time" :id="`${time._id}`">
               <router-link :to="'/timeline/'+time._id" tag="li">
                 {{time.show}} {{time.title}}
               </router-link>
@@ -229,6 +235,9 @@ export default {
   .el-tooltip{
     margin-left: 10px;
   }
+}
+.analysis{
+  font-size: 14px;
 }
 </style>
 

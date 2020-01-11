@@ -18,8 +18,8 @@
             <el-input v-model="ruleForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button v-if="!login" type="primary" @click="signup('ruleForm')">注册</el-button>
-            <el-button v-if="login" type="primary" @click="signin('ruleForm')">登录</el-button>
+            <el-button v-if="!login" type="primary" @click="signup('ruleForm')" :loading="buttonLoading">注册</el-button>
+            <el-button v-if="login" type="primary" @click="signin('ruleForm')" :loading="buttonLoading">登录</el-button>
         </el-form-item>
         </el-form>
       </el-card>
@@ -32,6 +32,7 @@ export default {
   data () {
     return {
       login: true,
+      buttonLoading: false,
       ruleForm: {
         username: '',
         password: ''
@@ -52,6 +53,7 @@ export default {
     },
     async signup () {
       this.$axios.defaults.withCredentials = true
+      this.buttonLoading = true
       try {
         const res = await this.$axios.post('/api/user/register', {
           username: this.$data.ruleForm.username,
@@ -87,6 +89,7 @@ export default {
       } catch (err) {
         console.error(err)
       }
+      this.buttonLoading = false
       try {
         // 消息通知 管理员删除词条
         const res = await this.$axios('/api/user/getDetail')
@@ -98,6 +101,7 @@ export default {
       }
     },
     async signin () {
+      this.buttonLoading = true
       this.$axios.defaults.withCredentials = true
       try {
         const res = await this.$axios.post('/api/user/login', {
@@ -146,6 +150,7 @@ export default {
       } catch (err) {
         console.error(err)
       }
+      this.buttonLoading = false
     }
   }
 }

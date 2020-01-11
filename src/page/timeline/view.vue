@@ -53,8 +53,8 @@
             <el-tag>{{ tag.label }}</el-tag>
           </el-tooltip>
         </div>
-        <div class="citation-list">
-          <div>文献列表：</div>
+        <div class="citation-list" v-if="!!citations.length">
+          <div class="citation-title">文献列表：</div>
           <div v-for="(citation, index) in citations" :key="index">
             <div v-if="citation.type === 'internetResource'">
               <!-- <div class="citation-title">网络资源</div> -->
@@ -350,7 +350,7 @@ li{
   text-decoration-line: underline;
 }
 .citation-title{
-  font-weight: bold;
+  color: #333;
 }
 .citation-date{
   font-size: 15px;
