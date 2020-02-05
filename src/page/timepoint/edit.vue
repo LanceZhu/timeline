@@ -49,7 +49,7 @@ export default {
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
       let nationalityAndCreator = {}
-      if (this.showObject.nationalityAndCreator) {
+      if (this.showObject.showNationalityAndInventor) {
         // 发明简史国籍和发明人字段
         try {
           nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()

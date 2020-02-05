@@ -2,7 +2,7 @@
   <div class="container-add">
     <FuzzyTimePicker ref="FuzzyTimePicker"></FuzzyTimePicker>
     <Editor ref="Editor"></Editor>
-    <NationalityAndInventor></NationalityAndInventor>
+    <NationalityAndInventor v-if="showObject.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
     <div class="submit">
       <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
     </div>
@@ -40,7 +40,7 @@ export default {
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
       let nationalityAndCreator = {}
-      if (this.showObject.nationalityAndCreator) {
+      if (this.showObject.showNationalityAndCreator) {
         // 发明简史国籍和发明人字段
         try {
           nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()
