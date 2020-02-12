@@ -6,8 +6,6 @@ const TimelineView = () => import('@/page/timeline/view')
 
 const Login = () => import('../page/login/index')
 
-const Search = () => import('@/page/search/index')
-
 const NotFound = () => import('@/page/404/index')
 
 const TimepointAdd = () => import('@/page/timepoint/add')
@@ -66,10 +64,6 @@ export default [{
       name: 'user',
       component: User,
       meta: { requiresAuth: true }
-    }, {
-      path: 'search',
-      name: 'search',
-      component: Search
     }, {
       path: 'devlog',
       name: 'devlog',
