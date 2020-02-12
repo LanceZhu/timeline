@@ -20,6 +20,10 @@ export default {
   data () {
     return {
       logs: [{
+        content: '优化移动端浏览体验',
+        timestamp: '2020-02-12',
+        type: 'info'
+      }, {
         content: '修复时间点编辑页面回车键跳转',
         timestamp: '2020-02-12',
         size: 'large',
@@ -38,6 +42,6 @@ export default {
 <style scoped>
 .container-devlog{
     max-width: 650px;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 </style>
