@@ -164,6 +164,12 @@ const devViewConfig = Object.assign({}, inventionViewConfig) // TODO 显示所�
 // 网站页面前言
 let preface = ''
 switch (process.env.VUE_APP_DOMAIN_NAME) {
+  case DOMAIN_NAME_ENUM.invention: {
+    preface = `
+        本站旨在梳理人类所有发明，梳理发明间的逻辑关系，构建发明简史。以达到记录，启发作用。
+        您可以浏览现有发明词条或参与修正现有词条，贡献新词条。`
+    break
+  }
   case DOMAIN_NAME_ENUM.internet: {
     preface = `前言
     2019 年是 ARPANET 诞生 50 周年，Web 诞生 30 周年，然而互联网界没有大型的庆祝活动。可能是由于每天都在发生目不暇给的变化，人们似乎已经遗忘了互联网这样一个对人类历史有着深远影响的发明，人们似乎已经忘记了互联网走过的历程。新的人工智能时代又将引起巨大的变革，新的文明呼之欲出，旧的文明盘根错节，使得人类的命运扑簌迷离。
