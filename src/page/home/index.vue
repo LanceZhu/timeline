@@ -2,17 +2,20 @@
   <el-container>
     <el-header>
       <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router >
-        <div class="sidebar-button" @click="showSidebar()">
-          <i class="el-icon-s-fold"></i>
-        </div>
         <el-menu-item
           v-for="el in elMenu"
           :key="el.name"
           :index="el.name"
           :route="el.route"
-          class="website-title"
+          class="website-title pc"
         >{{ el.desc }}</el-menu-item>
-        <el-menu-item id="search" class="pc">
+        <el-menu-item
+        index="timeline"
+        route="/timeline"
+        class="mobile">
+          <i>WE</i>
+        </el-menu-item>
+        <el-menu-item id="search">
           <el-autocomplete
             v-model="search"
             :fetch-suggestions="querySearch"
@@ -45,7 +48,7 @@
     </el-header>
     <el-main>
       <transition>
-        <router-view :showSidebar="sidebar" @close-sidebar="closeSidebar"></router-view>
+        <router-view></router-view>
       </transition>
     </el-main>
     <el-backtop></el-backtop>
@@ -118,28 +121,13 @@ export default {
           key: this.search
         }
       })
-    },
-    showSidebar () {
-      this.sidebar = true
-    },
-    closeSidebar () {
-      this.sidebar = false
     }
   }
 }
 </script>
 
 <style scoped>
-@media (min-width: 720px) {
-  .sidebar-button {
-    display: none;
-  }
-}
 @media (max-width: 720px) {
-  .sidebar-button {
-    display: block;
-    line-height: 60px;
-  }
   .mobile{
     margin-left: auto;
   }
@@ -154,6 +142,8 @@ export default {
   text-align: center;
   overflow: visible;
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 .el-header {
   color: #333;
@@ -165,6 +155,8 @@ export default {
   top: 0;
   left: 0;
   z-index: 999;
+  padding: 0;
+  margin: 0;
 }
 .el-aside {
   background-color: #d3dce6;

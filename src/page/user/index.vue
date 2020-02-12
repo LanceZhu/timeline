@@ -139,6 +139,7 @@ export default {
 }
 .container-user{
   min-width: 720px;
+  margin-top: 10px;
 }
 .messages{
   height: 200px;

@@ -1,11 +1,14 @@
 <template>
   <div class="container" v-loading="loading">
+    <div class="sidebar-button" @click="showSidebar()">
+      <i class="el-icon-right"></i>
+    </div>
     <el-drawer
       title="时间轴"
-      :visible.sync="showSidebar"
+      :visible.sync="sidebar"
       direction="ltr"
       :before-close="beforeClose"
-      size="50%"
+      size="75%"
       custom-class="custom-drawer"
       :with-header="false">
       <div class="sidebar">
@@ -63,13 +66,8 @@ export default {
     return {
       loading: true,
       drawer: false,
-      timeline: []
-    }
-  },
-  props: {
-    showSidebar: {
-      type: Boolean,
-      default: false
+      timeline: [],
+      sidebar: false
     }
   },
   computed: {
@@ -104,10 +102,13 @@ export default {
   methods: {
     toAdd () {
       this.$router.push('/timeline/add')
-      this.$emit('close-sidebar')
+      this.sidebar = false
     },
     beforeClose () {
-      this.$emit('close-sidebar')
+      this.sidebar = false
+    },
+    showSidebar () {
+      this.sidebar = true
     }
   }
 }
@@ -124,6 +125,23 @@ export default {
     display: none;
   }
   .mobile{
+  }
+  .sidebar-button {
+    display: block;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    background-color: white;
+    margin-left: -30px;
+    opacity: 0.75;
+    box-shadow: 0 0 5px rgb(138, 95, 95);
+  }
+  .sidebar-button i{
+    line-height: 60px;
+    padding-left: 20px;
   }
   .sidebar{
     box-sizing: border-box;
@@ -185,6 +203,9 @@ export default {
   .pc{
     height: 100%;
     width: 20%;
+  }
+  .sidebar-button {
+    display: none;
   }
   .sidebar{
     box-sizing: border-box;
