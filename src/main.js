@@ -88,7 +88,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 // 百度统计
-if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined) {
+if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined && process.env.NODE_ENV === 'production') {
   var _hmt = _hmt || []
   window._hmt = _hmt; // 修改为window 全局变量
   (function () {
