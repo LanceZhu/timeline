@@ -15,7 +15,7 @@
             <el-input v-model="ruleForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码*">
-            <el-input v-model="ruleForm.password" type="password"></el-input>
+            <el-input v-model="ruleForm.password" type="password" @keyup.enter.native="passwordEnter"></el-input>
         </el-form-item>
         <el-form-item>
             <el-button v-if="!login" type="primary" @click="signup('ruleForm')" :loading="buttonLoading">注册</el-button>
@@ -47,20 +47,7 @@ export default {
       }
     }
   },
-  created () {
-    const that = this
-    document.onkeydown = function (event) {
-      const e = event || window.event
-
-      if (e && e.keyCode === 13) {
-        if (that.login) {
-          that.signin()
-        } else {
-          that.signup()
-        }
-      }
-    }
-  },
+  created () {},
   methods: {
     changeTitle () {
       this.login = !this.login
@@ -165,6 +152,25 @@ export default {
         console.error(err)
       }
       this.buttonLoading = false
+    },
+    passwordEnter () {
+      if (this.login) {
+        this.signin()
+      } else {
+        this.signup()
+      }
+      // const that = this
+      // document.onkeydown = function (event) {
+      //   const e = event || window.event
+
+      //   if (e && e.keyCode === 13) {
+      //     if (that.login) {
+      //       that.signin()
+      //     } else {
+      //       that.signup()
+      //     }
+      //   }
+      // }
     }
   }
 }
