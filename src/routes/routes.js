@@ -16,6 +16,8 @@ const TimepointHistory = () => import('@/page/timepoint/history')
 
 const User = () => import('@/page/user/index')
 
+const Devlog = () => import('@/page/devlog/index')
+
 export default [{
   path: '/',
   component: Home,
@@ -68,6 +70,10 @@ export default [{
       path: 'search',
       name: 'search',
       component: Search
+    }, {
+      path: 'devlog',
+      name: 'devlog',
+      component: Devlog
     }, {
       path: '*',
       component: NotFound

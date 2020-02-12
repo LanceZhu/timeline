@@ -4,6 +4,7 @@
     <div class="wrapper">
       <span>遇到问题请联系：ee_chronicle2019@163.com</span>
       <span>京ICP备19056350号-1</span>
+      <span><a href="/#/devlog" target="_blank">开发日志</a></span>
     </div>
     <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
   </div>
