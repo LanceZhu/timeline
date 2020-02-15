@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
   minimizers.push(new TerserPlugin({
     terserOptions: {
       ecma: 6,
-      compress: { drop_console: true },
+      // compress: { drop_console: true },
       output: { comments: false, beautify: false }
     },
     extractComments: false

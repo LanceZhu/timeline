@@ -15,6 +15,8 @@ import checkLogin from '@/utils/checkLogin'
 // import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
 import ElementUI from 'element-ui'
 
+import './registerServiceWorker'
+
 Vue.config.productionTip = false
 
 // element-ui
