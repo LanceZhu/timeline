@@ -5,10 +5,17 @@
         <div v-if="wikis.length">
           <el-table
             :data="wikis"
+            height="600px"
+            stripe
             style="width: 100%">
             <el-table-column
               prop="timestamp"
+              sortable
               label="时间">
+            <template slot-scope="scope">
+              <i class="el-icon-time"></i>
+              <span style="margin-left: 10px">{{ scope.row.timestamp }}</span>
+            </template>
             </el-table-column>
             <el-table-column
               prop="title"
@@ -16,7 +23,16 @@
             </el-table-column>
             <el-table-column
               prop="status"
-              label="所处状态">
+              label="所处状态"
+              :filters="[{ text: '发表中', value: '发表中' }, { text: '已更新', value: '已更新' }, { text: '已删除', value: '已删除'}]"
+              :filter-method="filterTag"
+            >
+
+            <template slot-scope="scope">
+              <el-tag
+                :type="scope.row.status === '发表中' ? 'success' : scope.row.status === '已更新' ? 'info' : 'danger'"
+                disable-transitions>{{scope.row.status}}</el-tag>
+            </template>
             </el-table-column>
             <el-table-column
               label="操作">
@@ -120,6 +136,10 @@ export default {
           }
         }
       })
+    },
+    // 根据时间点状态筛选表格
+    filterTag (value, row) {
+      return row.status === value
     }
   },
   created () {
