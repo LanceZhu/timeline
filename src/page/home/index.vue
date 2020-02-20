@@ -23,6 +23,7 @@
             @select="handleSearch"
           ></el-autocomplete>
         </el-menu-item>
+        <!-- 网页端 登录/注册/个人中心 -->
         <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" class="pc">注册/登录</el-menu-item>
         <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" class="pc">
           <div class="user">
@@ -30,6 +31,13 @@
             <i class="el-icon-user"></i>
           </div>
         </el-menu-item>
+        <!-- 网页端 创建新词条 -->
+        <el-menu-item :route="'/timeline/add'" index="'/new-post'" class="pc">
+          <div class="new-post-wrap">
+            <div class="new-post">创建词条</div>
+          </div>
+        </el-menu-item>
+        <!-- 移动端 登录/注册/个人中心 -->
         <el-submenu class="mobile">
           <template slot="title">
             <i class="el-icon-s-operation"></i>
@@ -41,8 +49,10 @@
               <i class="el-icon-user"></i>
             </div>
           </el-menu-item>
-          <!-- TODO -->
-          <!-- <el-menu-item>搜索</el-menu-item> -->
+          <!-- 创建词条 -->
+          <el-menu-item :route="'/timeline/add'" index="'/new-post'">
+            创建词条
+          </el-menu-item>
         </el-submenu>
       </el-menu>
     </el-header>
@@ -130,6 +140,24 @@ export default {
 @media (max-width: 720px) {
   .mobile{
     margin-left: auto;
+  }
+}
+@media (min-width: 720px){
+  /* 创建词条 */
+  .new-post-wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;;
+  }
+  .new-post{
+    background-color: rgb(180, 109, 139);
+    color: white;
+    font-weight: bold;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 16px;
+    padding: 0 10px;
   }
 }
 .el-container {
