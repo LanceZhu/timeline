@@ -7,11 +7,14 @@
         猜你感兴趣
         <el-button size="small" round icon="el-icon-refresh" @click="changeRecomendtion">换一换</el-button>
       </div>
-      <a v-for="item in recomendations" :key="item" :href="`/#/timeline/${item._id}`">
-        <el-card  :body-style="{padding: '10px', backgroundColor: 'rgb(250, 250, 250)'}" shadow="never">
-            <span>{{ item.show }} {{ item.title }}</span>
-        </el-card>
-      </a>
+      <div v-if="recomendations.length !== 0">
+        <a v-for="item in recomendations" :key="item" :href="`/#/timeline/${item._id}`">
+          <el-card  :body-style="{padding: '10px', backgroundColor: 'rgb(250, 250, 250)'}" shadow="never">
+              <span>{{ item.show }} {{ item.title }}</span>
+          </el-card>
+        </a>
+      </div>
+      <div v-else>暂无推荐词条</div>
     </div>
     <Footer/>
   </div>
@@ -33,28 +36,12 @@ export default {
   },
   computed: {
     recomendations: function () {
-      // 随机四个
-      const timeline = this.$store.state.timeline
-      for (let i = timeline.length - 1; i >= 0; i--) {
-        const randomIndex = Math.floor(Math.random() * (i + 1))
-        const tmp = timeline[i]
-        timeline[i] = timeline[randomIndex]
-        timeline[randomIndex] = tmp
-      }
-      return timeline.slice(0, 4)
+      return this.$store.state.recomendations // 数据流 $store.timeline -> $store.recomendations -> recommendations
     }
   },
   methods: {
     changeRecomendtion: function () {
-      // 随机四个
-      const timeline = this.$store.state.timeline
-      for (let i = timeline.length - 1; i >= 0; i--) {
-        const randomIndex = Math.floor(Math.random() * (i + 1))
-        const tmp = timeline[i]
-        timeline[i] = timeline[randomIndex]
-        timeline[randomIndex] = tmp
-      }
-      this.recomendations = timeline.splice(0, 4)
+      this.$store.commit('updateRecommendations')
     }
   }
 }

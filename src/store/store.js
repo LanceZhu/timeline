@@ -6,7 +6,8 @@ const state = {
   auth: null,
   timeline: [],
   messages: [], // 是否有消息通知,
-  userGroup: [] // 用户组 user admin
+  userGroup: [], // 用户组 user admin
+  recomendations: [] // 首页词条推荐
 }
 
 const mutations = {
@@ -18,12 +19,24 @@ const mutations = {
   },
   updateTimeline (state, timeline) {
     state.timeline = timeline
+    this.commit('updateRecommendations') // this = $store
   },
   updateMessages (state, messages) {
     state.messages = messages
   },
   updateUserGroup (state, userGroup) {
     state.userGroup = userGroup
+  },
+  updateRecommendations (state) {
+    // 随机四个
+    const timeline = state.timeline.slice()
+    for (let i = timeline.length - 1; i >= 0; i--) {
+      const randomIndex = Math.floor(Math.random() * (i + 1))
+      const tmp = timeline[i]
+      timeline[i] = timeline[randomIndex]
+      timeline[randomIndex] = tmp
+    }
+    state.recomendations = timeline.slice(0, 4)
   }
 }
 
