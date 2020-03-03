@@ -3,6 +3,8 @@
 const TerserPlugin = require('terser-webpack-plugin')
 const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
+const { commitNumber, commitDate } = require('./scripts/version') // 打包时在 index.html meta 信息中记录版本号及日期
+
 // webpack 插件
 const webpackPlugins = []
 if (process.env.ANALYZER) {
@@ -72,6 +74,14 @@ module.exports = {
       'element-ui': 'ELEMENT'
       // 'vue-quill-editor': 'VueQuillEditor'
     }
+  }, 
+  chainWebpack: config => {
+    config.plugin('html').tap(args => {
+      args[0].meta = {
+        version: `${commitDate} ${commitNumber}`
+      }
+      return args
+    })
   },
   devServer: {
     proxy: {
