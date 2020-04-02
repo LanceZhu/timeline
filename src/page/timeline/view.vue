@@ -12,34 +12,7 @@
           <i class="el-icon-time"></i>
         </el-tooltip>
       </router-link>
-      <span v-if="!this.showDelete">
-        <el-tooltip content="删除该词条" popper-class="tooltip">
-        <i class="el-icon-delete" @click="showFeedback = true; feedback.type='delete'; feedback.title='删除理由：'"></i>
-      </el-tooltip>
-      <el-tooltip content="举报该词条" popper-class="tooltip">
-        <i class="el-icon-warning-outline" @click="showFeedback = true; feedback.type='complain'; feedback.title='举报理由：'"></i>
-      </el-tooltip>
-      <el-dialog :title="this.feedback.title" :visible.sync="showFeedback" :append-to-body="true">
-        <el-form>
-          <el-form-item>
-            <el-input
-              type="textarea"
-              v-model="feedback.comment"
-              maxlength="50"
-              :autosize="{ minRows: 3, maxRows: 4}"
-              show-word-limit>
-            </el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitFeedback()">提交反馈</el-button>
-            <el-button @click="showFeedback = false">取消</el-button>
-          </el-form-item>
-        </el-form>
-      </el-dialog>
-      </span>
-      <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.showDelete">
-        <i class="el-icon-delete" @click="deleteTimepoint"></i>
-      </el-tooltip>
+      <Feedback :id="id"></Feedback>
     <el-divider></el-divider>
     </div>
     <div class="content">
@@ -83,20 +56,7 @@
           最后编辑者：<span v-html="lastEditedUser"></span>
         </div>
     </div>
-    <div class="footer">
-      <div v-if="prevUpdated.show" class="prev">
-        <router-link :to="prevUpdated.route" tag="li">
-            <i class="el-icon-back"></i>
-            {{prevUpdated.desc}}
-        </router-link>
-      </div>
-      <div v-if="nextUpdated.show" class="next">
-        <router-link :to="nextUpdated.route" tag="li">
-          {{nextUpdated.desc}}
-          <i class="el-icon-right"></i>
-        </router-link>
-      </div>
-    </div>
+    <PrevAndNext :id="id"></PrevAndNext>
     <Footer/>
   </div>
 </template>
@@ -104,8 +64,9 @@
 <script>
 import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
-import updateTimeline from '../../utils/updateTimeline'
 
+const Feedback = () => import('./components/Feedback')
+const PrevAndNext = () => import('./components/PrevAndNext')
 const Footer = () => import('../../components/Footer')
 
 export default {
@@ -121,80 +82,17 @@ export default {
       tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
       creator: '', // 词条最初创建者
-      prev: {
-        desc: '前一页',
-        show: true,
-        route: '/timeline'
-      },
-      next: {
-        desc: '后一页',
-        show: true,
-        route: '/timeline'
-      },
-      citations: [],
-      showFeedback: false,
-      feedback: {
-        title: '举报该词条',
-        type: 'complain',
-        target_id: '',
-        comment: ''
-      }
+      citations: []
     }
   },
   components: {
+    Feedback,
+    PrevAndNext,
     Footer
   },
   created () {
     customizeViewByMode.bind(this)()
     this.updateContent()
-  },
-  computed: {
-    prevUpdated () {
-      const { timeline = [] } = this.$store.state
-      const prevUpdated = {
-        desc: '前一页',
-        show: true,
-        route: '/timeline'
-      }
-
-      // 获取当前时间点前后词条
-      for (let i = (timeline.length - 1); i >= 0; i--) {
-        if (timeline[i]._id === this.id) {
-          if (i === 0) {
-            prevUpdated.show = false
-          }
-          prevUpdated.desc = i > 0 ? timeline[i - 1].title : '已无时间点'
-          prevUpdated.route = i > 0 ? `/timeline/${timeline[i - 1]._id}` : '/timeline'
-          break
-        }
-      }
-      return prevUpdated
-    },
-    nextUpdated () {
-      const { timeline = [] } = this.$store.state
-      const nextUpdated = {
-        desc: '后一页',
-        show: true,
-        route: '/timeline'
-      }
-
-      // 获取当前时间点前后词条
-      for (let i = (timeline.length - 1); i >= 0; i--) {
-        if (timeline[i]._id === this.id) {
-          if (i === (timeline.length - 1)) {
-            nextUpdated.show = false
-          }
-          nextUpdated.desc = i < (timeline.length - 1) ? timeline[i + 1].title : '已无时间点'
-          nextUpdated.route = i < (timeline.length - 1) ? `/timeline/${timeline[i + 1]._id}` : '/timeline'
-          break
-        }
-      }
-      return nextUpdated
-    },
-    // 显示管理员删除词条 icon
-    showDelete: function () {
-      return this.$store.state.userGroup.includes('admin')
-    }
   },
   watch: {
     $route (to, from) {
@@ -238,59 +136,6 @@ export default {
           that.hasTag = true
         }
       })
-    },
-    async submitFeedback () {
-      this.feedback.target_id = this.id
-      const { type = 'complain', target_id: targetId = '', comment = '' } = this.feedback
-      const feedback = {
-        type,
-        target_id: targetId,
-        comment
-      }
-      try {
-        const res = await this.$axios.post('/api/user/makeReq', feedback)
-        if (res.data.code === 100) {
-          this.$message({
-            type: 'success',
-            message: '反馈成功，管理员会及时处理！'
-          })
-          setTimeout(() => {
-            this.showFeedback = false
-          }, 1500)
-        } else {
-          this.$message.error('反馈失败！')
-        }
-      } catch (err) {
-        this.$message.error('反馈失败！')
-      }
-    },
-    async deleteTimepoint () {
-      try {
-        await this.$confirm('确认删除?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        })
-        const res = await this.$axios.get(`/api/admin/delPost/${this.id}`)
-        if (res.data.code === 100) {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          setTimeout(async () => {
-            await updateTimeline()
-            this.$router.push('/timeline')
-          }, 1000)
-        } else {
-          this.$message.error('操作失败！')
-        }
-      } catch (err) {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      }
     }
   }
 }
@@ -332,7 +177,6 @@ li{
 .title .el-divider{
   margin: 0;
 }
-.content .article{}
 .content .tags{
   display: flex;
   justify-content: flex-start;
@@ -359,19 +203,6 @@ li{
 .content .last-edited-user{
   text-align: right;
   color: lightgray;
-}
-.footer{
-  width: 90%;
-  margin: 0 auto;
-  color: rgb(49,151,230);
-  height: 25px;
-  margin-bottom: 15px;
-}
-.footer .prev{
-  float: left;
-}
-.footer .next{
-  float: right;
 }
 .nationality-inventor span{
   padding-right: 10px;
