@@ -1,55 +1,40 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header class="pc">
       <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router >
         <el-menu-item
           v-for="el in elMenu"
           :key="el.name"
           :index="el.name"
           :route="el.route"
-          class="website-title pc"
+          class="website-title"
         >{{ el.desc }}</el-menu-item>
-        <el-menu-item
-        index="timeline"
-        route="/timeline"
-        class="mobile">
-          <i>WE</i>
-        </el-menu-item>
         <el-menu-item id="search">
-          <el-autocomplete
-            v-model="search"
-            :fetch-suggestions="querySearch"
-            placeholder="请输入内容"
-            @select="handleSearch"
-          ></el-autocomplete>
+          <Search></Search>
         </el-menu-item>
-        <!-- 网页端 登录/注册/个人中心 -->
-        <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'" class="pc">注册/登录</el-menu-item>
-        <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'" class="pc">
-          <div class="user">
-            <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
-            <i class="el-icon-user"></i>
-          </div>
-        </el-menu-item>
-        <!-- 网页端 创建新词条 -->
+        <Acount></Acount>
         <el-menu-item :route="'/timeline/add'" index="'/new-post'" class="pc">
           <div class="new-post-wrap">
             <div class="new-post">创建词条</div>
           </div>
         </el-menu-item>
-        <!-- 移动端 登录/注册/个人中心 -->
+      </el-menu>
+    </el-header>
+    <el-header class="mobile">
+      <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router>
+        <el-menu-item
+        index="timeline"
+        route="/timeline">
+          <i>WE</i>
+        </el-menu-item>
+        <el-menu-item id="search">
+        <Search></Search>
+        </el-menu-item>
         <el-submenu class="mobile">
           <template slot="title">
             <i class="el-icon-s-operation"></i>
           </template>
-          <el-menu-item v-if="!this.$store.state.logged" index="'login'" :route="'/login'">注册/登录</el-menu-item>
-          <el-menu-item v-if="this.$store.state.logged" index="'user'" :route="'/user'">
-            <div class="user">
-              <el-badge is-dot class="badge" v-if="hasMsg"></el-badge>
-              <i class="el-icon-user"></i>
-            </div>
-          </el-menu-item>
-          <!-- 创建词条 -->
+          <Acount></Acount>
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
           </el-menu-item>
@@ -66,72 +51,24 @@
 </template>
 
 <script>
+const Search = () => import('./components/Search')
+const Acount = () => import('./components/Acount')
+
 export default {
   data () {
     return {
-      search: '',
       elMenu: [
         {
           route: '/timeline',
           name: 'timeline',
           desc: '时间轴wiki（beta版）'
         }
-      ],
-      sidebar: false
+      ]
     }
   },
-  created: async function () {
-    try {
-      const res = await this.$axios.get('/api/user/checkLogin')
-      if (res.data.login) {
-        this.$store.commit('signin')
-      }
-    } catch (err) {
-      console.error(err)
-    }
-    try {
-      // 消息通知
-      const res = await this.$axios.get('/api/user/getDetail')
-      const { msg = [] } = res.data.data.mongo
-      this.$store.commit('updateMessages', msg)
-    } catch (err) {
-      console.error(err)
-    }
-  },
-  computed: {
-    hasMsg: function () {
-      return !!this.$store.state.messages.length
-    }
-  },
-  methods: {
-    async querySearch (queryString, cb) {
-      try {
-        const res = await this.$axios.post('/api/timepoint/search', {
-          search: this.search
-        })
-        const resList = res.data.data
-        const results = resList.map(res => {
-          return {
-            id: res._id,
-            value: res.title
-          }
-        })
-        cb(results)
-      } catch (err) {
-        console.error(err)
-      }
-    },
-    handleSearch (item) {
-      this.$router.push(`/timeline/${item.id}`)
-    },
-    toSearch () {
-      this.$router.push({
-        path: '/search',
-        query: {
-          key: this.search
-        }
-      })
-    }
+  components: {
+    Search,
+    Acount
   }
 }
 </script>

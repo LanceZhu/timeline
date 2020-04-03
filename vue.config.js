@@ -74,7 +74,7 @@ module.exports = {
       'element-ui': 'ELEMENT'
       // 'vue-quill-editor': 'VueQuillEditor'
     }
-  }, 
+  },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0].meta = {

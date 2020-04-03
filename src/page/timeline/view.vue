@@ -15,7 +15,7 @@
       <Feedback :id="id"></Feedback>
     <el-divider></el-divider>
     </div>
-    <div class="content">
+    <div class="content" v-loading="loading">
       <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
         <div>发明人：{{ ruleForm.inventor }}</div>
         <div>发明国家：{{ ruleForm.nationality }}</div>
@@ -82,7 +82,8 @@ export default {
       tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
       creator: '', // 词条最初创建者
-      citations: []
+      citations: [],
+      loading: true
     }
   },
   components: {
@@ -101,6 +102,7 @@ export default {
   },
   methods: {
     updateContent () {
+      this.loading = true
       const that = this
       that.hasTag = false
       this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
@@ -136,6 +138,7 @@ export default {
           that.hasTag = true
         }
       })
+      this.loading = false
     }
   }
 }

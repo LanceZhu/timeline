@@ -159,18 +159,6 @@ export default {
       } else {
         this.signup()
       }
-      // const that = this
-      // document.onkeydown = function (event) {
-      //   const e = event || window.event
-
-      //   if (e && e.keyCode === 13) {
-      //     if (that.login) {
-      //       that.signin()
-      //     } else {
-      //       that.signup()
-      //     }
-      //   }
-      // }
     }
   }
 }
