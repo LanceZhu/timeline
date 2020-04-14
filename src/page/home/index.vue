@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header class="pc">
-      <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router >
+      <el-menu class="home-el-menu" mode="horizontal" menu-trigger="click" router >
         <el-menu-item
           v-for="el in elMenu"
           :key="el.name"
@@ -34,7 +34,7 @@
           <template slot="title">
             <i class="el-icon-s-operation"></i>
           </template>
-          <Acount></Acount>
+          <!-- <Acount></Acount> -->
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
           </el-menu-item>

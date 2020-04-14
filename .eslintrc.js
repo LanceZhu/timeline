@@ -5,10 +5,15 @@ module.exports = {
   },
   extends: [
     'plugin:vue/essential',
-    'standard'
+    'standard',
+    '@vue/typescript'
   ],
   parserOptions: {
-    parser: 'babel-eslint'
+    // parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
+    "ecmaFeatures": {
+        "legacyDecorators": true
+    }
   },
   // add your custom rules here
   rules: {
