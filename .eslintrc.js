@@ -11,8 +11,8 @@ module.exports = {
   parserOptions: {
     // parser: 'babel-eslint',
     parser: '@typescript-eslint/parser',
-    "ecmaFeatures": {
-        "legacyDecorators": true
+    ecmaFeatures: {
+      legacyDecorators: true
     }
   },
   // add your custom rules here
