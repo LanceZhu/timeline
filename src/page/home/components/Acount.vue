@@ -11,8 +11,10 @@
     </el-menu-item>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Vue } from 'vue-property-decorator'
+
+export default Vue.extend({
   computed: {
     hasMsg: function () {
       return !!this.$store.state.messages.length
@@ -20,7 +22,7 @@ export default {
   },
   created: async function () {
     try {
-      const res = await this.$axios.get('/api/user/checkLogin')
+      const res: checkLoginResponse = await this.$axios.get('/api/user/checkLogin')
       if (res.data.login) {
         this.$store.commit('signin')
       }
@@ -29,12 +31,14 @@ export default {
     }
     try {
       // 消息通知
-      const res = await this.$axios.get('/api/user/getDetail')
-      const { msg = [] } = res.data.data.mongo
-      this.$store.commit('updateMessages', msg)
+      if (this.$store.state.logged) {
+        const res = await this.$axios.get('/api/user/getDetail')
+        const { msg = [] } = res.data.data.mongo
+        this.$store.commit('updateMessages', msg)
+      }
     } catch (err) {
       console.error(err)
     }
   }
-}
+})
 </script>

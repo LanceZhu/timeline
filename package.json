@@ -4,18 +4,18 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "serve:internet": "vue-cli-service serve --mode internet",
-    "serve:education": "vue-cli-service serve --mode education",
-    "serve:invention": "vue-cli-service serve --mode invention",
-    "serve:dev": "vue-cli-service serve --mode dev",
     "build": "vue-cli-service build",
-    "build:internet": "cross-env NODE_ENV=production vue-cli-service build --mode internet",
-    "build:education": "cross-env NODE_ENV=production vue-cli-service build --mode education",
-    "build:invention": "cross-env NODE_ENV=production vue-cli-service build --mode invention",
-    "build:dev": "cross-env NODE_ENV=production vue-cli-service build --mode dev",
     "lint": "vue-cli-service lint",
     "analyzer": "ANALYZER=true vue-cli-service serve",
-    "release": "standard-version"
+    "build:dev": "cross-env NODE_ENV=production vue-cli-service build --mode dev",
+    "build:education": "cross-env NODE_ENV=production vue-cli-service build --mode education",
+    "build:internet": "cross-env NODE_ENV=production vue-cli-service build --mode internet",
+    "build:invention": "cross-env NODE_ENV=production vue-cli-service build --mode invention",
+    "release": "standard-version",
+    "serve:dev": "vue-cli-service serve --mode dev",
+    "serve:education": "vue-cli-service serve --mode education",
+    "serve:internet": "vue-cli-service serve --mode internet",
+    "serve:invention": "vue-cli-service serve --mode invention"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -24,7 +24,9 @@
     "dayjs": "^1.8.17",
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^8.4.1",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.1"
@@ -32,9 +34,13 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.28.0",
+    "@typescript-eslint/parser": "^2.28.0",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
+    "@vue/cli-plugin-typescript": "^4.3.1",
     "@vue/cli-service": "^4.0.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^5.16.0",
@@ -48,7 +54,9 @@
     "quill-image-extend-module": "^1.1.2",
     "standard-version": "^7.0.1",
     "terser-webpack-plugin": "^2.2.1",
-    "vue-template-compiler": "^2.6.10",
+    "typescript": "~3.8.3",
+    "vue-cli-plugin-typescript": "0.0.1",
+    "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "eslintConfig": {
@@ -58,11 +66,12 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript"
     ],
     "rules": {},
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@typescript-eslint/parser"
     }
   },
   "postcss": {

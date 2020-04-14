@@ -53,6 +53,7 @@ Vue.use(ElementUI)
 // Vue.prototype.$message = Message
 
 Vue.use(VueRouter)
+// @ts-ignore
 Vue.use(VueQuillEditor)
 Vue.use(Vuex)
 
@@ -63,8 +64,10 @@ Vue.prototype.$axios = axios
 
 // vue-router
 const originalPush = VueRouter.prototype.push
+// @ts-ignore
 VueRouter.prototype.push = function push (location, onResolve, onReject) {
   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  // @ts-ignore
   return originalPush.call(this, location).catch(err => err)
 }
 const router = new VueRouter({
@@ -89,18 +92,23 @@ router.beforeEach(async (to, from, next) => {
 
 // 百度统计
 if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined && process.env.NODE_ENV === 'production') {
+  // @ts-ignore
   var _hmt = _hmt || []
+  // @ts-ignore
   window._hmt = _hmt; // 修改为window 全局变量
   (function () {
     var hm = document.createElement('script')
     hm.src = process.env.VUE_APP_BAIDU_ANALYSIS
     var s = document.getElementsByTagName('script')[0]
+    // @ts-ignore
     s.parentNode.insertBefore(hm, s)
   })()
 
   router.beforeEach((to, from, next) => {
+    // @ts-ignore
     if (window._hmt) {
       if (to.path) {
+        // @ts-ignore
         window._hmt.push(['_trackPageview', '/#' + to.fullPath])
       }
     }
