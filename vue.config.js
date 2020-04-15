@@ -30,7 +30,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  publicPath: '',
+  publicPath: '/',
   outputDir: 'dist',
   runtimeCompiler: true,
   productionSourceMap: false,
