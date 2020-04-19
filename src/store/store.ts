@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-const state = {
+const state: State = {
   logged: false,
-  auth: null,
+  userDetail: {},
   timeline: [],
   messages: [], // 是否有消息通知,
   userGroup: [], // 用户组 user admin
@@ -11,23 +11,24 @@ const state = {
 }
 
 const mutations = {
-  signin (state) {
+  signin (state: State) {
     state.logged = true
   },
-  logout (state) {
+  logout (state: State) {
     state.logged = false
   },
-  updateTimeline (state, timeline) {
+  updateTimeline (state: State, timeline: any) {
     state.timeline = timeline
+    // @ts-ignore
     this.commit('updateRecommendations') // this = $store
   },
-  updateMessages (state, messages) {
+  updateMessages (state: State, messages: any) {
     state.messages = messages
   },
-  updateUserGroup (state, userGroup) {
+  updateUserGroup (state: State, userGroup: any) {
     state.userGroup = userGroup
   },
-  updateRecommendations (state) {
+  updateRecommendations (state: State) {
     // 随机四个
     const timeline = state.timeline.slice()
     for (let i = timeline.length - 1; i >= 0; i--) {

@@ -13,6 +13,9 @@
       <el-tab-pane label="我的消息">
         <Messages></Messages>
       </el-tab-pane>
+      <el-tab-pane label="账户设置">
+        <Setting></Setting>
+      </el-tab-pane>
       <el-tab-pane label="登出">
         <el-button @click="logout()">登出</el-button>
       </el-tab-pane>
@@ -26,12 +29,14 @@
 const WriteMessage = () => import('@/components/WriteMessage')
 const Messages = () => import('@/components/Messages')
 const Wikis = () => import('./components/Wikis')
+const Setting = () => import('./components/Setting')
 
 export default {
   components: {
     WriteMessage,
     Messages,
-    Wikis
+    Wikis,
+    Setting
   },
   methods: {
     logout () {
