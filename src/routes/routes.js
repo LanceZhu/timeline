@@ -11,6 +11,7 @@ const NotFound = () => import('@/page/404/index')
 const TimepointAdd = () => import('@/page/timepoint/add')
 const TimepointEdit = () => import('@/page/timepoint/edit')
 const TimepointHistory = () => import('@/page/timepoint/history')
+const TimepointDiff = () => import('@/page/timepoint/historyDiff')
 
 const User = () => import('@/page/user/index')
 
@@ -49,6 +50,10 @@ export default [{
         path: ':id/history',
         name: 'timepoint',
         component: TimepointHistory
+      }, {
+        path: ':id/history/diff/:id1/:id2',
+        name: 'historyDiff',
+        component: TimepointDiff
       }]
     }, {
       path: 'login',
