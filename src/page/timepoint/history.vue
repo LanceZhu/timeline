@@ -4,10 +4,11 @@
       ref="wikiHistory"
       :data="historyList"
       style="width: 100%"
-      @selection-change="handleSelectionChange">
+      @selection-change="handleSelectionChange"
+      :header-cell-class-name="disableCheckAll">
       <el-table-column
         type="selection"
-        width="55">
+        width="80">
       </el-table-column>
       <el-table-column
         prop="timestamp"
@@ -121,6 +122,11 @@ export default {
       const id1 = this.selectedHistory[0]._id
       const id2 = this.selectedHistory[1]._id
       this.$router.push(`history/diff/${id1}/${id2}`)
+    },
+    disableCheckAll: function (row) {
+      if (row.columnIndex === 0) {
+        return 'disable-checkall'
+      }
     }
   }
 }
@@ -147,5 +153,18 @@ export default {
   .container{
     min-width: 720px;
   }
+}
+</style>
+
+<style>
+/* 去掉全选按钮 */
+.el-table .disable-checkall .cell .el-checkbox__inner{
+    display: none !important;
+}
+
+.el-table .disable-checkall .cell::before{
+    content: '选择';
+    text-align: center;
+    line-height: 37px;
 }
 </style>

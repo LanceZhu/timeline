@@ -73,7 +73,8 @@ DiffBuilder.prototype = {
         this.indexNewWords();
         this.operations = this.getOperations();
         this.performOperation();
-        return "<br/>[耗时："+(new Date - sd)+"毫秒]"+this.content.join('');
+        // return "<br/>[耗时："+(new Date - sd)+"毫秒]"+this.content.join('');
+        return this.content.join('')
     },
 
     performOperation: function() {
@@ -180,7 +181,6 @@ DiffBuilder.prototype = {
      */
     findMatchingBlocks: function(startInOld, endInOld, startInNew, endInNew, matchingBlocks) {
         var match = this.findMatch(startInOld, endInOld, startInNew, endInNew);
-        console.log(match)
         if (!match) {
             return;
         }
@@ -233,11 +233,12 @@ DiffBuilder.prototype = {
     },
 
     insert: function(opt, tagCls) {
-        this.insertTag('ins', tagCls || 'diffins', this.newWords.slice(opt.startInNew, opt.endInNew));
+        // 使用自定义标签，避免与 quill editor 冲突
+        this.insertTag('ins-diff', tagCls || 'diffins', this.newWords.slice(opt.startInNew, opt.endInNew));
     },
 
     del: function(opt, tagCls) {
-        this.insertTag('del', tagCls || 'diffdel', this.oldWords.slice(opt.startInOld, opt.endInOld));
+        this.insertTag('del-diff', tagCls || 'diffdel', this.oldWords.slice(opt.startInOld, opt.endInOld));
     },
 
     equal: function(opt) {
