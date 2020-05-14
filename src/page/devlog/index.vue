@@ -20,6 +20,10 @@ export default {
   data () {
     return {
       logs: [{
+        content: '添加版本对比功能',
+        timestamp: '2020-05-14',
+        type: 'info'
+      }, {
         content: '优化移动端浏览体验',
         timestamp: '2020-02-12',
         type: 'info'
@@ -42,6 +46,6 @@ export default {
 <style scoped>
 .container-devlog{
     max-width: 650px;
-    margin: 10px auto;
+    margin: 40px auto;
 }
 </style>
