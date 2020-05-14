@@ -72,14 +72,14 @@ export default {
 <style scoped>
 .sidebar {
   box-sizing: border-box;
-  padding: 40px 0 0;
+  padding: 20px 0 0;
   height: 100%;
   border-right: 1px solid #c4c4c4;
   background-color: rgb(247, 247, 247);
 }
 .title {
   position: absolute;
-  top: 0;
+  top: 5px;
 }
 .scroll {
   box-sizing: border-box;

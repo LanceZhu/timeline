@@ -27,6 +27,9 @@ export default {
 </script>
 
 <style scoped>
+.container-timeline-default {
+  margin-top: 20px;
+}
 .content{
   width: 90%;
   margin: 0 auto;
