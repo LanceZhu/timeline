@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
+    "serve": "npm run serve:dev",
+    "build": "npm run build:dev",
     "build:internet": "cross-env NODE_ENV=production vue-cli-service build --mode internet",
     "build:education": "cross-env NODE_ENV=production vue-cli-service build --mode education",
     "build:invention": "cross-env NODE_ENV=production vue-cli-service build --mode invention",

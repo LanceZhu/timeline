@@ -1,8 +1,10 @@
 # timeline
 
-[demo](http://internet.timeline.hfzhang.wang/)
+## Have a look :star:
 
-
+- [发明简史](http://invention.welishi.cn/)
+- [互联网简史](http://internet.welishi.cn/)
+- [高等工程教育简史](http://education.welishi.cn/)
 
 ## 项目启动
 
@@ -13,17 +15,15 @@ npm install
 
 ### 启动开发环境
 ```
-npm run serve
+npm run serve // 默认 dev 开发环境
+npm run serve:invention // 发明简史开发环境
+npm run serve:internet // 互联网简史开发环境
+npm run serve:education // 高等工程教育简史开发环境
 ```
 
 ### 生产环境打包
 ```
-npm run build
-```
-
-### 运行测试
-```
-npm run test
+npm run build // 与开发环境类似
 ```
 
 ### 格式化代码
@@ -57,12 +57,22 @@ npm run lint
 
 ## TODO
 
-- [ ] JavaScript => TypeScript
-- [ ] 移动端优化
+- [x] JavaScript => TypeScript
+
+  仅增加了 TypeScript 支持
+
+- [x] 移动端优化
+
+  仅 首页及词条页
+
 - [ ] SSR(Server Side Renderer) 服务端渲染
 
+## Contribution
+
+欢迎:raised_hands:
 
 ## 遇到的问题
+
 [传送门:flushed:](./docs/questions.md)
 
 
