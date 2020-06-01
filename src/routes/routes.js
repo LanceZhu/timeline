@@ -17,6 +17,8 @@ const User = () => import('@/page/user/index')
 
 const Devlog = () => import('@/page/devlog/index')
 
+const Feedback = () => import('@/components/Feedback')
+
 export default [{
   path: '/',
   component: Home,
@@ -73,6 +75,10 @@ export default [{
       path: 'devlog',
       name: 'devlog',
       component: Devlog
+    }, {
+      path: 'feedback',
+      name: 'feedback',
+      component: Feedback
     }, {
       path: '*',
       component: NotFound
