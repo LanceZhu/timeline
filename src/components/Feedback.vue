@@ -81,7 +81,18 @@ export default {
         content: otherInfo
       }
       const res = await this.$axios.post('/api/user/feedback', params)
-      console.log(res)
+      if (res.data.code !== 100) {
+        this.$message.error('反馈失败！')
+      } else {
+        this.$message({
+          type: 'success',
+          message: '感谢反馈！即将返回首页...'
+        })
+        const timeId = setTimeout(() => {
+          this.$router.push('/timeline')
+          clearTimeout(timeId)
+        }, 1500)
+      }
     },
     imgUploadSuccess (response, file, fileList) {
       const imgUrl = response.allowList[0].filepath || ''

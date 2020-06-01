@@ -2,11 +2,10 @@
   <div class="feedback">
     <el-divider></el-divider>
     <div class="wrapper">
-      <span>遇到问题请联系：ee_chronicle2019@163.com</span>
+      <span><a href="#/feedback">遇到问题，我要反馈</a></span>
       <a href="http://www.beian.miit.gov.cn/" target="_blank">京ICP备19056350号-1</a>
       <span><a href="/#/devlog" target="_blank">开发日志</a></span>
     </div>
-    <!-- <a href="mailto:ee_chronicle2019@163.com">ee_chronicle2019@163.com</a> -->
   </div>
 </template>
 
