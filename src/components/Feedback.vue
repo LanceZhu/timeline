@@ -47,7 +47,7 @@ export default {
         otherInfo: '',
         imgList: []
       },
-      options: ['页面白屏', '页面卡顿', '页面样式错乱', '时间轴时间排序混乱', '词条内容错误', '功能不可用', '其他'],
+      options: ['白屏', '卡顿', '样式错乱', '时间轴时间排序混乱', '词条内容错误', '功能不可用', '其他'],
       feedbackFormRules: {
         checkedOptions: [
           { type: 'array', required: true, message: '请至少选择一项', trigger: 'change' }
@@ -66,8 +66,12 @@ export default {
 <style scoped>
 .container {
   text-align: left;
-  width: 60%;
   margin: 0 auto;
   padding: 20px;
+}
+@media (min-width: 720px) {
+  .container {
+    width: 60%;
+  }
 }
 </style>
