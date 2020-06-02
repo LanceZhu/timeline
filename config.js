@@ -201,6 +201,14 @@ switch (process.env.VUE_APP_DOMAIN_NAME) {
                             高等工程教育编年史编辑团队`
     break
   }
+  case DOMAIN_NAME_ENUM.eechina: {
+    preface = `中国高等工程教育历史研究资料编年汇编版本V1.0.0，用作北化工62会议后在专家间小范围内部交流研讨。
+此版本尚处于实验中，用于有限范围内提升协作效率，以利于资料整理工作的改进迭代，请勿过度扩散。
+此版本为1.0.0版本，平台wiki中的bug，也会随着此项工作的进展逐步修正。也请专家根据需求提供建议和意见，共同改进。
+
+2020年6月2日。`
+    break
+  }
   case DOMAIN_NAME_ENUM.dev: {
     preface = 'dev'
     break
