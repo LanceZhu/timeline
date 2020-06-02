@@ -60,7 +60,13 @@ export default {
       }
 
       // 标签字段
-      const tag = this.$refs.Tags.getData()
+      let tag = []
+      try {
+        tag = this.$refs.Tags.getData()
+      } catch (err) {
+        console.error(err)
+        return
+      }
 
       // 标题和内容字段
       const { title, content } = this.$refs.Editor.getData()

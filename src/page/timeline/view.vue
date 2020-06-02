@@ -22,7 +22,7 @@
       </div>
       <div v-html="content" ref="content" class="article"></div>
         <div v-if="hasTag" class="tags">
-          <el-tooltip :content="tag.desc" popper-class="tooltip" placement="right-start">
+          <el-tooltip v-for="tag in tags" v-bind:key="tag.value" :content="tag.value" popper-class="tooltip" placement="right-start">
             <el-tag>{{ tag.label }}</el-tag>
           </el-tooltip>
         </div>
@@ -77,7 +77,7 @@ export default {
       content: '',
       title: '',
       id: '',
-      tag: {}, // {label: '名称', desc: '描述'}
+      tags: [], // {label: '名称', value: '描述'}
       hasTag: false,
       tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
@@ -106,7 +106,7 @@ export default {
       const that = this
       that.hasTag = false
       this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-        const { content, title, _id, owner, tag = '', supplement, create_owner: createOwner, nationality, inventor } = res.data.data.post
+        const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor } = res.data.data.post
         that.content = content
         that.title = title
         that.id = _id
@@ -129,15 +129,22 @@ export default {
           }
         })
         that.citations = supplement
-        if (tag !== '' && JSON.parse(tag).length !== 0) {
-          const tagNumber = JSON.parse(tag).reduce((acc, cur) => {
-            acc += cur
+        try {
+          that.tags = tag.reduce((acc, cur) => {
+            const { path, pathLabels } = cur
+            const tag = {
+              label: pathLabels.join('/'),
+              value: path[path.length - 1] || ''
+            }
+            acc.push(tag)
             return acc
-          }, 0)
-          that.tag = that.tagTable[tagNumber]
+          }, [])
           that.hasTag = true
+        } catch (err) {
+          console.error(err)
         }
       })
+      console.log(that.tags)
       this.loading = false
     }
   }

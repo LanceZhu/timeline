@@ -6,7 +6,7 @@
     <div class="submit">
       <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
     </div>
-    <Tags ref="Tags" :defaultTagValue="this.tagValue"></Tags>
+    <Tags ref="Tags" :defaultTagsChoosed="this.tagsChoosed"></Tags>
     <Citation ref="Citation" :defaultCitations="this.citations"></Citation>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
       dateValue: [100], // 时间点显示值
       dateType: 100,
       date: '',
-      tagValue: [],
+      tagsChoosed: [],
       citations: []
     }
   },
@@ -69,7 +69,13 @@ export default {
       }
 
       // 标签字段
-      const tag = this.$refs.Tags.getData()
+      let tag = []
+      try {
+        tag = this.$refs.Tags.getData()
+      } catch (err) {
+        console.error(err)
+        return
+      }
 
       // 标题和内容字段
       const { title, content } = this.$refs.Editor.getData()
@@ -135,14 +141,20 @@ export default {
   async created () {
     customizeViewByMode.bind(this)()
 
+    // 已有数据初始化
     try {
       const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
-      const { title, content, tag, supplement, show, nationality, inventor } = res.data.data.post
+      const { title, content, tag = [], supplement, show, nationality, inventor } = res.data.data.post
       this.title = title
       this.content = content
       this.citations = supplement
-      if (tag !== '') {
-        this.tagValue = JSON.parse(tag)
+      try {
+        this.tagsChoosed = tag.reduce((acc, cur) => {
+          acc.push(cur.path)
+          return acc
+        }, [])
+      } catch (err) {
+        console.error(err)
       }
       if (typeof show === 'object') {
         this.dateInitialize(show)

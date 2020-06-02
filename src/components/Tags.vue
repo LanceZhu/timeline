@@ -1,8 +1,13 @@
 <template>
   <div class="tags">
-    <div class="desc">添加标签（必填一项）</div>
+    <div class="desc">添加标签（至少一项）</div>
     <div>
-      <el-cascader v-model="tagValue" :options="tags"></el-cascader>
+      <el-cascader
+      ref="tags"
+      v-model="tagsChoosed"
+      :options="tags"
+      :props="{ multiple: true }"
+      ></el-cascader>
     </div>
   </div>
 </template>
@@ -14,18 +19,37 @@ export default {
   data () {
     return {
       tags: config.tags,
-      tagValue: []
+      tagsChoosed: []
     }
   },
-  props: ['defaultTagValue'],
+  props: ['defaultTagsChoosed'],
   watch: {
-    defaultTagValue: function (newV, oldV) {
-      this.tagValue = newV
+    defaultTagsChoosed: function (tagsChoosed) {
+      this.tagsChoosed = tagsChoosed
     }
   },
+  // 返回数据格式
+  // [{
+  //   path, // value 值组成数组
+  //   pathLabels // label 值组成数组
+  // }]
   methods: {
     getData () {
-      return JSON.stringify(this.tagValue)
+      const checkedNodes = this.$refs.tags.getCheckedNodes(true) // leafOnly: true 只获取叶节点
+      const tagsChoosed = checkedNodes.reduce((acc, cur) => {
+        const { pathLabels, path } = cur
+        const tag = {
+          path, pathLabels
+        }
+        acc.push(tag)
+        return acc
+      }, [])
+      if (tagsChoosed.length === 0) {
+        const errMsg = '至少添加一个标签'
+        this.$message.error(errMsg)
+        throw new Error(errMsg)
+      }
+      return tagsChoosed
     }
   }
 }
