@@ -87,6 +87,12 @@ if (process.env.VUE_APP_DOMAIN_NAME === DOMAIN_NAME_ENUM.internet) {
       value: '各个高校具有重大影响的事件',
       label: '相关学校大事记'
     }, {
+      value: '国内',
+      label: '国内'
+    }, {
+      value: '国外',
+      label: '国外'
+    }, {
       value: '默认',
       label: '默认'
     }
