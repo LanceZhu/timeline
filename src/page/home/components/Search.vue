@@ -14,6 +14,12 @@ export default {
       search: ''
     }
   },
+  watch: {
+    // $route (to, from) {
+    //   const anchor = document.getElementById(to.params.id)
+    //   anchor.scrollIntoView(true)
+    // }
+  },
   methods: {
     async querySearch (queryString, cb) {
       try {
@@ -36,6 +42,9 @@ export default {
     handleSearch (item) {
       this.search = item.search // 保持输入框中用户输入内容不变，不然替换为点击项内容
       this.$router.push(`/timeline/${item.id}`)
+
+      const anchor = document.getElementById(item.id) // 视图滑到指定词条
+      anchor.scrollIntoView(true)
     }
   }
 }
