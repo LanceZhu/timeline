@@ -1,20 +1,22 @@
 <template>
   <div>
     <div class="title">
-      {{title}}
-      <router-link :to="id + '/edit'" tag="li">
-        <el-tooltip content="编辑词条" popper-class="tooltip">
-          <i class="el-icon-edit"></i>
-        </el-tooltip>
-      </router-link>
-      <router-link :to="id + '/history'" tag="li">
-        <el-tooltip content="词条历史" popper-class="tooltip">
-          <i class="el-icon-time"></i>
-        </el-tooltip>
-      </router-link>
+      <span>{{title}}</span>
+      <div class="toolbar">
+        <router-link :to="id + '/edit'" tag="li">
+          <el-tooltip content="编辑词条" popper-class="tooltip">
+            <i class="el-icon-edit"></i>
+          </el-tooltip>
+        </router-link>
+        <router-link :to="id + '/history'" tag="li">
+          <el-tooltip content="词条历史" popper-class="tooltip">
+            <i class="el-icon-time"></i>
+          </el-tooltip>
+        </router-link>
       <Feedback :id="id"></Feedback>
-    <el-divider></el-divider>
+      </div>
     </div>
+    <el-divider></el-divider>
     <div class="content" v-loading="loading">
       <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
         <div>发明人：{{ ruleForm.inventor }}</div>
@@ -192,10 +194,13 @@ li{
 }
 .title{
   background-color: white;
-  height: 48px;
-  line-height: 48px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 0;
 }
-.title .el-divider{
+.el-divider{
   margin: 0;
 }
 .content .tags{
