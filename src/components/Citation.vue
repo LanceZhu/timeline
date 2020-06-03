@@ -103,7 +103,7 @@
               <span v-if="citation.content.paperName !== ''">{{ `著作名：${citation.content.paperName} ` }}</span>
               <span v-if="citation.content.publishAddress !== ''">{{ `出版地：${citation.content.publishAddress} ` }}</span>
               <span v-if="citation.content.publishPress !== ''">{{ `出版社：${citation.content.publishPress} ` }}</span>
-              <span v-in="citation.content.publishYear !== ''">{{ `出版年：${citation.content.publishYear} ` }}</span>
+              <span v-if="citation.content.publishYear !== ''">{{ `出版年：${citation.content.publishYear} ` }}</span>
               <span v-if="citation.content.pageRange !== ''">{{ `引文页码：${citation.content.pageRange}` }}</span>
             </div>
         </div>
