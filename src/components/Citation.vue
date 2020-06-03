@@ -63,8 +63,12 @@
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="其他资源" name="otherResource">
-          <el-form :model="otherResource" label-position="right" ref="otherResource">
-            <el-form-item label="*" :label-width="formLabelWidth">
+          <el-form
+          :model="otherResource"
+          label-position="right"
+          ref="otherResource"
+          :rules="otherResourceRules">
+            <el-form-item label="其他资源" :label-width="formLabelWidth" prop="any">
               <el-input v-model="otherResource.any" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
@@ -76,30 +80,38 @@
       </span>
       <el-divider></el-divider>
     </el-dialog>
-    <div class="citation-list">
+    <div class="citation-list" v-if="!!citations.length">
+      <div class="citation-title">文献列表：</div>
       <div v-for="(citation, index) in citations" :key="index" class="citation-item">
         <div v-if="citation.type === 'internetResource'">
-          <!-- <div class="title">网络资源</div> -->
-          <div>
-            {{index + 1}}.
-            <a :href="citation.content.url" target="_blank">
-              {{ `${citation.content.name} ` }}
-              <i class="el-icon-view"></i>
-            </a>
-            <span>{{citation.content.websiteName}}</span>
-            <span
-              class="citation-date"
-            >{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
-          </div>
+          <!-- <div class="citation-title">网络资源</div> -->
+            <div>
+              {{index + 1}}.
+              <a v-if="citation.content.name !== ''" :href="citation.content.url" target="_blank">{{ ` ${citation.content.name} ` }}<i class="el-icon-view"></i></a>
+              <span v-if="citation.content.websiteName !== ''">{{citation.content.websiteName}}</span>
+              <span class="citation-date">
+                <span v-if="citation.content.publishDate !== '' ">{{  ` [${citation.content.publishDate}]` }}</span>
+                <span v-if="citation.content.citationDate !== ''">{{ `(引用日期: ${citation.content.citationDate})` }}</span>
+              </span>
+            </div>
         </div>
         <div v-else-if="citation.type === 'bookResource'">
-          <!-- <div class="title">著作资源</div> -->
-          <div>{{index + 1}}.{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版地：${citation.content.publishAddress} 出版社：${citation.content.publishPress} 出版年：${citation.content.publishYear} 引文页码：${citation.content.pageRange}`}}</div>
+          <!-- <div class="citation-title">著作资源</div> -->
+            <div>
+              {{index + 1}}.
+              <span v-if="citation.content.author !== ''">{{ `作者：${citation.content.author} ` }}</span>
+              <span v-if="citation.content.paperName !== ''">{{ `著作名：${citation.content.paperName} ` }}</span>
+              <span v-if="citation.content.publishAddress !== ''">{{ `出版地：${citation.content.publishAddress} ` }}</span>
+              <span v-if="citation.content.publishPress !== ''">{{ `出版社：${citation.content.publishPress} ` }}</span>
+              <span v-in="citation.content.publishYear !== ''">{{ `出版年：${citation.content.publishYear} ` }}</span>
+              <span v-if="citation.content.pageRange !== ''">{{ `引文页码：${citation.content.pageRange}` }}</span>
+            </div>
         </div>
         <div v-else-if="citation.type === 'otherResource'">
-          <!-- <div class="title">其他资源</div> -->
-          <div>{{index + 1}}.{{`其他：${citation.content.any}`}}</div>
-        </div>
+          <!-- <div class="citation-title">其他资源</div> -->
+          <div v-if="citation.content.any !== ''">
+            {{index + 1}}.{{`${citation.content.any}`}}</div>
+          </div>
         <i class="el-icon-delete" @click="deleteCitation(index)"></i>
         <i class="el-icon-edit" @click="editCitation(index)"></i>
       </div>
@@ -109,6 +121,7 @@
 
 <script>
 import clone from 'lodash/clone'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Citation',
@@ -123,16 +136,16 @@ export default {
         url: '',
         websiteName: '',
         publishDate: '',
-        citationDate: ''
+        citationDate: dayjs().format('YYYY-MM-DD')
       },
       internetResourceRules: {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
         url: [{ required: true, message: '请输网站链接', trigger: 'blur' }],
         websiteName: [
-          { required: true, message: '请输入网站名称', trigger: 'blur' }
+          { required: false, message: '请输入网站名称', trigger: 'blur' }
         ],
         publishDate: [
-          { required: true, message: '请输入发表日期', trigger: 'blur' }
+          { required: false, message: '请输入发表日期', trigger: 'blur' }
         ],
         citationDate: [
           { required: true, message: '请输入引用日期', trigger: 'blur' }
@@ -152,7 +165,7 @@ export default {
           { required: true, message: '请输入文章名', trigger: 'blur' }
         ],
         publishAddress: [
-          { required: true, message: '请输入出版地址', trigger: 'blur' }
+          { required: false, message: '请输入出版地址', trigger: 'blur' }
         ],
         publishPress: [
           { required: true, message: '请输入出版社', trigger: 'blur' }
@@ -166,6 +179,11 @@ export default {
       },
       otherResource: {
         any: ''
+      },
+      otherResourceRules: {
+        any: [{
+          required: true, message: '请添加相关描述', trigger: 'blur'
+        }]
       },
       activeName: 'internetResource',
       citations: []
@@ -258,6 +276,7 @@ export default {
 }
 .citation-item{
   display: flex;
+  align-items: center;
 }
 .citation-item i{
   margin-left: 10px;

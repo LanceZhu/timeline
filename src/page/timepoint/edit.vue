@@ -180,6 +180,7 @@ export default {
   width: 90%;
   margin: 0 auto;
   min-width: 720px;
+  padding: 10px 0 20px;
 }
 .submit{
   margin-top: 10px;

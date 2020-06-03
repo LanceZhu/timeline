@@ -32,19 +32,30 @@
             <div v-if="citation.type === 'internetResource'">
               <!-- <div class="citation-title">网络资源</div> -->
                 <div>
-                  {{index + 1}}.<a :href="citation.content.url" target="_blank">{{ ` ${citation.content.name} ` }}<i class="el-icon-view"></i></a>
-                  <span>{{citation.content.websiteName}}</span>
-                  <span class="citation-date">{{` [${citation.content.publishDate}](引用日期: ${citation.content.citationDate})`}}</span>
+                  {{index + 1}}.
+                  <a v-if="citation.content.name !== ''" :href="citation.content.url" target="_blank">{{ ` ${citation.content.name} ` }}<i class="el-icon-view"></i></a>
+                  <span v-if="citation.content.websiteName !== ''">{{citation.content.websiteName}}</span>
+                  <span class="citation-date">
+                    <span v-if="citation.content.publishDate !== '' ">{{  ` [${citation.content.publishDate}]` }}</span>
+                    <span v-if="citation.content.citationDate !== ''">{{ `(引用日期: ${citation.content.citationDate})` }}</span>
+                  </span>
                 </div>
             </div>
             <div v-else-if="citation.type === 'bookResource'">
               <!-- <div class="citation-title">著作资源</div> -->
                 <div>
-                  {{index + 1}}.{{`作者：${citation.content.author} 著作名：${citation.content.paperName} 出版地：${citation.content.publishAddress} 出版社：${citation.content.publishPress} 出版年：${citation.content.publishYear} 引文页码：${citation.content.pageRange}`}}</div>
+                  {{index + 1}}.
+                  <span v-if="citation.content.author !== ''">{{ `作者：${citation.content.author} ` }}</span>
+                  <span v-if="citation.content.paperName !== ''">{{ `著作名：${citation.content.paperName} ` }}</span>
+                  <span v-if="citation.content.publishAddress !== ''">{{ `出版地：${citation.content.publishAddress} ` }}</span>
+                  <span v-if="citation.content.publishPress !== ''">{{ `出版社：${citation.content.publishPress} ` }}</span>
+                  <span v-in="citation.content.publishYear !== ''">{{ `出版年：${citation.content.publishYear} ` }}</span>
+                  <span v-if="citation.content.pageRange !== ''">{{ `引文页码：${citation.content.pageRange}` }}</span>
+                </div>
             </div>
             <div v-else-if="citation.type === 'otherResource'">
               <!-- <div class="citation-title">其他资源</div> -->
-              <div>
+              <div v-if="citation.content.any !== ''">
                 {{index + 1}}.{{`${citation.content.any}`}}</div>
             </div>
           </div>
