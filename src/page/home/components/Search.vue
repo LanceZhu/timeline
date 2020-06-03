@@ -24,7 +24,8 @@ export default {
         const results = resList.map(res => {
           return {
             id: res._id,
-            value: res.title
+            value: res.title,
+            search: this.search
           }
         })
         cb(results)
@@ -33,6 +34,7 @@ export default {
       }
     },
     handleSearch (item) {
+      this.search = item.search // 保持输入框中用户输入内容不变，不然替换为点击项内容
       this.$router.push(`/timeline/${item.id}`)
     }
   }
