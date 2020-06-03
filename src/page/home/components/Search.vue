@@ -23,7 +23,7 @@ export default {
   methods: {
     async querySearch (queryString, cb) {
       try {
-        const res = await this.$axios.post('/api/timepoint/search', {
+        const res = await this.$axios.post('/api/timepoint/newsearch', {
           search: this.search
         })
         const resList = res.data.data
