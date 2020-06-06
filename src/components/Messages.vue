@@ -6,12 +6,17 @@
       <div v-else>
         <el-table :data="messages" @expand-change="expandChange">
           <el-table-column
-            label="发件人"
-            prop="from">
+            label="发件人id"
+            prop="from"
+            width="80">
+          </el-table-column>
+          <el-table-column
+            label="发件人用户名"
+            prop="fromUsername">
           </el-table-column>
           <el-table-column
             label="发送时间"
-            prop="send_timestamp">
+            prop="sendTimestamp">
           </el-table-column>
           <el-table-column
             label="标题"
@@ -35,7 +40,7 @@
 import dayjs from 'dayjs'
 
 export default {
-  name: 'WriteMessage',
+  name: 'Message',
   data () {
     return {
       messages: []
@@ -45,16 +50,15 @@ export default {
     try {
       const res = await this.$axios.get('/api/user/checkMessage')
       if (res.data.code === 100) {
-        this.messages = res.data.message.map(el => {
-          el.read = el.read ? '已读' : '未读'
-          el.send_timestamp = dayjs(el.send_timestamp).format('YYYY-MM-DD HH:mm')
-          return el
-        })
-        this.messages.reverse()
+        let messages = res.data.message
+        messages = await Promise.all(messages.map(async msg => await this.formatMsg(msg)))
+        this.messages = messages.reverse()
       } else {
+        console.error(res)
         this.$message.error('发送失败！')
       }
     } catch (err) {
+      console.error(err)
       this.$message.error('请求失败！')
     }
   },
@@ -71,6 +75,15 @@ export default {
       } catch (err) {
         console.error(err)
       }
+    },
+    async formatMsg (msg) {
+      const { read, send_timestamp: sendTimestamp, from } = msg
+      const formatedMsg = Object.assign({}, msg, {
+        read: read ? '已读' : '未读',
+        sendTimestamp: dayjs(sendTimestamp).format('YYYY-MM-DD HH:mm'),
+        fromUsername: await this.$api.getNickname(from)
+      })
+      return formatedMsg
     }
   }
 }
