@@ -189,7 +189,7 @@ export default {
 }
 .sidebar {
   box-sizing: border-box;
-  padding: 5px 10px 0;
+  padding: 40px 10px 0;
   height: 100%;
   border-right: 1px solid #c4c4c4;
   background-color: rgb(247, 247, 247);
@@ -197,6 +197,9 @@ export default {
 .toolbar {
   display: flex;
   align-items: center;
+  position: absolute;
+  top: 0;
+  height: 40px;
 }
 .toolbar .title {
   font-size: 16px;
