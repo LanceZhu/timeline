@@ -6,6 +6,25 @@
   </div>
 </template>
 
+<script>
+export default {
+  created () {
+    this.persistVuex()
+  },
+  methods: {
+    // 持久化 Vuex，避免页面刷新状态丢失
+    persistVuex () {
+      if (sessionStorage.getItem('Vuex')) {
+        this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('Vuex'))))
+      }
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('Vuex', JSON.stringify(this.$store.state))
+      })
+    }
+  }
+}
+</script>
+
 <style>
 html, body{
     padding: 0;

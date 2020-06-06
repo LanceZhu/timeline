@@ -47,7 +47,6 @@ export default {
       }
     }
   },
-  created () {},
   methods: {
     changeTitle () {
       this.login = !this.login
@@ -91,15 +90,7 @@ export default {
         console.error(err)
       }
       this.buttonLoading = false
-      try {
-        // 消息通知 管理员删除词条
-        const res = await this.$axios('/api/user/getDetail')
-        const { msg = [], group = [] } = res.data.data.mongo
-        this.$store.commit('updateMessages', msg)
-        this.$store.commit('updateUserGroup', group)
-      } catch (err) {
-        console.error(err)
-      }
+      await this.init()
     },
     async signin () {
       this.buttonLoading = true
@@ -140,7 +131,17 @@ export default {
       } catch (err) {
         this.$message.error('登陆失败！')
       }
-
+      this.buttonLoading = false
+      await this.init()
+    },
+    passwordEnter () {
+      if (this.login) {
+        this.signin()
+      } else {
+        this.signup()
+      }
+    },
+    async init () {
       // 直接在此处请求 浏览器未设置 cookie
       try {
       // 消息通知 管理员删除词条
@@ -150,14 +151,6 @@ export default {
         this.$store.commit('updateUserGroup', group)
       } catch (err) {
         console.error(err)
-      }
-      this.buttonLoading = false
-    },
-    passwordEnter () {
-      if (this.login) {
-        this.signin()
-      } else {
-        this.signup()
       }
     }
   }

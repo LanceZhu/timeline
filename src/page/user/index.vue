@@ -5,7 +5,7 @@
         <Wikis></Wikis>
       </el-tab-pane>
       <el-tab-pane label="词条管理" v-if="this.$store.state.userGroup.includes('admin')">
-        {{ messages.length === 0 ? "暂无通知" : messages }}
+        <Management></Management>
       </el-tab-pane>
       <el-tab-pane label="站内私信">
         <WriteMessage></WriteMessage>
@@ -26,12 +26,17 @@
 const WriteMessage = () => import('@/components/WriteMessage')
 const Messages = () => import('@/components/Messages')
 const Wikis = () => import('./components/Wikis')
+const Management = () => import('./components/Management')
 
 export default {
   components: {
     WriteMessage,
     Messages,
-    Wikis
+    Wikis,
+    Management
+  },
+  created () {
+    console.log(this.$store.state)
   },
   methods: {
     logout () {
@@ -41,11 +46,6 @@ export default {
         that.$router.push('/timeline')
       })
       this.$message.success('登出成功')
-    }
-  },
-  computed: {
-    messages () {
-      return this.$store.state.messages
     }
   }
 }

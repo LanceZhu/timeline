@@ -10,6 +10,7 @@ import 'quill/dist/quill.bubble.css'
 import store from './store/store'
 import Vuex from 'vuex'
 import axios from 'axios'
+import api from '@/API/API'
 import checkLogin from '@/utils/checkLogin'
 
 // import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
@@ -61,6 +62,9 @@ Vue.use(Vuex)
 axios.defaults.baseURL = config.baseURL
 // axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
+
+// api
+Vue.prototype.$api = api
 
 // vue-router
 const originalPush = VueRouter.prototype.push
