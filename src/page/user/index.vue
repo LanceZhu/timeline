@@ -35,9 +35,6 @@ export default {
     Wikis,
     Management
   },
-  created () {
-    console.log(this.$store.state)
-  },
   methods: {
     logout () {
       const that = this
