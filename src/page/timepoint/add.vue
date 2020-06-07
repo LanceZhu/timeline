@@ -7,7 +7,7 @@
       <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
     </div>
     <Tags ref="Tags"></Tags>
-    <Citation ref="Citation"></Citation>
+    <Citation ref="Citation" editable></Citation>
   </div>
 </template>
 

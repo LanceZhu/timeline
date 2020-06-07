@@ -7,7 +7,7 @@
       <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
     </div>
     <Tags ref="Tags" :defaultTagsChoosed="this.tagsChoosed"></Tags>
-    <Citation ref="Citation" :defaultCitations="this.citations"></Citation>
+    <Citation ref="Citation" :defaultCitations="this.citations" editable></Citation>
   </div>
 </template>
 

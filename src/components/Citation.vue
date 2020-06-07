@@ -1,6 +1,6 @@
 <template>
   <div class="citation">
-    <el-button type="text" @click="addCitation()">
+    <el-button v-if="editable" type="text" @click="addCitation()">
       <i class="el-icon-document-add"></i>
       <span class="title">添加参考文献</span>
     </el-button>
@@ -62,6 +62,22 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
+        <el-tab-pane label="论文资源" name="thesis">
+          <el-form
+          :model="thesis"
+          label-position="right"
+          :rules="thesisRules"
+          ref="thesis">
+            <el-form-item label="论文资源" :label-width="formLabelWidth" prop="content">
+              <div>
+                <el-input
+                  v-model="thesis.content"
+                  placeholder="例：常文涛,陈雨薇.人民币汇率对CPI的传递效应及互动关系研究[J/OL].统计与决策,2020(09):129-133[2020-06-07].https://doi.org/10.13546/j.cnki.tjyjc.2020.09.027."></el-input>
+                <span style="font-size: 12px; color: gray">填写格式请参阅《文后参考文献著录规则 GB/T 7714-2005》</span>
+              </div>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
         <el-tab-pane label="其他资源" name="otherResource">
           <el-form
           :model="otherResource"
@@ -112,6 +128,14 @@
           <div v-if="citation.content.any !== ''">
             {{index + 1}}.{{`${citation.content.any}`}}</div>
           </div>
+        <div v-else-if="citation.type === 'thesis'">
+          <div v-if="citation.content.content !== ''">
+            {{ index + 1 }}.{{ `${citation.content.content}` }}
+          </div>
+        </div>
+        <div v-else>
+          <div>格式错误</div>
+        </div>
         <i class="el-icon-delete" @click="deleteCitation(index)"></i>
         <i class="el-icon-edit" @click="editCitation(index)"></i>
       </div>
@@ -185,6 +209,15 @@ export default {
           required: true, message: '请添加相关描述', trigger: 'blur'
         }]
       },
+      // 论文资源
+      thesis: {
+        content: ''
+      },
+      thesisRules: {
+        content: [{
+          required: true, message: '请添加所引论文', trigger: 'blur'
+        }]
+      },
       activeName: 'internetResource',
       citations: []
     }
@@ -192,6 +225,10 @@ export default {
   props: {
     defaultCitations: {
       type: Array
+    },
+    editable: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
@@ -262,11 +299,13 @@ export default {
   padding-left: 5px;
 }
 .citation-list{
+  margin-top: 20px;
   text-align: left;
   color: gray;
 }
 .citation-list a{
   color: gray;
+  text-decoration: none;
 }
 .citation-list .title{
   font-weight: bold;
