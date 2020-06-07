@@ -45,24 +45,29 @@ export default {
   computed: {
     timelineUpdated () {
       const timeline = this.$store.state.timeline
-      if (!this.filter) {
-        return timeline
-      }
-      const filterTimeline = []
-      const filterRule = {
-        tag: this.tagsChoosed
-      }
+      let filteredTimeline = []
 
-      for (const time of timeline) {
-        if (this.filterValidate(time, filterRule)) {
-          try {
-            filterTimeline.push(time)
-          } catch (err) {
-            console.error(time, err)
+      if (this.filter) {
+        const filterRule = {
+          tag: this.tagsChoosed
+        }
+
+        for (const time of timeline) {
+          if (this.filterValidate(time, filterRule)) {
+            try {
+              filteredTimeline.push(time)
+            } catch (err) {
+              console.error(time, err)
+            }
           }
         }
+      } else {
+        filteredTimeline = timeline
       }
-      return filterTimeline
+
+      this.$store.commit('updateFilteredTimeline', filteredTimeline)
+
+      return filteredTimeline
     }
   },
   props: {

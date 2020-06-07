@@ -5,6 +5,7 @@ const state = {
   logged: false,
   auth: null,
   timeline: [],
+  filteredTimeline: [], // 用户筛选后的时间轴, 例如 标签筛选
   messages: [], // 是否有消息通知,
   userGroup: [], // 用户组 user admin
   recomendations: [] // 首页词条推荐
@@ -20,6 +21,9 @@ const mutations = {
   updateTimeline (state, timeline) {
     state.timeline = timeline
     this.commit('updateRecommendations') // this = $store
+  },
+  updateFilteredTimeline (state, filteredTimeline) {
+    state.filteredTimeline = filteredTimeline
   },
   updateMessages (state, messages) {
     state.messages = messages

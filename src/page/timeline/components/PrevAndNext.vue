@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     prevUpdated () {
-      const { timeline = [] } = this.$store.state
+      const { filteredTimeline = [] } = this.$store.state
       const prevUpdated = {
         desc: '前一页',
         show: true,
@@ -47,20 +47,20 @@ export default {
       }
 
       // 获取当前时间点前后词条
-      for (let i = (timeline.length - 1); i >= 0; i--) {
-        if (timeline[i]._id === this.id) {
+      for (let i = (filteredTimeline.length - 1); i >= 0; i--) {
+        if (filteredTimeline[i]._id === this.id) {
           if (i === 0) {
             prevUpdated.show = false
           }
-          prevUpdated.desc = i > 0 ? timeline[i - 1].title : '已无时间点'
-          prevUpdated.route = i > 0 ? `/timeline/${timeline[i - 1]._id}` : '/timeline'
+          prevUpdated.desc = i > 0 ? filteredTimeline[i - 1].title : '已无时间点'
+          prevUpdated.route = i > 0 ? `/timeline/${filteredTimeline[i - 1]._id}` : '/timeline'
           break
         }
       }
       return prevUpdated
     },
     nextUpdated () {
-      const { timeline = [] } = this.$store.state
+      const { filteredTimeline = [] } = this.$store.state
       const nextUpdated = {
         desc: '后一页',
         show: true,
@@ -68,13 +68,13 @@ export default {
       }
 
       // 获取当前时间点前后词条
-      for (let i = (timeline.length - 1); i >= 0; i--) {
-        if (timeline[i]._id === this.id) {
-          if (i === (timeline.length - 1)) {
+      for (let i = (filteredTimeline.length - 1); i >= 0; i--) {
+        if (filteredTimeline[i]._id === this.id) {
+          if (i === (filteredTimeline.length - 1)) {
             nextUpdated.show = false
           }
-          nextUpdated.desc = i < (timeline.length - 1) ? timeline[i + 1].title : '已无时间点'
-          nextUpdated.route = i < (timeline.length - 1) ? `/timeline/${timeline[i + 1]._id}` : '/timeline'
+          nextUpdated.desc = i < (filteredTimeline.length - 1) ? filteredTimeline[i + 1].title : '已无时间点'
+          nextUpdated.route = i < (filteredTimeline.length - 1) ? `/timeline/${filteredTimeline[i + 1]._id}` : '/timeline'
           break
         }
       }
