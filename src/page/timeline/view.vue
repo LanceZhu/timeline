@@ -122,7 +122,6 @@ export default {
           console.error(err)
         }
       })
-      console.log(that.tags)
       this.loading = false
     }
   }

@@ -3,12 +3,11 @@
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="this.dateValue" :defaultDate="this.date" :defaultType="this.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="this.title" :defaultContent="this.content"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor" :nationality="ruleForm.nationality" :inventor="ruleForm.inventor"></NationalityAndInventor>
-    <div class="submit">
-      <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
-    </div>
     <Tags ref="Tags" :defaultTagsChoosed="this.tagsChoosed"></Tags>
     <Citation ref="Citation" :defaultCitations="this.citations" editable></Citation>
-  </div>
+    <div class="submit">
+      <el-button type="primary" @click="submit()">提交</el-button>
+    </div></div>
 </template>
 
 <script>
@@ -176,9 +175,6 @@ export default {
   min-width: 720px;
   padding: 10px 0 20px;
 }
-.submit{
-  margin-top: 10px;
-}
 .el-input{
   margin: 10px 0;
 }
@@ -196,5 +192,8 @@ export default {
   width: 80px;
   height: 40px;
   margin: 10px;
+}
+.submit{
+  margin: 10px 0 20px;
 }
 </style>

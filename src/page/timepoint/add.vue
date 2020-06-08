@@ -3,11 +3,11 @@
     <FuzzyTimePicker ref="FuzzyTimePicker"></FuzzyTimePicker>
     <Editor ref="Editor"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
-    <div class="submit">
-      <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
-    </div>
     <Tags ref="Tags"></Tags>
     <Citation ref="Citation" editable></Citation>
+    <div class="submit">
+      <el-button type="primary" @click="submit()">提交</el-button>
+    </div>
   </div>
 </template>
 
@@ -126,7 +126,7 @@ export default {
   margin: 10px 0;
 }
 .submit{
-  margin-top: 10px;
+  margin: 10px 0 20px;
 }
 .date{
   text-align: left;

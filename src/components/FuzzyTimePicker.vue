@@ -1,6 +1,6 @@
 <template>
     <div class="date">
-      <div>时间格式选择</div>
+      <div class="title el-icon-caret-right">时间格式选择</div>
       <div class="date-format">
         <el-cascader
           v-model="dateValue"
@@ -306,7 +306,11 @@ export default {
 .date{
   text-align: left;
 }
+.title {
+  font-size: 16px;
+}
 .date-format{
+  margin-top: 10px;
   display: flex;
   align-items: center;
 }
