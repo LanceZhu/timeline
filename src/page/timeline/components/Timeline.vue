@@ -217,6 +217,19 @@ export default {
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
+.scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: gray;
+  outline: 1px solid slategrey;
+}
+
 .time {
   color: #666;
   font-size: 12px;
