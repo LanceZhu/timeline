@@ -22,6 +22,7 @@ export default {
       title: '',
       content: '',
       editorOption: {
+        placeholder: '请输入正文',
         modules: {
           ImageExtend: {
             name: 'img', // 图片参数名
