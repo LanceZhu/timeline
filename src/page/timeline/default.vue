@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { preface } from '../../../config'
+import config from '../../../config'
 
 const Footer = () => import('../../components/Footer')
 const Recomendations = () => import('./components/Recomendations')
@@ -16,7 +16,7 @@ const Recomendations = () => import('./components/Recomendations')
 export default {
   data () {
     return {
-      content: preface
+      content: config.preface || '暂无前言'
     }
   },
   components: {

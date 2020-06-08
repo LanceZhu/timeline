@@ -1,5 +1,3 @@
-// import config from './config.js'
-// const UglifyPlugin = require('uglifyjs-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const BundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -86,13 +84,13 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: `http://${process.env.VUE_APP_DOMAIN_NAME}.welishi.cn`,
+        target: `http://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
         changeOrigin: true,
         onProxyRes: function (proxyRes, req, res) {
         }
       },
       '/attachment': {
-        target: `http://${process.env.VUE_APP_DOMAIN_NAME}.welishi.cn`,
+        target: `http://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
         changeOrigin: true
       }
     }

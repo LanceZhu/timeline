@@ -2,7 +2,7 @@
   <div class="container-edit">
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="this.dateValue" :defaultDate="this.date" :defaultType="this.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="this.title" :defaultContent="this.content"></Editor>
-    <NationalityAndInventor v-if="showObject.showNationalityAndInventor" ref="NationalityAndInventor" :nationality="ruleForm.nationality" :inventor="ruleForm.inventor"></NationalityAndInventor>
+    <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor" :nationality="ruleForm.nationality" :inventor="ruleForm.inventor"></NationalityAndInventor>
     <div class="submit">
       <el-button type="primary" icon="el-icon-upload2" @click="submit()">提交</el-button>
     </div>
@@ -12,8 +12,6 @@
 </template>
 
 <script>
-import customizeViewByMode from '@/utils/customizeViewByMode'
-
 const NationalityAndInventor = () => import('@/components/NationalityAndInventor')
 const FuzzyTimePicker = () => import('@/components/FuzzyTimePicker')
 const Citation = () => import('@/components/Citation')
@@ -25,8 +23,6 @@ export default {
     return {
       // 以组件形式嵌入的表单字段集合
       ruleForm: {},
-      // 控制组件的显示
-      showObject: {},
       title: '',
       content: '',
       dateValue: [100], // 时间点显示值
@@ -49,7 +45,7 @@ export default {
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
       let nationalityAndCreator = {}
-      if (this.showObject.showNationalityAndInventor) {
+      if (this.$view.showNationalityAndInventor) {
         // 发明简史国籍和发明人字段
         try {
           nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()
@@ -139,8 +135,6 @@ export default {
     }
   },
   async created () {
-    customizeViewByMode.bind(this)()
-
     // 已有数据初始化
     try {
       const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)

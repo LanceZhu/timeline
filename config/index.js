@@ -1,0 +1,6 @@
+export { default as internetConfig } from './internet'
+export { default as inventionConfig } from './invention'
+export { default as educationConfig } from './education'
+export { default as eechinaConfig } from './eechina'
+export { default as devConfig } from './dev'
+export { default as defaultConfig } from './default'
