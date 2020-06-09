@@ -3,7 +3,7 @@
     <FuzzyTimePicker ref="FuzzyTimePicker"></FuzzyTimePicker>
     <Editor ref="Editor"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
-    <Tags ref="Tags"></Tags>
+    <Tags ref="Tags" editable></Tags>
     <Citation ref="Citation" editable></Citation>
     <div class="submit">
       <el-button type="primary" @click="submit()">提交</el-button>
