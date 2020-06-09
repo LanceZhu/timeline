@@ -136,8 +136,8 @@
         <div v-else>
           <div>格式错误</div>
         </div>
-        <i class="el-icon-delete" @click="deleteCitation(index)"></i>
-        <i class="el-icon-edit" @click="editCitation(index)"></i>
+        <i class="el-icon-delete" @click="deleteCitation(index)" v-if="editable"></i>
+        <i class="el-icon-edit" @click="editCitation(index)" v-if="editable"></i>
       </div>
     </div>
   </div>
