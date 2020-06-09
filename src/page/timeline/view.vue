@@ -18,7 +18,7 @@
     </div>
     <el-divider></el-divider>
     <div class="content" v-loading="loading">
-      <div v-if="showObject.showNationalityAndInventor" class="nationality-inventor">
+      <div v-if="this.$view.showNationalityAndInventor" class="nationality-inventor">
         <div>发明人：{{ ruleForm.inventor }}</div>
         <div>发明国家：{{ ruleForm.nationality }}</div>
       </div>
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import customizeViewByMode from '../../utils/customizeViewByMode'
 import config from '../../../config'
 
 const Feedback = () => import('./components/Feedback')
@@ -53,14 +52,12 @@ const Citation = () => import('@/components/Citation')
 export default {
   data () {
     return {
-      showObject: {},
       ruleForm: {},
       content: '',
       title: '',
       id: '',
       tags: [], // {label: '名称', value: '描述'}
       hasTag: false,
-      tagTable: config.tagTable, // value -> tag
       lastEditedUser: '', // 最后编辑用户
       creator: '', // 词条最初创建者
       citations: [],
@@ -74,7 +71,6 @@ export default {
     Citation
   },
   created () {
-    customizeViewByMode.bind(this)()
     this.updateContent()
   },
   watch: {
@@ -126,7 +122,6 @@ export default {
           console.error(err)
         }
       })
-      console.log(that.tags)
       this.loading = false
     }
   }

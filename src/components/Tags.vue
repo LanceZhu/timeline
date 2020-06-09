@@ -1,6 +1,6 @@
 <template>
   <div class="tags">
-    <div class="desc">添加标签（至少一项）</div>
+    <div class="desc el-icon-caret-right">添加标签（至少一项）</div>
     <div>
       <el-cascader
       ref="tags"
@@ -58,6 +58,7 @@ export default {
 <style scoped>
 .tags {
   text-align: left;
+  margin-top: 10px;
 }
 .tags .desc {
   margin-bottom: 10px;

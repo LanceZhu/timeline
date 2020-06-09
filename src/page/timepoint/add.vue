@@ -2,18 +2,16 @@
   <div class="container-add">
     <FuzzyTimePicker ref="FuzzyTimePicker"></FuzzyTimePicker>
     <Editor ref="Editor"></Editor>
-    <NationalityAndInventor v-if="showObject.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
-    <div class="submit">
-      <el-button type="primary" icon="el-icon-upload2" @click="submit()">添加</el-button>
-    </div>
+    <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
     <Tags ref="Tags"></Tags>
     <Citation ref="Citation" editable></Citation>
+    <div class="submit">
+      <el-button type="primary" @click="submit()">提交</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import customizeViewByMode from '@/utils/customizeViewByMode'
-
 const NationalityAndInventor = () => import('@/components/NationalityAndInventor')
 const FuzzyTimePicker = () => import('@/components/FuzzyTimePicker')
 const Citation = () => import('@/components/Citation')
@@ -21,12 +19,6 @@ const Tags = () => import('@/components/Tags')
 const Editor = () => import('@/components/Editor')
 
 export default {
-  data () {
-    return {
-      ruleForm: {},
-      showObject: {}
-    }
-  },
   components: {
     NationalityAndInventor,
     FuzzyTimePicker,
@@ -40,7 +32,7 @@ export default {
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
       let nationalityAndCreator = {}
-      if (this.showObject.showNationalityAndCreator) {
+      if (this.$view.showNationalityAndCreator) {
         // 发明简史国籍和发明人字段
         try {
           nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()
@@ -119,9 +111,6 @@ export default {
         }
       }
     }
-  },
-  created () {
-    customizeViewByMode.bind(this)()
   }
 }
 </script>
@@ -137,7 +126,7 @@ export default {
   margin: 10px 0;
 }
 .submit{
-  margin-top: 10px;
+  margin: 10px 0 20px;
 }
 .date{
   text-align: left;

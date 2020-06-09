@@ -1,8 +1,8 @@
 <template>
   <div class="citation">
     <el-button v-if="editable" type="text" @click="addCitation()">
-      <i class="el-icon-document-add"></i>
-      <span class="title">添加参考文献</span>
+      <span class="title el-icon-caret-right">添加参考文献</span>
+      <i class="el-icon-document-add" style="margin-left: 10px"></i>
     </el-button>
     <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
       <el-tabs v-model="activeName">
@@ -284,12 +284,12 @@ export default {
 
 <style scoped>
 .citation{
+  margin-top: 10px;
   text-align: left;
 }
 .citation .title{
+  font-size: 16px;
   color: black;
-  font-weight: normal;
-  font-size: 15px;
 }
 .citation .url-preview{
   display: flex;
@@ -299,7 +299,6 @@ export default {
   padding-left: 5px;
 }
 .citation-list{
-  margin-top: 20px;
   text-align: left;
   color: gray;
 }

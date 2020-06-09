@@ -95,7 +95,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 // 百度统计
-if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined && process.env.NODE_ENV === 'production') {
+if (config.BAIDU_ANALYSIS_URL !== undefined && process.env.NODE_ENV === 'production') {
   // @ts-ignore
   var _hmt = _hmt || []
   // @ts-ignore
@@ -119,6 +119,8 @@ if (process.env.VUE_APP_BAIDU_ANALYSIS !== undefined && process.env.NODE_ENV ===
     next()
   })
 }
+
+Vue.prototype.$view = config.view
 
 new Vue({
   router,

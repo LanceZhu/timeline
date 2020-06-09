@@ -22,11 +22,12 @@ export default {
       title: '',
       content: '',
       editorOption: {
+        placeholder: '请输入正文',
         modules: {
           ImageExtend: {
             name: 'img', // 图片参数名
             size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
-            action: config.quillEditorOptions.imageUploadAPI,
+            action: '/api/supplement/upload',
             response: (res) => {
               return config.baseURL + res.allowList[0].filepath
             }
