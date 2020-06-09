@@ -169,7 +169,13 @@ export default {
       let timeTags = []
       try {
         timeTags = time.tag.reduce((acc, cur) => {
-          acc.push(cur.pathLabels.join('/'))
+          if (typeof cur === 'string') {
+            acc.push(cur)
+          } else if (typeof cur === 'object' && 'pathLabels' in cur) {
+            acc.push(cur.pathLabels.join('/'))
+          } else {
+            acc.push(cur)
+          }
           return acc
         }, [])
       } catch (err) {
