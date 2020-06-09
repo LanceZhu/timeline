@@ -23,11 +23,7 @@
         <div>发明国家：{{ ruleForm.nationality }}</div>
       </div>
       <div v-html="content" ref="content" class="article"></div>
-        <div v-if="hasTag" class="tags">
-          <el-tooltip v-for="tag in tags" v-bind:key="tag.value" :content="tag.value" popper-class="tooltip" placement="right-start">
-            <el-tag>{{ tag.label }}</el-tag>
-          </el-tooltip>
-        </div>
+        <Tags :defaultTagsChoosed="tags"></Tags>
         <Citation :defaultCitations="this.citations"></Citation>
         <div class="last-edited-user">
           创建者：<span v-html="creator"></span>
@@ -48,6 +44,7 @@ const Feedback = () => import('./components/Feedback')
 const PrevAndNext = () => import('./components/PrevAndNext')
 const Footer = () => import('../../components/Footer')
 const Citation = () => import('@/components/Citation')
+const Tags = () => import('@/components/Tags')
 
 export default {
   data () {
@@ -56,7 +53,7 @@ export default {
       content: '',
       title: '',
       id: '',
-      tags: [], // {label: '名称', value: '描述'}
+      tags: [], // ['标签1', '标签2']
       hasTag: false,
       lastEditedUser: '', // 最后编辑用户
       creator: '', // 词条最初创建者
@@ -68,7 +65,8 @@ export default {
     Feedback,
     PrevAndNext,
     Footer,
-    Citation
+    Citation,
+    Tags
   },
   created () {
     this.updateContent()
@@ -108,15 +106,16 @@ export default {
         })
         that.citations = supplement
         try {
-          that.tags = tag.reduce((acc, cur) => {
-            const { path, pathLabels } = cur
-            const tag = {
-              label: pathLabels.join('/'),
-              value: path[path.length - 1] || ''
-            }
-            acc.push(tag)
-            return acc
-          }, [])
+          // that.tags = tag.reduce((acc, cur) => {
+          //   const { path, pathLabels } = cur
+          //   const tag = {
+          //     label: pathLabels.join('/'),
+          //     value: path[path.length - 1] || ''
+          //   }
+          //   acc.push(tag)
+          //   return acc
+          // }, [])
+          that.tags = tag
           that.hasTag = true
         } catch (err) {
           console.error(err)
@@ -166,10 +165,6 @@ li{
 }
 .el-divider{
   margin: 0;
-}
-.content .tags{
-  display: flex;
-  justify-content: flex-start;
 }
 .content .last-edited-user{
   text-align: right;

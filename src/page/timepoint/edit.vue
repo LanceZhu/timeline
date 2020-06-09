@@ -3,7 +3,7 @@
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="this.dateValue" :defaultDate="this.date" :defaultType="this.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="this.title" :defaultContent="this.content"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor" :nationality="ruleForm.nationality" :inventor="ruleForm.inventor"></NationalityAndInventor>
-    <Tags ref="Tags" :defaultTagsChoosed="this.tagsChoosed"></Tags>
+    <Tags ref="Tags" :defaultTagsChoosed="this.tagsChoosed" editable></Tags>
     <Citation ref="Citation" :defaultCitations="this.citations" editable></Citation>
     <div class="submit">
       <el-button type="primary" @click="submit()">提交</el-button>
@@ -142,10 +142,7 @@ export default {
       this.content = content
       this.citations = supplement
       try {
-        this.tagsChoosed = tag.reduce((acc, cur) => {
-          acc.push(cur.path)
-          return acc
-        }, [])
+        this.tagsChoosed = tag
       } catch (err) {
         console.error(err)
       }
