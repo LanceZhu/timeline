@@ -7,6 +7,9 @@
       <el-tab-pane label="词条管理" v-if="this.$store.state.userGroup.includes('admin')">
         <Management></Management>
       </el-tab-pane>
+      <el-tab-pane label="词条审核" v-if="this.$store.state.userGroup.includes('admin')">
+        <PendingWikis></PendingWikis>
+      </el-tab-pane>
       <el-tab-pane label="站内私信">
         <WriteMessage></WriteMessage>
       </el-tab-pane>
@@ -27,13 +30,15 @@ const WriteMessage = () => import('@/components/WriteMessage')
 const Messages = () => import('@/components/Messages')
 const Wikis = () => import('./components/Wikis')
 const Management = () => import('./components/Management')
+const PendingWikis = () => import('./components/PendingWikis')
 
 export default {
   components: {
     WriteMessage,
     Messages,
     Wikis,
-    Management
+    Management,
+    PendingWikis
   },
   methods: {
     logout () {
