@@ -8,27 +8,32 @@
       :closable="false"
       show-icon>
     </el-alert>
-    <div class="title">
-      <span>{{timepoint.title}}</span>
-      <Toolbar :id="timepoint.id"></Toolbar>
+    <div v-if="timepoint.visible">
+      <div class="title">
+        <span>{{timepoint.title}}</span>
+        <Toolbar :id="timepoint.id"></Toolbar>
+      </div>
+      <el-divider></el-divider>
+      <div class="content">
+        <div v-if="this.$view.showNationalityAndInventor" class="nationality-inventor">
+          <div>发明人：{{ timepoint.inventor }}</div>
+          <div>发明国家：{{ timepoint.nationality }}</div>
+        </div>
+        <div v-html="timepoint.content" ref="content" class="article"></div>
+        <Tags :defaultTagsChoosed="timepoint.tags"></Tags>
+        <Citation :defaultCitations="timepoint.citations"></Citation>
+        <div class="last-edited-user">
+          创建者：<span v-html="timepoint.creator"></span>
+        </div>
+        <div class="last-edited-user">
+          最后编辑者：<span v-html="timepoint.lastEditedUser"></span>
+        </div>
+      </div>
+      <PrevAndNext :id="timepoint.id"></PrevAndNext>
     </div>
-    <el-divider></el-divider>
-    <div class="content">
-      <div v-if="this.$view.showNationalityAndInventor" class="nationality-inventor">
-        <div>发明人：{{ timepoint.inventor }}</div>
-        <div>发明国家：{{ timepoint.nationality }}</div>
-      </div>
-      <div v-html="timepoint.content" ref="content" class="article"></div>
-      <Tags :defaultTagsChoosed="timepoint.tags"></Tags>
-      <Citation :defaultCitations="timepoint.citations"></Citation>
-      <div class="last-edited-user">
-        创建者：<span v-html="timepoint.creator"></span>
-      </div>
-      <div class="last-edited-user">
-        最后编辑者：<span v-html="timepoint.lastEditedUser"></span>
-      </div>
+    <div v-else style="margin-top: 20px">
+      <a href="/">返回首页</a>
     </div>
-    <PrevAndNext :id="timepoint.id"></PrevAndNext>
     <Footer/>
   </div>
 </template>
@@ -47,6 +52,7 @@ export default {
   data () {
     return {
       timepoint: {
+        visible: true,
         id: '',
         status: {
           visible: false,
@@ -82,6 +88,14 @@ export default {
       this.loading = true
       const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
       if (res.data.code !== 100) {
+        Object.assign(this.timepoint, {
+          status: {
+            visible: true,
+            tip: '该词条不存在'
+          },
+          visible: false
+        })
+        this.loading = false
         return
       }
       const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor, status } = res.data.data.post
@@ -111,7 +125,8 @@ export default {
         lastEditedUser,
         creator,
         citations: supplement,
-        tags: tag
+        tags: tag,
+        visible: true
       })
       this.loading = false
     }
