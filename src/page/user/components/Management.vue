@@ -24,7 +24,7 @@
         <template slot-scope="scope">
           <el-popconfirm
             title="确定删除对应词条?"
-            @onConfirm="dealReq(scope.row.target_id, scope.$index)"
+            @onConfirm="dealReq(scope.row.id, scope.$index)"
           >
             <el-button slot="reference" type="text" size="small">处理</el-button>
           </el-popconfirm>
@@ -93,6 +93,7 @@ export default {
         message: '处理该请求成功！'
       })
       this.userReqs[index].status = '已处理'
+      this.userReqs.splice(index, 1)
     },
     statusFilter (value, row) {
       return value === row.status
