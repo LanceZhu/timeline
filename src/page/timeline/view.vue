@@ -1,32 +1,41 @@
 <template>
-  <div>
+  <div v-loading="loading">
+    <el-alert
+      v-if="timepoint.status.visible"
+      :title="timepoint.status.tip"
+      type="info"
+      center
+      :closable="false"
+      show-icon>
+    </el-alert>
     <div class="title">
-      <span>{{title}}</span>
-      <Toolbar :id="id"></Toolbar>
+      <span>{{timepoint.title}}</span>
+      <Toolbar :id="timepoint.id"></Toolbar>
     </div>
     <el-divider></el-divider>
-    <div class="content" v-loading="loading">
+    <div class="content">
       <div v-if="this.$view.showNationalityAndInventor" class="nationality-inventor">
-        <div>发明人：{{ ruleForm.inventor }}</div>
-        <div>发明国家：{{ ruleForm.nationality }}</div>
+        <div>发明人：{{ timepoint.inventor }}</div>
+        <div>发明国家：{{ timepoint.nationality }}</div>
       </div>
-      <div v-html="content" ref="content" class="article"></div>
-        <Tags :defaultTagsChoosed="tags"></Tags>
-        <Citation :defaultCitations="this.citations"></Citation>
-        <div class="last-edited-user">
-          创建者：<span v-html="creator"></span>
-        </div>
-        <div class="last-edited-user">
-          最后编辑者：<span v-html="lastEditedUser"></span>
-        </div>
+      <div v-html="timepoint.content" ref="content" class="article"></div>
+      <Tags :defaultTagsChoosed="timepoint.tags"></Tags>
+      <Citation :defaultCitations="timepoint.citations"></Citation>
+      <div class="last-edited-user">
+        创建者：<span v-html="timepoint.creator"></span>
+      </div>
+      <div class="last-edited-user">
+        最后编辑者：<span v-html="timepoint.lastEditedUser"></span>
+      </div>
     </div>
-    <PrevAndNext :id="id"></PrevAndNext>
+    <PrevAndNext :id="timepoint.id"></PrevAndNext>
     <Footer/>
   </div>
 </template>
 
 <script>
 import config from '../../../config'
+import TIMEPOINT_STATUS from '@/constant/TimepointStatus'
 
 const Toolbar = () => import('./components/Toolbar')
 const PrevAndNext = () => import('./components/PrevAndNext')
@@ -37,15 +46,19 @@ const Tags = () => import('@/components/Tags')
 export default {
   data () {
     return {
-      ruleForm: {},
-      content: '',
-      title: '',
-      id: '',
-      tags: [], // ['标签1', '标签2']
-      hasTag: false,
-      lastEditedUser: '', // 最后编辑用户
-      creator: '', // 词条最初创建者
-      citations: [],
+      timepoint: {
+        id: '',
+        status: {
+          visible: false,
+          tip: ''
+        },
+        title: '',
+        content: '',
+        tags: [], // ['标签1', '标签2']
+        citations: [],
+        lastEditedUser: '', // 最后编辑用户
+        creator: '' // 词条最初创建者
+      },
       loading: true
     }
   },
@@ -65,49 +78,40 @@ export default {
     }
   },
   methods: {
-    updateContent () {
+    async updateContent () {
       this.loading = true
-      const that = this
-      that.hasTag = false
-      this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`).then(res => {
-        const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor } = res.data.data.post
-        that.content = content
-        that.title = title
-        that.id = _id
-        Object.assign(that.ruleForm, {
-          nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
-          inventor: [null, undefined].includes(inventor) ? '不详' : inventor
-        })
-        that.$axios.get(`/api/user/getNickname?uid=${owner}`).then(res => {
-          if (res.data.code === 100) {
-            that.lastEditedUser = res.data.nickname
-          } else {
-            that.lastEditedUser = owner
-          }
-        })
-        that.$axios.get(`/api/user/getNickname?uid=${createOwner}`).then(res => {
-          if (res.data.code === 100) {
-            that.creator = res.data.nickname
-          } else {
-            that.creator = createOwner
-          }
-        })
-        that.citations = supplement
-        try {
-          // that.tags = tag.reduce((acc, cur) => {
-          //   const { path, pathLabels } = cur
-          //   const tag = {
-          //     label: pathLabels.join('/'),
-          //     value: path[path.length - 1] || ''
-          //   }
-          //   acc.push(tag)
-          //   return acc
-          // }, [])
-          that.tags = tag
-          that.hasTag = true
-        } catch (err) {
-          console.error(err)
-        }
+      const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
+      if (res.data.code !== 100) {
+        return
+      }
+      const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor, status } = res.data.data.post
+
+      const statusVisible = (status !== 'publish')
+      let statusTip = ''
+      if (statusVisible) {
+        statusTip = TIMEPOINT_STATUS[status] || '该词条不存在'
+      }
+      Object.assign(this.timepoint, {
+        nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
+        inventor: [null, undefined].includes(inventor) ? '不详' : inventor
+      })
+      const lastEditedUser = await this.$api.getNickname(owner) || owner
+      const creator = await this.$api.getNickname(createOwner) || createOwner
+
+      Object.assign(this.timepoint, {
+        id: _id,
+        title,
+        content,
+        status: {
+          visible: statusVisible,
+          tip: statusTip
+        },
+        nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
+        inventor: [null, undefined].includes(inventor) ? '不详' : inventor,
+        lastEditedUser,
+        creator,
+        citations: supplement,
+        tags: tag
       })
       this.loading = false
     }
