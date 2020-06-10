@@ -22,7 +22,12 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="dealReq(scope.row.target_id, scope.$index)">确认处理</el-button>
+          <el-popconfirm
+            title="确定删除对应词条?"
+            @onConfirm="dealReq(scope.row.target_id, scope.$index)"
+          >
+            <el-button slot="reference" type="text" size="small">处理</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -75,19 +80,19 @@ export default {
       this.$router.push(`/timeline/${id}`)
     },
     async dealReq (id, index) {
-      this.$message.error('该功能暂未开通，敬请期待！')
-      // const res = await this.$axios.post('/api/admin/dealReq', {
-      //   id
-      // })
-      // if (res.data.code !== 100) {
-      //   this.$message.error('处理失败！')
-      //   return
-      // }
-      // this.$message({
-      //   type: 'success',
-      //   message: '处理该请求成功！'
-      // })
-      // this.userReqs[index].status = '已处理'
+      const res = await this.$axios.post('/api/admin/dealReq', {
+        id,
+        action: true
+      })
+      if (res.data.code !== 100) {
+        this.$message.error('处理失败！')
+        return
+      }
+      this.$message({
+        type: 'success',
+        message: '处理该请求成功！'
+      })
+      this.userReqs[index].status = '已处理'
     },
     statusFilter (value, row) {
       return value === row.status

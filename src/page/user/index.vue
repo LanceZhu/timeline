@@ -4,7 +4,7 @@
       <el-tab-pane label="所有时间点">
         <Wikis></Wikis>
       </el-tab-pane>
-      <el-tab-pane label="词条管理" v-if="this.$store.state.userGroup.includes('admin')">
+      <el-tab-pane label="删除请求" v-if="this.$store.state.userGroup.includes('admin')">
         <Management></Management>
       </el-tab-pane>
       <el-tab-pane label="词条审核" v-if="this.$store.state.userGroup.includes('admin')">

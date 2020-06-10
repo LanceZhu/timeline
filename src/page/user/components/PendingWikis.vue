@@ -3,8 +3,8 @@
     <div v-if="!pendingWikis.length">暂无需审核词条</div>
     <div v-else>
       <el-table
-      :data="pendingWikis"
-      stripe>
+        :data="pendingWikis"
+        stripe>
         <el-table-column label="词条标题" prop="title"></el-table-column>
         <el-table-column label="变更原因" prop="reason"></el-table-column>
         <el-table-column label="待审核词条">
@@ -43,7 +43,6 @@
               </el-form>
               <el-button slot="reference" type="text" size="small" style="color: gray; margin-left: 5px">拒绝</el-button>
             </el-popover>
-            <!-- <el-button type="text" size="small" @click="toggleReject(scope.row._id)"></el-button> -->
           </template>
         </el-table-column>
       </el-table>

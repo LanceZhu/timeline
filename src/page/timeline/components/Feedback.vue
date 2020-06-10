@@ -7,12 +7,12 @@
           @click="showFeedback = true; feedback.type='delete'; feedback.title='删除理由：'"
         ></i>
       </el-tooltip>
-      <el-tooltip content="举报该词条" popper-class="tooltip">
+      <!-- <el-tooltip content="举报该词条" popper-class="tooltip">
         <i
           class="el-icon-warning-outline"
           @click="showFeedback = true; feedback.type='complain'; feedback.title='举报理由：'"
         ></i>
-      </el-tooltip>
+      </el-tooltip> -->
       <el-dialog :title="this.feedback.title" :visible.sync="showFeedback" :append-to-body="true">
         <el-form>
           <el-form-item>
@@ -22,6 +22,7 @@
               maxlength="50"
               :autosize="{ minRows: 3, maxRows: 4}"
               show-word-limit
+              placeholder="请简要描述理由，以便管理员审核。"
             ></el-input>
           </el-form-item>
           <el-form-item>
