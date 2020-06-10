@@ -167,6 +167,9 @@ export default {
     display: none;
   }
 }
+.el-header {
+  box-shadow: 0 0 0.6rem 0 #d0d0d0;
+}
 /* 去除导航栏选中后底部样式 */
 .el-menu-item{
   border-bottom-color: #ffffff !important;
