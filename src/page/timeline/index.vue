@@ -72,6 +72,7 @@ export default {
     margin-left: -30px;
     opacity: 0.75;
     box-shadow: 0 0 5px rgb(138, 95, 95);
+    z-index: 999;
   }
   .sidebar-button i {
     line-height: 60px;

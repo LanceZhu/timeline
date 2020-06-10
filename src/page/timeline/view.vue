@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="container">
     <el-alert
       v-if="timepoint.status.visible"
       :title="timepoint.status.tip"
@@ -34,7 +34,7 @@
     <div v-else style="margin-top: 20px">
       <a href="/">返回首页</a>
     </div>
-    <Footer/>
+    <Footer style="margin-top: auto"/>
   </div>
 </template>
 
@@ -154,6 +154,10 @@ export default {
     text-align: left;
     padding: 15px;
   }
+}
+.container {
+  display: flex;
+  flex-direction: column;
 }
 .el-tooltip{
   margin-left: 10px;

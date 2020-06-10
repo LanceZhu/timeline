@@ -1,5 +1,5 @@
 <template>
-  <div class="feedback">
+  <div class="footer">
     <el-divider></el-divider>
     <div class="wrapper">
       <span><a href="#/feedback">遇到问题，我要反馈</a></span>
@@ -19,16 +19,16 @@ export default {
 </script>
 
 <style scoped>
-.feedback{
+.footer{
   color: gray;
   margin-bottom: 15px;
   font-size: 13px;
 }
-.feedback a{
+.footer a{
   color: gray;
   text-decoration: none;
 }
-.feedback span{
+.footer span{
   margin: 0 10px;
 }
 .wrapper{
