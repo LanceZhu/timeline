@@ -2,19 +2,7 @@
   <div>
     <div class="title">
       <span>{{title}}</span>
-      <div class="toolbar">
-        <router-link :to="id + '/edit'" tag="li">
-          <el-tooltip content="编辑词条" popper-class="tooltip">
-            <i class="el-icon-edit"></i>
-          </el-tooltip>
-        </router-link>
-        <router-link :to="id + '/history'" tag="li">
-          <el-tooltip content="词条历史" popper-class="tooltip">
-            <i class="el-icon-time"></i>
-          </el-tooltip>
-        </router-link>
-      <Feedback :id="id"></Feedback>
-      </div>
+      <Toolbar :id="id"></Toolbar>
     </div>
     <el-divider></el-divider>
     <div class="content" v-loading="loading">
@@ -40,7 +28,7 @@
 <script>
 import config from '../../../config'
 
-const Feedback = () => import('./components/Feedback')
+const Toolbar = () => import('./components/Toolbar')
 const PrevAndNext = () => import('./components/PrevAndNext')
 const Footer = () => import('../../components/Footer')
 const Citation = () => import('@/components/Citation')
@@ -62,7 +50,7 @@ export default {
     }
   },
   components: {
-    Feedback,
+    Toolbar,
     PrevAndNext,
     Footer,
     Citation,
@@ -147,10 +135,6 @@ export default {
     text-align: left;
     padding: 15px;
   }
-}
-li{
-  display: inline-block;
-  cursor: pointer;
 }
 .el-tooltip{
   margin-left: 10px;

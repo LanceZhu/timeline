@@ -97,9 +97,8 @@ export default {
       this.beforeSubmitForm.visible = false
       await this.submit()
     },
-    async afterSubmit () {
-      this.$router.push(`/timeline/${res.data.new_post_id}`)
-      await updateTimeline()
+    async afterSubmit (id) {
+      this.$router.push(`/timeline/${id}`)
     },
     async submit () {
       // 时间点选择字段
@@ -165,7 +164,7 @@ export default {
             type: 'success'
           })
           setTimeout(async () => {
-            await this.afterSubmit()
+            await this.afterSubmit(res.data.new_post_id)
           })
           break
         }
