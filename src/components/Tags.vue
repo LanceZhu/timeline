@@ -74,7 +74,6 @@ export default {
   // }]
   methods: {
     getData () {
-      console.log(this.tagsChoosed)
       const tagsChoosed = this.tagsChoosed
       if (tagsChoosed.length === 0) {
         const errMsg = '至少添加一个标签'
@@ -83,13 +82,17 @@ export default {
       }
       return tagsChoosed
     },
-    handleInput () {
+    async handleInput () {
       const inputValue = this.inputValue
-      if (inputValue) {
-        this.tagsChoosed.push(inputValue)
+      if (!inputValue) {
+        return
       }
-      this.inputVisible = false
-      this.inputValue = ''
+      const newTagSuccess = await this.newTag(inputValue)
+      if (!newTagSuccess) {
+        this.$message.error('新建tag出错！')
+        return
+      }
+      this.insertTag(inputValue)
     },
     showInput () {
       this.inputVisible = true
@@ -100,17 +103,61 @@ export default {
     handleCloseTag (tag) {
       this.tagsChoosed.splice(this.tagsChoosed.indexOf(tag), 1)
     },
-    searchTag (querystring, cb) {
-      const tags = config.tags
-      const results = querystring ? tags.filter(tag => {
+    async searchTag (querystring, cb) {
+      const tags = config.tags.slice()
+      const customTags = await this.getCustomTags()
+      tags.push(...customTags)
+      // 去重
+      let results = tags.filter((tag, index) => {
+        return tags.indexOf(tag) === index
+      })
+      // 前缀匹配
+      results = querystring ? results.filter(tag => {
         return tag.value.indexOf(querystring) === 0
-      }) : tags
+      }) : results
       cb(results)
     },
-    selectTag (tag) {
-      this.inputValue = tag.value
+    // @return Array {label, value}
+    async getCustomTags () {
+      const res = await this.$axios.get('/api/tag/list')
+      if (res.data.code !== 100) {
+        return []
+      }
+      const customTags = res.data.result.map(tag => {
+        const { tagName: label, tagLabel: value } = tag
+        return {
+          label, value
+        }
+      })
+      return customTags
+    },
+    async selectTag (tag) {
+      this.insertTag(tag.value)
+    },
+    // 新建 tag
+    async newTag (tag) {
+      const data = {
+        tagName: tag,
+        tagLabel: tag
+      }
+      const res = await this.$axios.post('/api/tag/new', data)
+      if (res.data.code === 100) {
+        // 创建新标签成功
+        return true
+      } else if (res.data.code === 113) {
+        // 资源/标签已存在
+        return true
+      } else {
+        return false
+      }
+    },
+    // 显示新建 tag
+    insertTag (tag) {
+      if (tag) {
+        this.tagsChoosed.push(tag)
+      }
       this.inputVisible = false
-      this.handleInput()
+      this.inputValue = ''
     }
   }
 }
