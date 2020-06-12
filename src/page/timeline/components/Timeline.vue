@@ -10,12 +10,13 @@
           v-model="filterVisible">
           <div class="tool">
             <span style="font-weight: bold; font-size: 16px">根据标签筛选</span>
-            <el-checkbox-group v-model="tagsChoosed" size="small">
+            <!-- <el-checkbox-group v-model="tagsChoosed" size="small">
               <el-checkbox v-for="tag in tags" :label="tag" :key="tag" border style="margin-left: 0; margin-top: 5px">{{ tag }}</el-checkbox>
-            </el-checkbox-group>
+            </el-checkbox-group> -->
+            <Tags ref="Tags" editable :defaultTagsChoosed="tagsChoosed" :canNewTag="false"></Tags>
           </div>
           <el-divider></el-divider>
-          <el-button @click="filter = true; filterVisible = false" type="primary" >提交</el-button>
+          <el-button @click="doFilter" type="primary" >提交</el-button>
           <el-button @click="cancelFilter">取消筛选</el-button>
           <el-button slot="reference" size="small">筛选</el-button>
         </el-popover>
@@ -31,6 +32,7 @@
 
 <script>
 import config from '../../../../config'
+import Tags from '@/components/Tags'
 
 export default {
   data () {
@@ -41,6 +43,9 @@ export default {
       tags: [],
       tagsChoosed: []
     }
+  },
+  components: {
+    Tags
   },
   computed: {
     timelineUpdated () {
@@ -109,6 +114,11 @@ export default {
       if (this.toTimepoint !== undefined) {
         this.toTimepoint()
       }
+    },
+    doFilter () {
+      this.tagsChoosed = this.$refs.Tags.getData() // 获取所选标签
+      this.filter = true
+      this.filterVisible = false
     },
     cancelFilter () {
       this.filter = false

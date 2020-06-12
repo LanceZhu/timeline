@@ -13,7 +13,9 @@
         :fetch-suggestions="searchTag"
         @select="selectTag"
         @keyup.enter.native="handleInput"
+        :popper-append-to-body="false"
       >
+      <!-- popper-append-to-body: false // true 筛选时间轴时 select事件 导致外部 popover 隐藏 -->
       </el-autocomplete>
       <el-button v-else size="small" @click="showInput" style="margin-bottom: 10px">添加标签</el-button>
     </div>
@@ -48,9 +50,15 @@ export default {
     defaultTagsChoosed: {
       default: []
     },
+    // 是否能添加标签
     editable: {
       type: Boolean,
       default: false
+    },
+    // 是否能够新建标签 即将标签存入数据库，用于时间轴筛选
+    canNewTag: {
+      type: Boolean,
+      default: true
     }
   },
   watch: {
@@ -87,10 +95,12 @@ export default {
       if (!inputValue) {
         return
       }
-      const newTagSuccess = await this.newTag(inputValue)
-      if (!newTagSuccess) {
-        this.$message.error('新建tag出错！')
-        return
+      if (this.canNewTag) {
+        const newTagSuccess = await this.newTag(inputValue)
+        if (!newTagSuccess) {
+          this.$message.error('新建tag出错！')
+          return
+        }
       }
       this.insertTag(inputValue)
     },
