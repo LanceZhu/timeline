@@ -34,10 +34,13 @@ const preface = `人工智能技术和算法研究资料编年汇编工具用于
 
 const BAIDU_ANALYSIS_URL = 'https://hm.baidu.com/hm.js?5d713276953009449b9a6524f448855b'
 
+const websiteName = 'AI Data'
+
 const config = Object.assign({}, defaultConfig, {
   tags,
   preface,
-  BAIDU_ANALYSIS_URL
+  BAIDU_ANALYSIS_URL,
+  websiteName
 })
 
 export default config

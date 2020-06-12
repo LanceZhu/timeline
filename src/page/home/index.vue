@@ -3,12 +3,23 @@
     <el-header class="pc">
       <el-menu class="home-el-menu" mode="horizontal" menu-trigger="click" router >
         <el-menu-item
-          v-for="el in elMenu"
-          :key="el.name"
-          :index="el.name"
-          :route="el.route"
+          route="/timeline"
+          key="timeline"
+          index="timeline"
           class="website-title"
-        >{{ el.desc }}</el-menu-item>
+          >
+          <div style="display: flex; align-items: center; line-height: 1; height: 60px">
+            <div style="position: relative">
+              {{ websiteName }}
+              <el-image
+                style="width: 50px; height: 8px; position: absolute; top: 0; right: 0; transform: translate(100%, -50%);"
+                src="https://pic.f00bar.cn/images/2020/06/12/beta.png"
+                fit="contain">
+              <div slot="error" style="font-size: 1px; line-height: 8px; text-align: left; padding-left: 2px">beta</div>
+            </el-image>
+         </div>
+          </div>
+        </el-menu-item>
         <el-menu-item style="margin-left: auto">
           <Search></Search>
         </el-menu-item>
@@ -61,19 +72,15 @@
 </template>
 
 <script>
+import config from '../../../config'
+
 const Search = () => import('./components/Search')
 const Acount = () => import('./components/Acount')
 
 export default {
   data () {
     return {
-      elMenu: [
-        {
-          route: '/timeline',
-          name: 'timeline',
-          desc: '时间轴wiki（beta版）'
-        }
-      ]
+      websiteName: config.websiteName
     }
   },
   components: {

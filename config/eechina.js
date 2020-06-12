@@ -27,10 +27,13 @@ const preface = `   中国高等工程教育历史研究资料编年汇编版本
 
 const BAIDU_ANALYSIS_URL = 'https://hm.baidu.com/hm.js?6e8882012f340b6acc2273b866ef0a81'
 
+const websiteName = '中国高等工程教育简史'
+
 const config = Object.assign({}, defaultConfig, {
   tags,
   preface,
-  BAIDU_ANALYSIS_URL
+  BAIDU_ANALYSIS_URL,
+  websiteName
 })
 
 export default config

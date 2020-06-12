@@ -31,10 +31,13 @@ const preface = `教育大数据研究资料编年汇编工具用于教育大数
 
 const BAIDU_ANALYSIS_URL = 'https://hm.baidu.com/hm.js?8f622a4eac3eb383660236c545cf6bab'
 
+const websiteName = 'Education Data'
+
 const config = Object.assign({}, defaultConfig, {
   tags,
   preface,
-  BAIDU_ANALYSIS_URL
+  BAIDU_ANALYSIS_URL,
+  websiteName
 })
 
 export default config
