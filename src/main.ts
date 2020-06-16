@@ -102,7 +102,7 @@ if (config.BAIDU_ANALYSIS_URL !== undefined && process.env.NODE_ENV === 'product
   window._hmt = _hmt; // 修改为window 全局变量
   (function () {
     var hm = document.createElement('script')
-    hm.src = process.env.VUE_APP_BAIDU_ANALYSIS
+    hm.src = config.BAIDU_ANALYSIS_URL
     var s = document.getElementsByTagName('script')[0]
     // @ts-ignore
     s.parentNode.insertBefore(hm, s)
