@@ -1,4 +1,4 @@
-import { internetConfig, inventionConfig, educationConfig, eechinaConfig, devConfig, defaultConfig, aidataConfig, edudataConfig } from './config/index'
+import { internetConfig, inventionConfig, educationConfig, eechinaConfig, devConfig, defaultConfig, aidataConfig, edudataConfig, inforConfig } from './config/index'
 
 let config = defaultConfig
 
@@ -25,6 +25,10 @@ switch (process.env.VUE_APP_SUBDOMAIN) {
   }
   case 'edudata': {
     config = edudataConfig
+    break
+  }
+  case 'infor': {
+    config = inforConfig
     break
   }
   case 'dev': {
