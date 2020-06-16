@@ -271,11 +271,11 @@ export default {
       this.citations.splice(index, 1)
     },
     getData () {
-      if (this.citations.length === 0) {
-        const errMsg = '至少添加一个参考文献！'
-        this.$message.error(errMsg)
-        throw new Error(errMsg)
-      }
+      // if (this.citations.length === 0) {
+      //   const errMsg = '至少添加一个参考文献！'
+      //   this.$message.error(errMsg)
+      //   throw new Error(errMsg)
+      // }
       return this.citations
     }
   }
