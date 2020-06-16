@@ -272,7 +272,7 @@ export default {
     },
     // 用于提交
     getData () {
-      if (this.citations.length === 0) {
+      if (process.env.VUE_APP_SUBDOMAIN && this.citations.length) {
         const errMsg = '至少添加一个参考文献！'
         this.$message.error(errMsg)
         throw new Error(errMsg)
