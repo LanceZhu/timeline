@@ -24,7 +24,8 @@
         <template slot-scope="scope">
           <el-popconfirm
             title="确定删除对应词条?"
-            @onConfirm="dealReq(scope.row.id, scope.$index)"
+            @onConfirm="dealReq(scope.row.id, scope.$index, true)"
+            @onCancel="dealReq(scope.row.id, scope.$index, false)"
           >
             <el-button slot="reference" type="text" size="small">处理</el-button>
           </el-popconfirm>
@@ -79,10 +80,10 @@ export default {
     toTimepoint (id) {
       this.$router.push(`/timeline/${id}`)
     },
-    async dealReq (id, index) {
+    async dealReq (id, index, action) {
       const res = await this.$axios.post('/api/admin/dealReq', {
         id,
-        action: true
+        action
       })
       if (res.data.code !== 100) {
         this.$message.error('处理失败！')
