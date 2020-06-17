@@ -57,7 +57,8 @@ export default {
         title: '举报该词条',
         type: 'complain',
         target_id: '',
-        comment: ''
+        comment: '',
+        visible: false
       }
     }
   },
@@ -83,15 +84,15 @@ export default {
             type: 'success',
             message: '反馈成功，管理员会及时处理！'
           })
-          setTimeout(() => {
-            this.feedback.visible = false
-          }, 1500)
         } else {
           this.$message.error('反馈失败！')
         }
       } catch (err) {
         this.$message.error('反馈失败！')
       }
+      setTimeout(() => {
+        this.feedback.visible = false
+      }, 1500)
     },
     async deleteTimepoint () {
       try {
