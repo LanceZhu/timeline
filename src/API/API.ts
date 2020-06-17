@@ -9,8 +9,14 @@ async function getNickname (uid: string) : Promise<string> {
   return res.data.nickname
 }
 
+async function checkLogin () {
+  const res = await axios.get('/api/user/checkLogin')
+  return res.data.login
+}
+
 const api = {
-  getNickname
+  getNickname,
+  checkLogin
 }
 
 export default api
