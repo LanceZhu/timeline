@@ -134,6 +134,10 @@ export default {
       if (!editable) {
         return
       }
+      const logged = await this.checkLogin()
+      if (!logged) {
+        return
+      }
       this.feedback.visible = true
       this.feedback.type = 'delete'
       this.feedback.title = '删除理由：'
@@ -148,6 +152,13 @@ export default {
         this.$message.error('当前词条有新版本审核中，请稍后再试~')
       }
       return editable
+    },
+    async checkLogin () {
+      const logged = await this.$api.checkLogin()
+      if (!logged) {
+        this.$message.error('请登录!')
+      }
+      return logged
     }
   }
 }
