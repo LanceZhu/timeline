@@ -181,3 +181,9 @@ export default {
   padding-right: 10px;
 }
 </style>
+
+<style>
+.content img {
+  max-width: 100%;
+}
+</style>
