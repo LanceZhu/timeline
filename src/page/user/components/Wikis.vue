@@ -52,18 +52,14 @@ export default {
       this.$axios.get('/api/user/getPostList').then(res => {
         that.wikis = res.data.data
         that.wikis = that.wikis.map(wiki => {
-          // wiki.timestamp = parseDate(wiki.timestamp * 1000) // 单位 s -> ms
           wiki.timestamp = dayjs(wiki.timestamp * 1000).format('YYYY-MM-DD HH:mm')
           return wiki
         })
-        // wiki 所处状态 wiki.status delete publish revision
-        // that.wikis = that.wikis.filter(wiki => {
-        //   return (wiki.status === 'publish' || wiki.status === 'revision')
-        // })
         const wikiStatusTable = {
           publish: '发表中',
           delete: '已删除',
-          revision: '已更新'
+          revision: '已更新',
+          pending: '审核中'
         }
         for (let i = that.wikis.length - 1; i >= 0; i--) {
           const status = that.wikis[i].status
