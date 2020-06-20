@@ -12,6 +12,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import api from '@/API/API'
 import checkLogin from '@/utils/checkLogin'
+import * as Sentry from '@sentry/browser'
+import { Vue as VueIntegration } from '@sentry/integrations'
 
 // import { Dialog, Autocomplete, Menu, Submenu, MenuItem, Input, Select, Button, Table, TableColumn, DatePicker, TimePicker, Tooltip, Form, FormItem, Tabs, TabPane, Backtop, Message, MessageBox, Loading, Container, Drawer, Header, Main, Badge, Divider, Card, Tag, Cascader } from 'element-ui'
 import ElementUI from 'element-ui'
@@ -117,6 +119,13 @@ if (config.BAIDU_ANALYSIS_URL !== undefined && process.env.NODE_ENV === 'product
       }
     }
     next()
+  })
+}
+
+if (config.SENTRY_DSN !== undefined && process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    integrations: [new VueIntegration({ Vue, attachProps: true, logErrors: false })]
   })
 }
 
