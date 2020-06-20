@@ -11,6 +11,9 @@ const view = {}
 
 const BAIDU_ANALYSIS_URL = undefined
 
+// sentry dsn(data source name) https://docs.sentry.io/error-reporting/quickstart/?platform=browser#configure-the-sdk
+const SENTRY_DSN = undefined
+
 const websiteName = '时间轴wiki'
 
 const config = {
@@ -19,7 +22,8 @@ const config = {
   baseURL,
   view,
   BAIDU_ANALYSIS_URL,
-  websiteName
+  websiteName,
+  SENTRY_DSN
 }
 
 export default config
