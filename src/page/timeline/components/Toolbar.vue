@@ -8,7 +8,10 @@
         <i class="el-icon-time"></i>
       </el-tooltip>
     </router-link>
-    <span v-if="!this.$store.state.userGroup.includes('admin')">
+    <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.$store.state.logged && this.$store.state.userGroup.includes('admin')">
+      <i class="el-icon-delete" @click="deleteTimepoint"></i>
+    </el-tooltip>
+    <span v-else>
       <el-tooltip content="删除该词条" popper-class="tooltip">
         <i
           class="el-icon-delete"
@@ -40,9 +43,6 @@
         </el-form>
       </el-dialog>
     </span>
-    <el-tooltip content="删除该词条" popper-class="tooltip" v-if="this.$store.state.userGroup.includes('admin')">
-      <i class="el-icon-delete" @click="deleteTimepoint"></i>
-    </el-tooltip>
   </span>
 </template>
 
