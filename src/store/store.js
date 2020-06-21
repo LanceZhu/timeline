@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 
 const state = {
   logged: false,
-  auth: null,
   timeline: [],
   filteredTimeline: [], // 用户筛选后的时间轴, 例如 标签筛选
   messages: [], // 是否有消息通知,
