@@ -144,11 +144,12 @@ export default {
     async init () {
       // 直接在此处请求 浏览器未设置 cookie
       try {
-      // 消息通知 管理员删除词条
+        // 消息通知 管理员删除词条
         const res = await this.$axios('/api/user/getDetail')
-        const { msg = [], group = [] } = res.data.data.mongo
-        this.$store.commit('updateMessages', msg)
+        const { group = [] } = res.data.data.mongo
         this.$store.commit('updateUserGroup', group)
+        const messages = await this.$api.checkMessage()
+        this.$store.commit('updateMessages', messages)
       } catch (err) {
         console.error(err)
       }
