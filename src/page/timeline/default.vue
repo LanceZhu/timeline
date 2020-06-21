@@ -3,7 +3,7 @@
     <div v-html="content" class="content"></div>
     <el-divider></el-divider>
     <Recomendations></Recomendations>
-    <Footer/>
+    <Footer style="margin-top: auto" />
   </div>
 </template>
 
@@ -28,7 +28,11 @@ export default {
 
 <style scoped>
 .container-timeline-default {
-  margin-top: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
 }
 .content{
   width: 90%;

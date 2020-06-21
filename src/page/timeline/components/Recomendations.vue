@@ -10,7 +10,7 @@
           :body-style="{padding: '10px', backgroundColor: 'rgb(250, 250, 250)'}"
           shadow="never"
         >
-          <span>{{ item.show }} {{ item.title }}</span>
+        <span style="color: #606266">{{ item.show }} {{ item.title }}</span>
         </el-card>
       </a>
     </div>
