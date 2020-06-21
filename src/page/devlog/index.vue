@@ -2,7 +2,15 @@
   <div class="bg">
     <div class="title banner">变更日志</div>
     <div class="container">
-      <el-timeline style="padding: 0">
+      <div class="open-source">
+        <span>
+          本项目前端已开源，欢迎参与！
+          <br />
+          GitHub Repo:
+          <a href="https://github.com/LanceZhu/timeline" target="_blank">https://github.com/LanceZhu/timeline</a>
+        </span>
+      </div>
+      <el-timeline style="padding: 0; margin-top: 10px">
         <el-timeline-item
           v-for="(log, index) in logs"
           :key="index"
@@ -54,7 +62,8 @@ export default {
 .container{
   max-width: 750px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   text-align: left;
   margin: 0 auto;
   padding-top: 20px;
@@ -86,5 +95,15 @@ export default {
 pre {
   white-space: pre-wrap;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}
+.open-source {
+  position: relative;
+}
+.open-source:before {
+  content: '';
+  border-left: 4px solid #409EFF;
+  position: absolute;
+  height: 100%;
+  left: -10px;
 }
 </style>

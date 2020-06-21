@@ -6,8 +6,14 @@
       <span>
         <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank">网站使用说明<i class="el-icon-question"></i></a>
       </span>
-      <a href="http://www.beian.miit.gov.cn/" target="_blank">京ICP备19056350号-1</a>
+      <span>
+        <a href="http://www.beian.miit.gov.cn/" target="_blank">京ICP备19056350号-1</a>
+      </span>
       <span><a href="/#/devlog" target="_blank">开发日志</a></span>
+      <span>
+        <a href="http://welishi.cn/" target="_blank">友情链接</a>
+      </span>
+      <span>©2019-{{(new Date()).getFullYear()}}</span>
     </div>
   </div>
 </template>
@@ -28,8 +34,12 @@ export default {
   color: gray;
   text-decoration: none;
 }
+.footer a:hover {
+  color: #303133;
+}
 .footer span{
   margin: 0 10px;
+  line-height: 1;
 }
 .wrapper{
   display: flex;
