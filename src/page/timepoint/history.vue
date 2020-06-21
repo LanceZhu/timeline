@@ -26,10 +26,28 @@
         label="操作">
         <template slot-scope="scope">
           <el-button @click="toTimepointView(scope.$index)" type="text" size="small">查看</el-button>
-          <el-button v-if="scope.$index !== historyList.length-1" @click="toRestore(scope.$index)" type="text" size="small">还原</el-button>
+          <el-button v-if="scope.$index !== historyList.length-1" @click="showHistoryRestoreForm(scope.row._id)" type="text" size="small">还原</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog title="版本还原" :visible.sync="historyRestoreFormVisible">
+      <el-form :model="historyRestoreForm">
+        <el-form-item label="修改原因">
+          <el-input
+            v-model="historyRestoreForm.reason"
+            type="textarea"
+            maxlength="50"
+            :autosize="{ minRows:3, maxRows: 4 }"
+            show-word-limit
+            placeholder="请简要描述理由，以便管理员审核。"
+           ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="historyRestoreFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="historyRestore">确 定</el-button>
+      </div>
+    </el-dialog>
     <div style="margin-top: 20px; width: auto">
       <el-button @click="historyDiff">版本对比</el-button>
     </div>
@@ -44,64 +62,59 @@ export default {
   data () {
     return {
       historyList: [],
-      selectedHistory: []
+      selectedHistory: [],
+      historyRestoreFormVisible: false,
+      historyRestoreForm: {
+        targetId: undefined,
+        reason: ''
+      }
     }
   },
-  created () {
-    const that = this
-    this.$axios.get(`/api/timepoint/history/${this.$route.params.id}`).then(res => {
-      that.historyList = res.data.data
-      that.historyList = that.historyList.map(time => {
-        // time.timestamp = parseDate(time.timestamp * 1000)
+  async created () {
+    const historyList = await this.getHistory(this.$route.params.id)
+    this.historyList = historyList
+  },
+  methods: {
+    async getHistory (id) {
+      const res = await this.$axios.get(`/api/timepoint/history/${id}`)
+      if (res.data.code !== 100) {
+        this.$message('获取词条历史失败！')
+        return []
+      }
+      let historyList = res.data.data
+      historyList = historyList.map(time => {
         time.timestamp = dayjs(time.timestamp * 1000).format('YYYY-MM-DD HH:mm')
         return time
       })
-    })
-  },
-  methods: {
+      return historyList
+    },
     toTimepointView: function (index) {
       const id = this.historyList[index]._id
       this.$router.push(`/timeline/${id}`)
     },
-    toRestore: async function (index) {
-      const that = this
-      const id = this.historyList[index]._id
-      try {
-        const resMsg = await this.$confirm('此操作将该词条回退到所选版本, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
-        if (resMsg === 'confirm') {
-          const res = await this.$axios.post(`/api/timepoint/restore/${that.$route.params.id}`, {
-            rev_id: id
-          })
-          switch (res.data.code) {
-            case 100: {
-              this.$message({
-                type: 'success',
-                message: '回退成功！'
-              })
-              await updateTimeline
-              this.$router.push(`/timeline/${res.data.new_post_id}`)
-              break
-            }
-            default: {
-              this.$message({
-                type: 'error',
-                message: '回退失败！'
-              })
-            }
-          }
-        }
-      } catch (err) {
-        if (err === 'cancel') {
-          this.$message({
-            type: 'info',
-            message: '已取消'
-          })
-        }
+    showHistoryRestoreForm (restoreWikiId) {
+      this.historyRestoreFormVisible = true
+      this.historyRestoreForm.targetId = restoreWikiId
+    },
+    async historyRestore () {
+      const currentId = this.$route.params.id
+      const { targetId } = historyRestoreForm
+      reason = historyRestoreForm.reason === '' ? '未填写理由' : historyRestoreForm.reason
+      const res = await this.$axios.post(`/api/timepoint/restore/${currentId}`, {
+        rev_id: targetId,
+        reason
+      })
+      if (res.data.code !== 100) {
+        this.$message.error('版本还原失败！')
+        return
       }
+      this.$message({
+        type: 'success',
+        message: '版本回退成功！'
+      })
+      await updateTimeline()
+      const restoredWikiId = res.data.new_post_id
+      this.$router.push(`/timeline/${restoredWikiId}`)
     },
     handleSelectionChange: function (val) {
       // 最多选择两项 第三项替代第二项

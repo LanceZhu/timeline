@@ -28,7 +28,7 @@
               type="textarea"
               v-model="feedback.comment"
               maxlength="50"
-              :autosize="{ minRows: 3, maxRows: 4}"
+              :autosize="{ minRows: 3, maxRows: 4 }"
               show-word-limit
               placeholder="请简要描述理由，以便管理员审核。"
             ></el-input>
