@@ -14,9 +14,19 @@ async function checkLogin () {
   return res.data.login
 }
 
+// 获取用户私信
+async function checkMessage () {
+  const res = await axios.get('/api/user/checkMessage')
+  if (res.data.code !== 100) {
+    return []
+  }
+  return res.data.message
+}
+
 const api = {
   getNickname,
-  checkLogin
+  checkLogin,
+  checkMessage
 }
 
 export default api

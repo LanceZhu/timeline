@@ -47,22 +47,25 @@ export default {
     }
   },
   async created () {
-    try {
-      const res = await this.$axios.get('/api/user/checkMessage')
-      if (res.data.code === 100) {
-        let messages = res.data.message
-        messages = await Promise.all(messages.map(async msg => await this.formatMsg(msg)))
-        this.messages = messages.reverse()
-      } else {
-        console.error(res)
-        this.$message.error('发送失败！')
-      }
-    } catch (err) {
-      console.error(err)
-      this.$message.error('请求失败！')
-    }
+    const messages = await this.getMessages()
+    this.messages = messages
   },
   methods: {
+    async getMessages () {
+      try {
+        let messages = await this.$api.checkMessage()
+
+        this.$store.commit('updateMessages', messages)
+
+        messages = await Promise.all(messages.map(async msg => await this.formatMsg(msg)))
+        messages = messages.reverse()
+
+        return messages
+      } catch (err) {
+        console.error(err)
+        return []
+      }
+    },
     async expandChange (row, expandRows) {
       const { _id: msgId } = row
       try {

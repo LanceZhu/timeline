@@ -24,11 +24,18 @@
           <Search></Search>
         </el-menu-item>
         <el-menu-item>
-          <span>
-            <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray">使用说明<i class="el-icon-question"></i></a>
-          </span>
+          <div style="display: flex; align-items: center; line-height: 1; height: 60px">
+            <span>
+              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray">使用说明<i class="el-icon-question"></i></a>
+            </span>
+          </div>
         </el-menu-item>
-        <Acount></Acount>
+        <el-menu-item
+          index="login"
+          :route="this.$store.state.logged ? '/user' : '/login'"
+        >
+          <Acount></Acount>
+        </el-menu-item>
         <el-menu-item :route="'/timeline/add'" index="'/new-post'" class="pc">
           <div class="new-post-wrap">
             <div class="new-post">创建词条</div>
@@ -156,10 +163,6 @@ export default {
   position: absolute !important;
   left: 40px;
   margin-top: -10px;
-}
-.el-badge sup {
-  right: 10px;
-  top: 15px;
 }
 </style>
 
