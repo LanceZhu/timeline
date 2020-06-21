@@ -3,7 +3,8 @@
     <span v-if="!this.$store.state.logged">注册/登录</span>
     <div class="user" v-else>
         <el-badge :is-dot="hasMsg" class="badge">
-          <i class="el-icon-user"></i>
+          <i class="el-icon-user pc"></i>
+          <span class="mobile">个人中心</span>
         </el-badge>
     </div>
   </div>
@@ -42,15 +43,17 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.account-container {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  font-size: 14px;
-  color: gray;
-}
-.user {
-  position: relative;
-  line-height: 1;
+@media (min-width: 720px) {
+  .account-container {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    font-size: 14px;
+    color: gray;
+  }
+  .user {
+    position: relative;
+    line-height: 1;
+  }
 }
 </style>

@@ -57,7 +57,11 @@
           <template slot="title">
             <i class="el-icon-s-operation"></i>
           </template>
-          <!-- <Acount></Acount> -->
+          <el-menu-item
+            index="login"
+            :route="this.$store.state.logged ? '/user' : '/login'">
+            <Acount></Acount>
+          </el-menu-item>
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
           </el-menu-item>
