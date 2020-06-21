@@ -1,7 +1,17 @@
 <template>
   <div class="tags">
     <div class="desc el-icon-caret-right" v-if="editable">
-      标签（至少添加一项)
+      <span>
+        标签（至少添加一项)
+      <el-tooltip placement="right-start" popper-class="tooltip">
+        <div slot="content">
+          输入内容后回车
+          <br/>
+          可添加自定义标签
+        </div>
+        <i style="color: gray" class="el-icon-info"></i>
+      </el-tooltip>
+      </span>
     </div>
     <div class="item" v-if="editable">
       <el-autocomplete
