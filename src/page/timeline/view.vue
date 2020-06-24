@@ -29,6 +29,10 @@
           最后编辑者：<span v-html="timepoint.lastEditedUser"></span>
         </div>
       </div>
+      <div class="toolbar">
+        <el-divider></el-divider>
+        <Rating></Rating>
+      </div>
       <PrevAndNext :id="timepoint.id"></PrevAndNext>
     </div>
     <div v-else style="margin-top: 20px">
@@ -47,6 +51,7 @@ const PrevAndNext = () => import('./components/PrevAndNext')
 const Footer = () => import('../../components/Footer')
 const Citation = () => import('@/components/Citation')
 const Tags = () => import('@/components/Tags')
+const Rating = () => import('@/components/Rating')
 
 export default {
   data () {
@@ -73,7 +78,8 @@ export default {
     PrevAndNext,
     Footer,
     Citation,
-    Tags
+    Tags,
+    Rating
   },
   created () {
     this.updateContent()
@@ -136,7 +142,7 @@ export default {
 
 <style scoped>
 @media (min-width: 720px) {
-  .content{
+  .content, .toolbar{
     width: 90%;
     margin: 0 auto;
     word-break: break-all;
@@ -146,7 +152,7 @@ export default {
   }
 }
 @media (max-width: 720px) {
-  .content{
+  .content, .toolbar{
     width: 100%;
     margin: 0 auto;
     word-break: break-all;

@@ -15,6 +15,10 @@
             </el-checkbox-group> -->
             <Tags ref="Tags" editable :defaultTagsChoosed="tagsChoosed" :canNewTag="false"></Tags>
           </div>
+          <div class="tool">
+            <span style="font-weight: bold; font-size: 16px">根据评分筛选</span>
+            <Rating ref="Rating" filterMode></Rating>
+          </div>
           <el-divider></el-divider>
           <el-button @click="doFilter" type="primary" >提交</el-button>
           <el-button @click="cancelFilter">取消筛选</el-button>
@@ -32,7 +36,8 @@
 
 <script>
 import config from '../../../../config'
-import Tags from '@/components/Tags'
+const Tags = () => import('@/components/Tags')
+const Rating = () => import('@/components/Rating')
 
 export default {
   data () {
@@ -41,11 +46,13 @@ export default {
       filter: false, // 是否进行筛选
       filterVisible: false, // 筛选对话框可见性
       tags: [],
-      tagsChoosed: []
+      tagsChoosed: [],
+      scoreRange: []
     }
   },
   components: {
-    Tags
+    Tags,
+    Rating
   },
   computed: {
     timelineUpdated () {
@@ -117,6 +124,7 @@ export default {
     },
     doFilter () {
       this.tagsChoosed = this.$refs.Tags.getData() // 获取所选标签
+      this.scoreRange = this.$refs.Rating.getFilter() // 获取评分筛选
       this.filter = true
       this.filterVisible = false
     },
