@@ -21,7 +21,9 @@
     </div>
     <div class="content">
       <transition>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </transition>
     </div>
   </div>

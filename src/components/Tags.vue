@@ -100,6 +100,9 @@ export default {
       }
       return tagsChoosed
     },
+    getCurrentState () {
+      return this.tagsChoosed
+    },
     async handleInput () {
       const inputValue = this.inputValue
       if (!inputValue) {

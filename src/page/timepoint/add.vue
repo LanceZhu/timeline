@@ -1,10 +1,11 @@
 <template>
   <div class="container-add">
-    <FuzzyTimePicker ref="FuzzyTimePicker"></FuzzyTimePicker>
-    <Editor ref="Editor"></Editor>
+    <Recovery ref="Recovery" :curTimepoint="timepoint" :localStorageKey="'NEW_TIMEPOINT'" @recover="(recoveredTimepoint) => { this.timepoint = recoveredTimepoint }"></Recovery>
+    <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="timepoint.dateValue" :defaultDate="timepoint.date" :defaultType="timepoint.dateType"></FuzzyTimePicker>
+    <Editor ref="Editor" :defaultTitle="timepoint.title" :defaultContent="timepoint.content"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
-    <Tags ref="Tags" editable></Tags>
-    <Citation ref="Citation" editable></Citation>
+    <Tags ref="Tags" :defaultTagsChoosed="timepoint.tagsChoosed" editable></Tags>
+    <Citation ref="Citation" :defaultCitations="timepoint.citations" editable></Citation>
     <div class="submit">
       <el-button type="primary" @click="submit()">提交</el-button>
     </div>
@@ -12,19 +13,41 @@
 </template>
 
 <script>
-const NationalityAndInventor = () => import('@/components/NationalityAndInventor')
-const FuzzyTimePicker = () => import('@/components/FuzzyTimePicker')
-const Citation = () => import('@/components/Citation')
-const Tags = () => import('@/components/Tags')
-const Editor = () => import('@/components/Editor')
+import dayjs from 'dayjs'
+
+// TODO: 使用 () => import 懒加载 -> 页面刷新时，子组件状态不更新
+import NationalityAndInventor from '@/components/NationalityAndInventor'
+import FuzzyTimePicker from '@/components/FuzzyTimePicker'
+import Citation from '@/components/Citation'
+import Tags from '@/components/Tags'
+import Editor from '@/components/Editor'
+import Recovery from './components/Recovery'
 
 export default {
+  data () {
+    return {
+      // 仅用于初始化
+      timepoint: {
+        dateValue: [100], // 时间点显示值
+        dateType: 100,
+        date: dayjs().format('YYYY/MM/DD'),
+        title: '',
+        content: '',
+        tagsChoosed: [],
+        citations: []
+      }
+    }
+  },
   components: {
     NationalityAndInventor,
     FuzzyTimePicker,
     Citation,
     Tags,
-    Editor
+    Editor,
+    Recovery
+  },
+  async created () {
+    this.persistTimepoint()
   },
   methods: {
     async submit () {
@@ -104,12 +127,53 @@ export default {
               }
             })
           }, 1500)
+          this.$refs.Recovery.removeBak()
           break
         }
         default: {
           this.$message.error('添加失败')
         }
       }
+    },
+    getTimepoint () {
+      // 时间点选择字段
+      const { dateType, dateValue, date } = this.$refs.FuzzyTimePicker.getCurrentState()
+
+      // 文献字段
+      let citations = []
+      try {
+        citations = this.$refs.Citation.getCurrentState()
+      } catch (err) {
+        console.error(err)
+      }
+
+      // 标签字段
+      let tagsChoosed = []
+      try {
+        tagsChoosed = this.$refs.Tags.getCurrentState()
+      } catch (err) {
+        console.error(err)
+      }
+
+      // 标题和内容字段
+      const { title, content } = this.$refs.Editor.getCurrentState()
+
+      const timepoint = {
+        dateType,
+        dateValue,
+        date,
+        title,
+        content,
+        tagsChoosed,
+        citations
+      }
+
+      return timepoint
+    },
+    persistTimepoint () {
+      window.addEventListener('beforeunload', () => {
+        this.timepoint = this.getTimepoint()
+      })
     }
   }
 }
@@ -121,6 +185,9 @@ export default {
   margin: 0 auto;
   min-width: 720px;
   padding: 10px 0 20px;
+}
+.recovery {
+
 }
 .el-input{
   margin: 10px 0;

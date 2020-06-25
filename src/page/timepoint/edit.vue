@@ -1,5 +1,6 @@
 <template>
   <div class="container-edit">
+    <Recovery ref="Recovery" :curTimepoint="timepoint" :localStorageKey="`EDIT_TIMEPOINT_${this.$route.params.id}`" @recover="(recoveredTimepoint) => { timepoint = recoveredTimepoint }"></Recovery>
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="timepoint.dateValue" :defaultDate="timepoint.date" :defaultType="timepoint.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="timepoint.title" :defaultContent="timepoint.content"></Editor>
     <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor" :nationality="timepoint.nationality" :inventor="timepoint.inventor"></NationalityAndInventor>
@@ -46,11 +47,12 @@
 <script>
 import updateTimeline from '@/utils/updateTimeline'
 
-const NationalityAndInventor = () => import('@/components/NationalityAndInventor')
-const FuzzyTimePicker = () => import('@/components/FuzzyTimePicker')
-const Citation = () => import('@/components/Citation')
-const Tags = () => import('@/components/Tags')
-const Editor = () => import('@/components/Editor')
+import NationalityAndInventor from '@/components/NationalityAndInventor'
+import FuzzyTimePicker from '@/components/FuzzyTimePicker'
+import Citation from '@/components/Citation'
+import Tags from '@/components/Tags'
+import Editor from '@/components/Editor'
+import Recovery from './components/Recovery'
 
 export default {
   data () {
@@ -83,9 +85,12 @@ export default {
     FuzzyTimePicker,
     Citation,
     Tags,
-    Editor
+    Editor,
+    Recovery
   },
   async created () {
+    this.persistTimepoint()
+
     await this.init()
   },
   methods: {
@@ -166,6 +171,7 @@ export default {
           setTimeout(async () => {
             await this.afterSubmit(res.data.new_post_id)
           })
+          this.$refs.Recovery.removeBak()
           break
         }
         default: {
@@ -208,6 +214,48 @@ export default {
         nationality,
         inventor
       })
+    },
+    persistTimepoint () {
+      window.addEventListener('beforeunload', () => {
+        // this.setLocalStorageTimepoint(TIMEPOINT_LOCALSTORAGE_KEY)
+        this.timepoint = this.getTimepoint()
+        console.log(this.timepoint)
+      })
+    },
+    getTimepoint () {
+      // 时间点选择字段
+      const { dateType, dateValue, date } = this.$refs.FuzzyTimePicker.getCurrentState()
+
+      // 文献字段
+      let citations = []
+      try {
+        citations = this.$refs.Citation.getCurrentState()
+      } catch (err) {
+        console.error(err)
+      }
+
+      // 标签字段
+      let tagsChoosed = []
+      try {
+        tagsChoosed = this.$refs.Tags.getCurrentState()
+      } catch (err) {
+        console.error(err)
+      }
+
+      // 标题和内容字段
+      const { title, content } = this.$refs.Editor.getCurrentState()
+
+      const timepoint = {
+        dateType,
+        dateValue,
+        date,
+        title,
+        content,
+        tagsChoosed,
+        citations
+      }
+
+      return timepoint
     }
   }
 }

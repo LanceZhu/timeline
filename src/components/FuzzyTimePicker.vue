@@ -195,6 +195,7 @@ export default {
       this.date_50[0] = 0
       this.date_50[1] = 0
     },
+    // 用于提交
     getData () {
       let show = ''
       const now = new Date()
@@ -296,6 +297,16 @@ export default {
         month: Number(month),
         day: Number(day),
         show: showObject
+      }
+    },
+    // 当前状态，用于初始化
+    getCurrentState () {
+      const { dateType, dateValue } = this
+      const date = this[`date_${dateType}`]
+      return {
+        dateType,
+        dateValue,
+        date
       }
     }
   }
