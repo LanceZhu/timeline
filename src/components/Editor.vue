@@ -2,8 +2,8 @@
   <div>
     <el-input placeholder="请输入标题" v-model="title"></el-input>
     <quill-editor
-    v-model="content"
-    :options="editorOption">
+      v-model="content"
+      :options="editorOption">
     </quill-editor>
   </div>
 </template>
@@ -61,6 +61,13 @@ export default {
       return {
         title: this.title,
         content: this.content
+      }
+    },
+    getCurrentState () {
+      const { title, content } = this
+      return {
+        title,
+        content
       }
     }
   }

@@ -270,12 +270,17 @@ export default {
     deleteCitation (index) {
       this.citations.splice(index, 1)
     },
+    // 用于提交
     getData () {
       // if (this.citations.length === 0) {
       //   const errMsg = '至少添加一个参考文献！'
       //   this.$message.error(errMsg)
       //   throw new Error(errMsg)
       // }
+      return this.citations
+    },
+    // 当前状态用于初始化
+    getCurrentState () {
       return this.citations
     }
   }
