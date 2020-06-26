@@ -77,7 +77,7 @@ export default {
 
       Object.assign(params, nationalityAndCreator)
 
-      const res = await this.$axios.post('/api/post/timepoint/new', params)
+      const res = await this.$axios.post('/api/timepoint/new', params)
       switch (res.data.code) {
         case 100: {
           this.$message({
