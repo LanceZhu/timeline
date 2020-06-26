@@ -31,7 +31,7 @@
       </div>
       <div class="toolbar">
         <el-divider></el-divider>
-        <Rating></Rating>
+        <Rating :timepointID="this.$route.params.id"></Rating>
       </div>
       <PrevAndNext :id="timepoint.id"></PrevAndNext>
     </div>

@@ -7,7 +7,7 @@
         :step="step"
         :marks="marks"
         range
-        :min="1"
+        :min="0"
         :max="5">
       </el-slider>
     </div>
@@ -17,7 +17,7 @@
         width="200"
         trigger="hover"
         >
-          <span style="font-size: 13px; color: gray">参与评分：</span>
+          <span style="font-size: 13px; color: gray">{{ disabled ? '无法评分' : '参与评分' }}</span>
           <vue-rating-it
             :score="score"
             :disabled="disabled"
@@ -32,7 +32,7 @@
             size="18px">
           </vue-rating-it>
           <span class="score-mean">
-            {{ scoreMean === 0 ? '暂无评分' : `综合评分：${scoreMean}` }}
+            {{ scoreMean === 0 ? '暂无评分' : `综合评分：${ scoreMean }` }}
             <i class="el-icon-question"></i>
           </span>
         </div>
@@ -52,9 +52,10 @@ export default {
   data () {
     return {
       // 评分筛选
-      scoreRange: [MIN_SCORE, MAX_SCORE],
+      scoreRange: [NO_SCORE, MAX_SCORE],
       step: 1,
       marks: {
+        0: '0',
         1: '1',
         2: '2',
         3: '3',
@@ -81,8 +82,14 @@ export default {
     VueRatingIt
   },
   async created () {
-    // await this.getRating(this.timepointID)
-    // await this.canRate(timepointID)
+    if (this.filterMode) {
+      return
+    }
+    const score = await this.getRating(this.timepointID)
+    const disabled = await this.canRate(this.timepointID)
+
+    this.score = score
+    this.disabled = disabled
   },
   methods: {
     async getRating (timepointID) {

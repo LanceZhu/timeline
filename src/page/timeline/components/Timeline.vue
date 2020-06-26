@@ -47,41 +47,56 @@ export default {
       filterVisible: false, // 筛选对话框可见性
       tags: [],
       tagsChoosed: [],
-      scoreRange: []
+      scoreRange: [],
+      timelineUpdated: []
     }
   },
   components: {
     Tags,
     Rating
   },
-  computed: {
-    timelineUpdated () {
-      const timeline = this.$store.state.timeline
-      let filteredTimeline = []
-
-      if (this.filter) {
-        const filterRule = {
-          tag: this.tagsChoosed
-        }
-
-        for (const time of timeline) {
-          if (this.filterValidate(time, filterRule)) {
-            try {
-              filteredTimeline.push(time)
-            } catch (err) {
-              console.error(time, err)
-            }
-          }
-        }
-      } else {
-        filteredTimeline = timeline
-      }
-
-      this.$store.commit('updateFilteredTimeline', filteredTimeline)
-
-      return filteredTimeline
+  watch: {
+    'this.$store.state.timeline': {
+      handler: async function () {
+        const timelineUpdated = await this.getUpdatedTimeline()
+        this.timelineUpdated = timelineUpdated
+      },
+      immediate: true,
+      deep: true
     }
   },
+  // async computed https://github.com/foxbenjaminfox/vue-async-computed
+  // computed: {
+  //   timelineUpdated () {
+  //     const timeline = this.$store.state.timeline
+  //     let filteredTimeline = []
+
+  //     if (this.filter) {
+  //       const filterRule = {
+  //         tag: this.tagsChoosed
+  //       }
+
+  //       for (const time of timeline) {
+  //         if (this.filterValidate(time, filterRule)) {
+  //           try {
+  //             filteredTimeline.push(time)
+  //           } catch (err) {
+  //             console.error(time, err)
+  //           }
+  //         }
+  //       }
+  //       // const { tagsChoosed: tag, scoreRange } = this
+  //       // const [low, high] = scoreRange
+  //       // await this.filterByScoreAndTag(tag, low, high)
+  //     } else {
+  //       filteredTimeline = timeline
+  //     }
+
+  //     this.$store.commit('updateFilteredTimeline', filteredTimeline)
+
+  //     return filteredTimeline
+  //   }
+  // },
   props: {
     toTimepoint: {
     },
@@ -122,11 +137,14 @@ export default {
         this.toTimepoint()
       }
     },
-    doFilter () {
+    async doFilter () {
       this.tagsChoosed = this.$refs.Tags.getData() // 获取所选标签
       this.scoreRange = this.$refs.Rating.getFilter() // 获取评分筛选
       this.filter = true
       this.filterVisible = false
+
+      const timelineUpdated = await this.getUpdatedTimeline()
+      this.timelineUpdated = timelineUpdated
     },
     cancelFilter () {
       this.filter = false
@@ -205,6 +223,48 @@ export default {
         }
       }
       return false
+    },
+    // 通过后端筛选
+    async filterByScoreAndTag (tag, low, high) {
+      const res = await this.$axios.post('/api/ext/getListByScoreAndTag', {
+        tag,
+        low,
+        high
+      })
+      if (res.data.code !== 100) {
+        this.$message.error('筛选失败！')
+        return this.$store.state.filteredTimeline
+      }
+      return res.data.data
+    },
+    async getUpdatedTimeline () {
+      const timeline = this.$store.state.timeline
+      let filteredTimeline = []
+
+      if (this.filter) {
+        // const filterRule = {
+        //   tag: this.tagsChoosed
+        // }
+
+        // for (const time of timeline) {
+        //   if (this.filterValidate(time, filterRule)) {
+        //     try {
+        //       filteredTimeline.push(time)
+        //     } catch (err) {
+        //       console.error(time, err)
+        //     }
+        //   }
+        // }
+        const { tagsChoosed: tag, scoreRange } = this
+        const [low, high] = scoreRange
+        filteredTimeline = await this.filterByScoreAndTag(tag, low, high)
+      } else {
+        filteredTimeline = timeline
+      }
+
+      this.$store.commit('updateFilteredTimeline', filteredTimeline)
+
+      return filteredTimeline
     }
   }
 }
