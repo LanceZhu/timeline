@@ -31,6 +31,10 @@ export default {
   data () {
     return {
       logs: [{
+        content: '词条编辑过程意外退出后可进行恢复操作',
+        timestamp: '2020-6-27',
+        type: 'info'
+      }, {
         content: '1. 用户可为词条添加自定义标签\n2. 根据标签筛选时间轴\n3. 词条编辑需审核',
         timestamp: '2020-6-10',
         type: 'info'
