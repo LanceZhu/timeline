@@ -28,33 +28,33 @@ export default [{
       redirect: 'timeline'
     }, {
       path: '/timeline',
-      name: 'timeline',
+      name: 'Timeline',
       component: Timeline,
       children: [{
         path: '',
-        name: 'timeline',
+        name: 'TimelineDefault',
         component: TimelineDefault
       }, {
         path: 'add',
-        name: 'timepoint',
+        name: 'TimepointAdd',
         component: TimepointAdd,
         meta: { requiresAuth: true }
       }, {
         path: ':id',
-        name: 'timeline',
+        name: 'TimelineView',
         component: TimelineView
       }, {
         path: ':id/edit',
-        name: 'timepoint',
+        name: 'TimepointEdit',
         component: TimepointEdit,
         meta: { requiresAuth: true }
       }, {
         path: ':id/history',
-        name: 'timepoint',
+        name: 'TimepointHistory',
         component: TimepointHistory
       }, {
         path: ':id/history/diff/:id1/:id2',
-        name: 'historyDiff',
+        name: 'TimepointDiff',
         component: TimepointDiff
       }]
     }, {
@@ -62,22 +62,17 @@ export default [{
       name: 'login',
       component: Login
     }, {
-      path: 'timepoint/add/:id',
-      name: 'timepoint',
-      component: TimepointAdd,
-      meta: { requiresAuth: true }
-    }, {
       path: 'user',
-      name: 'user',
+      name: 'User',
       component: User,
       meta: { requiresAuth: true }
     }, {
       path: 'devlog',
-      name: 'devlog',
+      name: 'Devlog',
       component: Devlog
     }, {
       path: 'feedback',
-      name: 'feedback',
+      name: 'Feedback',
       component: Feedback
     }, {
       path: '*',
