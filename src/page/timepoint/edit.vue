@@ -217,9 +217,10 @@ export default {
     },
     persistTimepoint () {
       window.addEventListener('beforeunload', () => {
-        // this.setLocalStorageTimepoint(TIMEPOINT_LOCALSTORAGE_KEY)
+        if (this.$route.name !== 'TimepointEdit') {
+          return
+        }
         this.timepoint = this.getTimepoint()
-        console.log(this.timepoint)
       })
     },
     getTimepoint () {

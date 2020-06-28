@@ -46,7 +46,7 @@ export default {
     Editor,
     Recovery
   },
-  async created () {
+  created () {
     this.persistTimepoint()
   },
   methods: {
@@ -172,6 +172,9 @@ export default {
     },
     persistTimepoint () {
       window.addEventListener('beforeunload', () => {
+        if (this.$route.name !== 'TimepointAdd') {
+          return
+        }
         this.timepoint = this.getTimepoint()
       })
     }
