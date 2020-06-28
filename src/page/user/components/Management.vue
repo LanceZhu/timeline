@@ -24,8 +24,8 @@
         <template slot-scope="scope">
           <el-popconfirm
             title="确定删除对应词条?"
-            @onConfirm="dealReq(scope.row.id, scope.$index, true)"
-            @onCancel="dealReq(scope.row.id, scope.$index, false)"
+            @onConfirm="dealReq(scope.row._id, scope.$index, true)"
+            @onCancel="dealReq(scope.row._id, scope.$index, false)"
           >
             <el-button slot="reference" type="text" size="small">处理</el-button>
           </el-popconfirm>
@@ -65,15 +65,11 @@ export default {
         complain: '举报',
         delete: '删除'
       }
-      const statusMap = {
-        0: '未处理',
-        1: '已处理'
-      }
       const formatedReq = Object.assign({}, req, {
         timestamp: dayjs(timestamp).format('YYYY/MM/DD'),
         type: typeMap[type],
         username: await this.$api.getNickname(uid),
-        status: statusMap[dealed]
+        status: dealed ? '已处理' : '未处理'
       })
       return formatedReq
     },
