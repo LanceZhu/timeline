@@ -109,7 +109,7 @@ export default {
             message: '删除成功!'
           })
           setTimeout(async () => {
-            await updateTimeline()
+            await updateTimeline.call(this)
             this.$router.push('/timeline')
           }, 1000)
         } else {
