@@ -10,9 +10,10 @@
 
 <style scoped>
 .container {
-    margin-top: 40px;
+  margin-top: 40px;
 }
+
 .title {
-    font-size: 20px;
+  font-size: 20px;
 }
 </style>

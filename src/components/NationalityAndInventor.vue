@@ -47,11 +47,12 @@ export default {
 </script>
 
 <style scoped>
-.natinality-inventor-container{
+.natinality-inventor-container {
   text-align: left;
 }
+
 /* 深度作用域 更改 element ui 组件样式 */
-/deep/ .el-form--label-top .el-form-item__label{
+/deep/ .el-form--label-top .el-form-item__label {
   padding: 0;
   line-height: 30px;
 }

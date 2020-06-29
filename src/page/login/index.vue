@@ -159,35 +159,42 @@ export default {
 </script>
 
 <style scoped>
-.container{
-    display: flex;
-    justify-content: center;
-    text-align: left;
-    margin-top: 50px;
+.container {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  margin-top: 50px;
 }
-.title{
+
+.title {
   text-align: center;
   font-size: 20px;
   margin-bottom: 20px;
 }
-.title .signup{
+
+.title .signup {
   display: inline;
 }
-.title .signin{
+
+.title .signin {
   display: inline;
 }
-.title .active{
-  color: rgb(234,111,90);
-  border-bottom: 1px solid rgb(234,111,90);
+
+.title .active {
+  color: rgb(234, 111, 90);
+  border-bottom: 1px solid rgb(234, 111, 90);
 }
-.el-card{
+
+.el-card {
   width: 380px;
   height: 420px;
 }
-.el-input{
+
+.el-input {
   width: 100%;
 }
-.el-button{
+
+.el-button {
   margin-top: 30px;
   width: 100%;
 }

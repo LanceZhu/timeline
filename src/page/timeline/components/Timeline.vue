@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" v-loading="loading">
     <div class="toolbar">
-      <span style="margin-right: 5px">共{{timelineUpdated.length}}个词条</span>
+      <span style="margin-right: 5px;">共{{timelineUpdated.length}}个词条</span>
       <div class="pc">
         <el-popover
           placement="right"
@@ -9,7 +9,7 @@
           trigger="click"
           v-model="filterVisible">
           <div class="tool">
-            <span style="font-weight: bold; font-size: 16px">根据标签筛选</span>
+            <span style="font-weight: bold; font-size: 16px;">根据标签筛选</span>
             <!-- <el-checkbox-group v-model="tagsChoosed" size="small">
               <el-checkbox v-for="tag in tags" :label="tag" :key="tag" border style="margin-left: 0; margin-top: 5px">{{ tag }}</el-checkbox>
             </el-checkbox-group> -->
@@ -203,11 +203,12 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (max-width: 720px){
-  .pc{
+@media screen and (max-width: 720px) {
+  .pc {
     display: none;
   }
 }
+
 .sidebar {
   box-sizing: border-box;
   padding: 40px 10px 0;
@@ -215,6 +216,7 @@ export default {
   border-right: 1px solid #c4c4c4;
   background-color: rgb(247, 247, 247);
 }
+
 .toolbar {
   display: flex;
   align-items: center;
@@ -222,10 +224,12 @@ export default {
   top: 0;
   height: 40px;
 }
+
 .toolbar .title {
   font-size: 16px;
   font-weight: bolder;
 }
+
 .scroll {
   box-sizing: border-box;
   overflow-y: scroll;
@@ -233,6 +237,7 @@ export default {
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
+
 .scroll::-webkit-scrollbar {
   width: 3px;
 }
@@ -252,23 +257,28 @@ export default {
   text-align: left;
   margin: 6px 0;
 }
+
 .router-link-active {
   color: rgb(160, 192, 227);
   font-weight: bold;
 }
+
 li {
   padding: 0;
   margin: 0;
   list-style: none;
   display: inline-block;
 }
+
 li:hover {
   color: rgb(160, 192, 227);
   cursor: pointer;
 }
+
 .el-tooltip {
   margin-left: 10px;
 }
+
 .analysis {
   font-size: 14px;
 }

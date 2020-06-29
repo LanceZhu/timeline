@@ -17,11 +17,11 @@
           :rules="beforeSubmitFormRules"
           label-position="top"
           ref="beforeSubmitForm"
-          style="text-align: left">
+          style="text-align: left;">
           <el-form-item label="变更类型（可多选）" prop="checkedOptions">
             <div>
               <el-checkbox-group v-model="beforeSubmitForm.checkedOptions" size="mini">
-                <el-checkbox v-for="option in beforeSubmitForm.options" :label="option" :key="option" border style="margin-left: 0; margin-top: 5px"></el-checkbox>
+                <el-checkbox v-for="option in beforeSubmitForm.options" :label="option" :key="option" border style="margin-left: 0; margin-top: 5px;"></el-checkbox>
               </el-checkbox-group>
             </div>
           </el-form-item>
@@ -263,31 +263,37 @@ export default {
 </script>
 
 <style scoped>
-.container-edit{
+.container-edit {
   width: 90%;
   margin: 0 auto;
   min-width: 720px;
   padding: 10px 0 20px;
 }
-.el-input{
+
+.el-input {
   margin: 10px 0;
 }
-.date{
+
+.date {
   text-align: left;
 }
-.date-format{
+
+.date-format {
   display: flex;
   align-items: center;
 }
-.date .el-date-editor{
+
+.date .el-date-editor {
   width: 150px !important;
 }
-.date .el-input{
+
+.date .el-input {
   width: 80px;
   height: 40px;
   margin: 10px;
 }
-.submit{
+
+.submit {
   margin: 10px 0 20px;
 }
 </style>

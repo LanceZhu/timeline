@@ -183,40 +183,45 @@ export default {
 </script>
 
 <style scoped>
-.container-add{
+.container-add {
   width: 90%;
   margin: 0 auto;
   min-width: 720px;
   padding: 10px 0 20px;
 }
-.recovery {
 
-}
-.el-input{
+.el-input {
   margin: 10px 0;
 }
-.submit{
+
+.submit {
   margin: 10px 0 20px;
 }
-.date{
+
+.date {
   text-align: left;
 }
-.date-format{
+
+.date-format {
   display: flex;
   align-items: center;
 }
-.date .el-cascader{
+
+.date .el-cascader {
   margin-right: 20px;
 }
-.date .el-date-editor{
+
+.date .el-date-editor {
   width: 150px !important;
 }
-.date .el-input{
+
+.date .el-input {
   width: 80px;
   height: 40px;
   margin: 10px;
 }
-.el-dialog{
+
+.el-dialog {
   margin: 0;
 }
 </style>

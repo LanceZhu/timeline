@@ -85,21 +85,24 @@ export default {
 </script>
 
 <style scoped>
-li{
+li {
   display: inline-block;
   cursor: pointer;
 }
-.footer{
+
+.footer {
   width: 90%;
   margin: 0 auto;
-  color: rgb(49,151,230);
+  color: rgb(49, 151, 230);
   height: 25px;
   margin-bottom: 15px;
 }
-.footer .prev{
+
+.footer .prev {
   float: left;
 }
-.footer .next{
+
+.footer .next {
   float: right;
 }
 </style>

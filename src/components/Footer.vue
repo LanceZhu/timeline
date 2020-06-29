@@ -25,23 +25,27 @@ export default {
 </script>
 
 <style scoped>
-.footer{
+.footer {
   color: gray;
   margin-bottom: 15px;
   font-size: 13px;
 }
-.footer a{
+
+.footer a {
   color: gray;
   text-decoration: none;
 }
+
 .footer a:hover {
   color: #303133;
 }
-.footer span{
+
+.footer span {
   margin: 0 10px;
   line-height: 1;
 }
-.wrapper{
+
+.wrapper {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

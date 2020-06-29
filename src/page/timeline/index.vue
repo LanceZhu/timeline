@@ -57,9 +57,11 @@ export default {
     position: relative;
     display: flex;
   }
+
   .pc {
     display: none;
   }
+
   .sidebar-button {
     display: block;
     position: fixed;
@@ -74,10 +76,12 @@ export default {
     box-shadow: 0 0 5px rgb(138, 95, 95);
     z-index: 999;
   }
+
   .sidebar-button i {
     line-height: 60px;
     padding-left: 20px;
   }
+
   .content {
     box-sizing: border-box;
     -webkit-overflow-scrolling: touch;
@@ -85,22 +89,27 @@ export default {
     width: 100%;
   }
 }
+
 @media (min-width: 720px) {
   .container {
     height: 100%;
     position: relative;
     display: flex;
   }
+
   .mobile {
     display: none;
   }
+
   .pc {
     height: 100%;
     width: 20%;
   }
+
   .sidebar-button {
     display: none;
   }
+
   .content {
     width: 80%;
     box-sizing: border-box;
