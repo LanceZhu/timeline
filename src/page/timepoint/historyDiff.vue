@@ -59,21 +59,25 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
 .container > div {
   flex: 1;
 }
+
 .diff-version {
   border-left: 1px solid gray;
   border-right: 1px solid gray;
 }
+
 .version1 {
   border-right: 1px solid gray;
 }
+
 .text {
-    float:left;
-    width: 30%;
-    border: 1px solid blue;
-    margin: 10px;
+  float: left;
+  width: 30%;
+  border: 1px solid blue;
+  margin: 10px;
 }
 </style>
 
@@ -83,15 +87,17 @@ export default {
   text-decoration: none;
 } */
 .diffins::before {
-  content: '+'
+  content: '+';
 }
+
 /* .diffdel {
   color: #999;
   background-color: #FEC8C8;
 } */
 .diffdel::before {
-  content: '-'
+  content: '-';
 }
+
 /* ins {
     background-color: #cfc;
     text-decoration: none;

@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style scoped>
-.container-user{
+.container-user {
   min-width: 720px;
   margin-top: 10px;
 }

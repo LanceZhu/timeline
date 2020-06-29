@@ -6,7 +6,7 @@
       :closable="false">
       <i class="el-icon-info">当前词条存在未提交版本，是否恢复？</i>
       <el-button type="text" @click="recoverBak">恢复</el-button>
-      <el-button type="text" style="color: gray" @click="removeBak">取消</el-button>
+      <el-button type="text" style="color: gray;" @click="removeBak">取消</el-button>
     </el-alert>
   </div>
 </template>
@@ -100,6 +100,6 @@ export default {
 <style>
 .recovery .el-button {
   font-size: 12px;
-  padding: 0
+  padding: 0;
 }
 </style>

@@ -51,6 +51,7 @@ export default Vue.extend({
     font-size: 14px;
     color: gray;
   }
+
   .user {
     position: relative;
     line-height: 1;

@@ -10,7 +10,7 @@
           <a href="https://github.com/LanceZhu/timeline" target="_blank">https://github.com/LanceZhu/timeline</a>
         </span>
       </div>
-      <el-timeline style="padding: 0; margin-top: 10px">
+      <el-timeline style="padding: 0; margin-top: 10px;">
         <el-timeline-item
           v-for="(log, index) in logs"
           :key="index"
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style scoped>
-.container{
+.container {
   max-width: 750px;
   display: flex;
   flex-direction: column;
@@ -75,6 +75,7 @@ export default {
   flex: 1;
   box-shadow: 0 0 5px 0 #d0d0d0;
 }
+
 .bg {
   background-image: url('https://pic.f00bar.cn/images/2020/06/10/bg1.jpg');
   background-position: left top;
@@ -86,26 +87,31 @@ export default {
   flex-direction: column;
   background-color: lightgray;
 }
+
 .banner {
   background-image: url('https://pic.f00bar.cn/images/2020/06/10/banner.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   padding: 20px;
 }
+
 .title {
   font-size: 25px;
   color: white;
 }
+
 pre {
   white-space: pre-wrap;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
+
 .open-source {
   position: relative;
 }
-.open-source:before {
+
+.open-source::before {
   content: '';
-  border-left: 4px solid #409EFF;
+  border-left: 4px solid #409eff;
   position: absolute;
   height: 100%;
   left: -10px;

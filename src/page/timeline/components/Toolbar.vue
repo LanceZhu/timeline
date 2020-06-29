@@ -165,10 +165,11 @@ export default {
 </script>
 
 <style scoped>
-.el-tooltip{
+.el-tooltip {
   margin-left: 10px;
 }
-li{
+
+li {
   display: inline-block;
   cursor: pointer;
 }

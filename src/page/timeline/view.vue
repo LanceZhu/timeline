@@ -31,10 +31,10 @@
       </div>
       <PrevAndNext :id="timepoint.id"></PrevAndNext>
     </div>
-    <div v-else style="margin-top: 20px">
+    <div v-else style="margin-top: 20px;">
       <a href="/">返回首页</a>
     </div>
-    <Footer style="margin-top: auto"/>
+    <Footer style="margin-top: auto;"/>
   </div>
 </template>
 
@@ -139,7 +139,7 @@ export default {
 
 <style scoped>
 @media (min-width: 720px) {
-  .content{
+  .content {
     width: 90%;
     margin: 0 auto;
     word-break: break-all;
@@ -148,8 +148,9 @@ export default {
     padding: 15px;
   }
 }
+
 @media (max-width: 720px) {
-  .content{
+  .content {
     width: 100%;
     margin: 0 auto;
     word-break: break-all;
@@ -158,14 +159,17 @@ export default {
     padding: 15px;
   }
 }
+
 .container {
   display: flex;
   flex-direction: column;
 }
-.el-tooltip{
+
+.el-tooltip {
   margin-left: 10px;
 }
-.title{
+
+.title {
   background-color: white;
   display: flex;
   flex-wrap: wrap;
@@ -173,14 +177,17 @@ export default {
   align-items: center;
   padding: 15px 0;
 }
-.el-divider{
+
+.el-divider {
   margin: 0;
 }
-.content .last-edited-user{
+
+.content .last-edited-user {
   text-align: right;
   color: lightgray;
 }
-.nationality-inventor span{
+
+.nationality-inventor span {
   padding-right: 10px;
 }
 </style>

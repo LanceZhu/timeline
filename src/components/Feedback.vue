@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div style="padding: 10px; font-size: 20px">欢迎反馈，我们将认真对待您的建议和反馈，尽快处理。</div>
+    <div style="padding: 10px; font-size: 20px;">欢迎反馈，我们将认真对待您的建议和反馈，尽快处理。</div>
     <el-divider></el-divider>
     <el-form :model="feedbackForm" :rules="feedbackFormRules" label-position="top" ref="feedbackForm">
       <el-form-item label="反馈类型" prop="checkedOptions">
@@ -133,6 +133,7 @@ export default {
   margin: 0 auto;
   padding: 20px;
 }
+
 @media (min-width: 720px) {
   .container {
     width: 60%;

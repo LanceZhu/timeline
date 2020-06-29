@@ -314,21 +314,25 @@ export default {
 </script>
 
 <style scoped>
-.date{
+.date {
   text-align: left;
 }
+
 .title {
   font-size: 16px;
 }
-.date-format{
+
+.date-format {
   margin-top: 10px;
   display: flex;
   align-items: center;
 }
-.date .el-date-editor{
+
+.date .el-date-editor {
   width: 150px !important;
 }
-.date .el-input{
+
+.date .el-input {
   width: 80px;
   line-height: 40px;
   margin-left: 10px;

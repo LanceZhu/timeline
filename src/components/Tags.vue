@@ -9,13 +9,13 @@
           <br/>
           可添加自定义标签
         </div>
-        <i style="color: gray" class="el-icon-info"></i>
+        <i style="color: gray;" class="el-icon-info"></i>
       </el-tooltip>
       </span>
     </div>
     <div class="item" v-if="editable">
       <el-autocomplete
-        style="width: 400px; margin-bottom: 0"
+        style="width: 400px; margin-bottom: 0;"
         v-if="inputVisible"
         v-model="inputValue"
         ref="tagsInput"
@@ -27,13 +27,13 @@
       >
       <!-- popper-append-to-body: false // true 筛选时间轴时 select事件 导致外部 popover 隐藏 -->
       </el-autocomplete>
-      <el-button v-else size="small" @click="showInput" style="margin-bottom: 10px">添加标签</el-button>
+      <el-button v-else size="small" @click="showInput" style="margin-bottom: 10px;">添加标签</el-button>
     </div>
     <div class="item">
       <el-tag
         :key="tag"
         v-for="tag in tagsChoosed"
-        style="margin-right: 10px"
+        style="margin-right: 10px;"
         :closable="editable"
         disable-transitions
         size="small"
@@ -191,9 +191,11 @@ export default {
   text-align: left;
   margin-top: 10px;
 }
+
 .desc {
   margin-bottom: 10px;
 }
+
 .item {
   font-size: 14px;
 }

@@ -75,10 +75,11 @@ export default {
 </script>
 
 <style>
-.el-input{
+.el-input {
   margin-bottom: 10px;
 }
-.ql-container{
-    min-height: 400px;
+
+.ql-container {
+  min-height: 400px;
 }
 </style>

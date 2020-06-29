@@ -41,7 +41,7 @@
                   <el-button @click="rejectForm.visible = false">取消</el-button>
                 </el-form-item>
               </el-form>
-              <el-button slot="reference" type="text" size="small" style="color: gray; margin-left: 5px">拒绝</el-button>
+              <el-button slot="reference" type="text" size="small" style="color: gray; margin-left: 5px;">拒绝</el-button>
             </el-popover>
           </template>
         </el-table-column>

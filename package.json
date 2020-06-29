@@ -15,6 +15,8 @@
     "build:dev": "cross-env VUE_APP_SUBDOMAIN=dev vue-cli-service build",
     "lint:fix": "vue-cli-service lint",
     "lint": "vue-cli-service lint --no-fix",
+    "stylelint": "stylelint **/*.{html,vue}",
+    "stylelint:fix": "stylelint **/*.{html,vue} --fix",
     "analyzer": "ANALYZER=true vue-cli-service serve",
     "release": "standard-version",
     "serve:dev": "cross-env VUE_APP_SUBDOMAIN=dev vue-cli-service serve",
@@ -64,6 +66,8 @@
     "husky": "^3.1.0",
     "quill-image-extend-module": "^1.1.2",
     "standard-version": "^7.1.0",
+    "stylelint": "^13.6.1",
+    "stylelint-config-standard": "^20.0.0",
     "terser-webpack-plugin": "^2.3.6",
     "typescript": "~3.8.3",
     "vue-cli-plugin-typescript": "0.0.1",
@@ -96,7 +100,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
+      "pre-commit": "npm run lint && npm run stylelint",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }

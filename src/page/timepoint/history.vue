@@ -3,7 +3,7 @@
     <el-table
       ref="wikiHistory"
       :data="historyList"
-      style="width: 100%"
+      style="width: 100%;"
       @selection-change="handleSelectionChange"
       :header-cell-class-name="disableCheckAll">
       <el-table-column
@@ -48,7 +48,7 @@
         <el-button type="primary" @click="historyRestore">确 定</el-button>
       </div>
     </el-dialog>
-    <div style="margin-top: 20px; width: auto">
+    <div style="margin-top: 20px; width: auto;">
       <el-button @click="historyDiff">版本对比</el-button>
     </div>
   </div>
@@ -152,18 +152,21 @@ export default {
   flex-direction: column;
   align-items: flex-start;
 }
+
 .el-table {
   flex: none;
 }
+
 @media (min-width: 720px) {
-  .container{
+  .container {
     width: 90%;
     margin: 0 auto;
     min-width: 720px;
   }
 }
+
 @media (max-width: 720px) {
-  .container{
+  .container {
     min-width: 720px;
   }
 }
@@ -171,13 +174,13 @@ export default {
 
 <style>
 /* 去掉全选按钮 */
-.el-table .disable-checkall .cell .el-checkbox__inner{
-    display: none !important;
+.el-table .disable-checkall .cell .el-checkbox__inner {
+  display: none !important;
 }
 
-.el-table .disable-checkall .cell::before{
-    content: '选择';
-    text-align: center;
-    line-height: 37px;
+.el-table .disable-checkall .cell::before {
+  content: '选择';
+  text-align: center;
+  line-height: 37px;
 }
 </style>

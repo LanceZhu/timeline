@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-table v-if="!!wikis.length" :data="wikis" height="600px" stripe style="width: 100%">
+    <el-table v-if="!!wikis.length" :data="wikis" height="600px" stripe style="width: 100%;">
       <el-table-column prop="timestamp" sortable label="时间">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.timestamp }}</span>
+          <span style="margin-left: 10px;">{{ scope.row.timestamp }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题"></el-table-column>
@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style scoped>
-.wikis{
+.wikis {
   margin-top: 10px;
 }
 </style>

@@ -8,25 +8,25 @@
           index="timeline"
           class="website-title"
           >
-          <div style="display: flex; align-items: center; line-height: 1; height: 60px">
-            <div style="position: relative">
+          <div style="display: flex; align-items: center; line-height: 1; height: 60px;">
+            <div style="position: relative;">
               {{ websiteName }}
               <el-image
                 style="width: 50px; height: 8px; position: absolute; top: 0; right: 0; transform: translate(100%, -50%);"
                 src="https://pic.f00bar.cn/images/2020/06/12/beta.png"
                 fit="contain">
-              <div slot="error" style="font-size: 1px; line-height: 8px; text-align: left; padding-left: 2px">beta</div>
+              <div slot="error" style="font-size: 1px; line-height: 8px; text-align: left; padding-left: 2px;">beta</div>
             </el-image>
          </div>
           </div>
         </el-menu-item>
-        <el-menu-item style="margin-left: auto">
+        <el-menu-item style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
         <el-menu-item>
-          <div style="display: flex; align-items: center; line-height: 1; height: 60px">
+          <div style="display: flex; align-items: center; line-height: 1; height: 60px;">
             <span>
-              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray">使用说明<i class="el-icon-question"></i></a>
+              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明<i class="el-icon-question"></i></a>
             </span>
           </div>
         </el-menu-item>
@@ -50,7 +50,7 @@
         route="/timeline">
           <i>WE</i>
         </el-menu-item>
-        <el-menu-item style="margin-left: auto">
+        <el-menu-item style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
         <el-submenu>
@@ -67,7 +67,7 @@
           </el-menu-item>
           <el-menu-item>
             <span>
-              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray">使用说明</a>
+              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明</a>
             </span>
           </el-menu-item>
         </el-submenu>
@@ -103,19 +103,21 @@ export default {
 
 <style scoped>
 @media (max-width: 720px) {
-  .mobile{
+  .mobile {
     margin-left: auto;
   }
 }
-@media (min-width: 720px){
+
+@media (min-width: 720px) {
   /* 创建词条 */
-  .new-post-wrap{
+  .new-post-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;;
+    height: 100%;
   }
-  .new-post{
+
+  .new-post {
     background-color: rgb(180, 109, 139);
     color: white;
     font-weight: bold;
@@ -125,10 +127,12 @@ export default {
     padding: 0 10px;
   }
 }
+
 .el-container {
   padding-top: 60px !important;
   height: 100% !important;
 }
+
 .el-main {
   height: 100%;
   color: #333;
@@ -138,6 +142,7 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 .el-header {
   color: #333;
   text-align: center;
@@ -151,18 +156,22 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 .el-aside {
   background-color: #d3dce6;
   color: #333;
   text-align: center;
   line-height: 200px;
 }
+
 .el-menu {
   display: flex;
 }
+
 .el-drawer__body {
   height: 100%;
 }
+
 .badge {
   position: absolute !important;
   left: 40px;
@@ -171,27 +180,32 @@ export default {
 </style>
 
 <style>
-@media screen and (min-width: 720px){
-  .mobile{
+@media screen and (min-width: 720px) {
+  .mobile {
     display: none;
   }
 }
+
 @media screen and (max-width: 720px) {
-  .pc{
+  .pc {
     display: none;
   }
 }
+
 .el-header {
   box-shadow: 0 0 0.6rem 0 #d0d0d0;
 }
+
 /* 去除导航栏选中后底部样式 */
-.el-menu-item{
-  border-bottom-color: #ffffff !important;
+.el-menu-item {
+  border-bottom-color: #fff !important;
 }
-.el-submenu__title{
-  border-bottom-color: #ffffff !important;
+
+.el-submenu__title {
+  border-bottom-color: #fff !important;
 }
-.website-title{
+
+.website-title {
   font-size: 20px !important;
   color: black !important;
 }

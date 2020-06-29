@@ -10,7 +10,7 @@
           :body-style="{padding: '10px', backgroundColor: 'rgb(250, 250, 250)'}"
           shadow="never"
         >
-        <span style="color: #606266">{{ item.show }} {{ item.title }}</span>
+        <span style="color: #606266;">{{ item.show }} {{ item.title }}</span>
         </el-card>
       </a>
     </div>
@@ -38,12 +38,14 @@ export default {
   width: 90%;
   margin: 0 auto;
 }
-.recomendations .tip{
+
+.recomendations .tip {
   font-size: 16px;
   text-align: left;
   margin: 10px 0;
 }
-.recomendations a{
+
+.recomendations a {
   text-decoration: none;
 }
 </style>

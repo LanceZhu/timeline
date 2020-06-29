@@ -3,7 +3,7 @@
     <div v-html="content" class="content"></div>
     <el-divider></el-divider>
     <Recomendations></Recomendations>
-    <Footer style="margin-top: auto" />
+    <Footer style="margin-top: auto;" />
   </div>
 </template>
 
@@ -34,7 +34,8 @@ export default {
   height: 100%;
   box-sizing: border-box;
 }
-.content{
+
+.content {
   width: 90%;
   margin: 0 auto;
   text-align: left;

@@ -2,7 +2,7 @@
   <div class="citation">
     <el-button v-if="editable" type="text" @click="addCitation()">
       <span class="title el-icon-caret-right">添加参考文献</span>
-      <i class="el-icon-document-add" style="margin-left: 10px"></i>
+      <i class="el-icon-document-add" style="margin-left: 10px;"></i>
     </el-button>
     <el-dialog title="添加参考资料" :visible.sync="dialogFormVisible">
       <el-tabs v-model="activeName">
@@ -73,7 +73,7 @@
                 <el-input
                   v-model="thesis.content"
                   placeholder="例：常文涛,陈雨薇.人民币汇率对CPI的传递效应及互动关系研究[J/OL].统计与决策,2020(09):129-133[2020-06-07].https://doi.org/10.13546/j.cnki.tjyjc.2020.09.027."></el-input>
-                <span style="font-size: 12px; color: gray">填写格式请参阅《文后参考文献著录规则 GB/T 7714-2005》</span>
+                <span style="font-size: 12px; color: gray;">填写格式请参阅《文后参考文献著录规则 GB/T 7714-2005》</span>
               </div>
             </el-form-item>
           </el-form>
@@ -288,49 +288,57 @@ export default {
 </script>
 
 <style scoped>
-.citation{
+.citation {
   margin-top: 10px;
   text-align: left;
 }
-.citation .title{
+
+.citation .title {
   font-size: 16px;
   color: black;
 }
-.citation .url-preview{
+
+.citation .url-preview {
   display: flex;
   align-items: center;
 }
-.citation .url-preview a{
+
+.citation-list a {
+  color: gray;
+  text-decoration: none;
+}
+
+.citation .url-preview a {
   padding-left: 5px;
 }
-.citation-list{
+
+.citation-list {
   text-align: left;
   color: gray;
 }
-.citation-list a{
-  color: gray;
-  text-decoration: none;
-}
-.citation-list .title{
+
+.citation-list .title {
   font-weight: bold;
 }
-.citation-list a{
-  text-decoration: none;
-}
-.citation-item{
+
+.citation-item {
   display: flex;
   align-items: center;
 }
-.citation-item i{
+
+.citation-item i {
   margin-left: 10px;
 }
-.citation-item i:hover{
+
+.citation-item i:hover {
   cursor: pointer;
 }
-.citation a:hover{
+
+.citation a:hover {
   text-decoration-line: underline;
 }
-.citation-date{
+
+.citation-date {
   font-size: 15px;
   color: gray;
 }
