@@ -253,8 +253,9 @@ export default {
   margin: 6px 0;
 }
 .router-link-active {
-    color: rgb(160, 192, 227);
-  }
+  color: rgb(160, 192, 227);
+  font-weight: bold;
+}
 li {
   padding: 0;
   margin: 0;
