@@ -22,6 +22,18 @@ if (process.env.NODE_ENV === 'production') {
   }))
 }
 
+let webpackExternals = {}
+if (process.env.NODE_ENV === 'production') {
+  webpackExternals = {
+    axios: 'axios',
+    vue: 'Vue',
+    'vue-router': 'VueRouter',
+    vuex: 'Vuex',
+    'element-ui': 'ELEMENT'
+    // 'vue-quill-editor': 'VueQuillEditor'
+  }
+}
+
 const path = require('path')
 function resolve (dir) {
   return path.join(__dirname, dir)
@@ -64,14 +76,7 @@ module.exports = {
         }
       }
     },
-    externals: {
-      axios: 'axios',
-      vue: 'Vue',
-      'vue-router': 'VueRouter',
-      vuex: 'Vuex',
-      'element-ui': 'ELEMENT'
-      // 'vue-quill-editor': 'VueQuillEditor'
-    }
+    externals: webpackExternals
   },
   chainWebpack: config => {
     config.plugin('html').tap(args => {
