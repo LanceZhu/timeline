@@ -119,6 +119,19 @@ export default {
     height: 100%;
   }
 }
+
+.content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.content::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0);
+}
 </style>
 
 <style>

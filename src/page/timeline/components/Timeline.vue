@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" v-loading="loading">
     <div class="toolbar">
-      <span style="margin-right: 5px;">共{{timelineUpdated.length}}个词条</span>
+      <span style="margin-right: 5px; font-size: 14px;">共{{timelineUpdated.length}}个词条</span>
       <div class="pc">
         <el-popover
           placement="right"
