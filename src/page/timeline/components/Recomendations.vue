@@ -39,6 +39,10 @@ export default {
   margin: 0 auto;
 }
 
+.recomendations:not(:hover) {
+  opacity: 0.8;
+}
+
 .recomendations .tip {
   font-size: 16px;
   text-align: left;
