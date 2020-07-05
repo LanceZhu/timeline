@@ -215,5 +215,6 @@ export default {
 .website-title {
   font-size: 20px !important;
   color: black !important;
+  font-weight: 500;
 }
 </style>

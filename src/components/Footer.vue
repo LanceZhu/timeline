@@ -31,6 +31,10 @@ export default {
   font-size: 13px;
 }
 
+.footer:not(:hover) {
+    opacity: 0.7;
+}
+
 .footer a {
   color: gray;
   text-decoration: none;
