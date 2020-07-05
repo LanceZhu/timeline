@@ -1,5 +1,8 @@
 <template>
-  <div class="sidebar" v-loading="loading">
+  <div class="sidebar"
+    v-loading="loading"
+    element-loading-text="加载中..."
+    element-loading-spinner="el-icon-loading">
     <div class="toolbar">
       <span style="margin-right: 5px; font-size: 14px;">共{{timelineUpdated.length}}个词条</span>
       <div class="pc">

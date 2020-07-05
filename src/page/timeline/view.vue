@@ -1,5 +1,9 @@
 <template>
-  <div v-loading="loading" class="container">
+  <div
+    v-loading="loading"
+    element-loading-text="加载中..."
+    element-loading-spinner="el-icon-loading"
+    class="container">
     <el-alert
       v-if="timepoint.status.visible"
       :title="timepoint.status.tip"
