@@ -21,7 +21,6 @@
           </div>
         </el-menu-item>
         <el-menu-item
-          index="search"
           style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
