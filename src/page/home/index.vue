@@ -20,10 +20,12 @@
          </div>
           </div>
         </el-menu-item>
-        <el-menu-item style="margin-left: auto;">
+        <el-menu-item
+          index="search"
+          style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
-        <el-menu-item>
+        <el-menu-item index="usage">
           <div style="display: flex; align-items: center; line-height: 1; height: 60px;">
             <span>
               <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明<i class="el-icon-question"></i></a>
@@ -36,7 +38,10 @@
         >
           <Acount></Acount>
         </el-menu-item>
-        <el-menu-item :route="'/timeline/add'" index="'/new-post'" class="pc">
+        <el-menu-item
+          :route="'/timeline/add'"
+          index="'/new-post'"
+          class="pc">
           <div class="new-post-wrap">
             <div class="new-post">创建词条</div>
           </div>
@@ -46,14 +51,16 @@
     <el-header class="mobile">
       <el-menu :default-active="this.$route.name" class="home-el-menu" mode="horizontal" menu-trigger="click" router>
         <el-menu-item
-        index="timeline"
-        route="/timeline">
+          index="timeline"
+          route="/timeline">
           <i>WE</i>
         </el-menu-item>
-        <el-menu-item style="margin-left: auto;">
+        <el-menu-item
+          index="mobile-search"
+          style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
-        <el-submenu>
+        <el-submenu index="mobile-submenu">
           <template slot="title">
             <i class="el-icon-s-operation"></i>
           </template>
@@ -65,7 +72,7 @@
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
           </el-menu-item>
-          <el-menu-item>
+          <el-menu-item index="mobile-usage">
             <span>
               <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明</a>
             </span>
