@@ -32,7 +32,7 @@ export default {
 }
 
 .footer:not(:hover) {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 .footer a {
