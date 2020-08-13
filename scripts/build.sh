@@ -1,3 +1,8 @@
+#/bin/bash
+set -ex
+
+# branch master: invention internet education
+
 echo "start building"
 
 starttime=`date +'%Y-%m-%d %H:%M:%S'`

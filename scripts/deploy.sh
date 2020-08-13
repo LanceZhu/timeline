@@ -1,9 +1,12 @@
 #/bin/bash
+set -ex
 
-set -e
+# eechina edudata aidata infor
 
 starttime=`date +'%Y-%m-%d %H:%M:%S'`
 
+# branch aidata: eechina edudata aidata
+git checkout aidata
 echo 'eechina start'
 npm run build:eechina > /dev/null
 scp -r dist/* welishi:/home/ubuntu/wiki/wiki-docker-master/frontend/frontend-eechina > /dev/null
@@ -19,6 +22,7 @@ npm run build:aidata > /dev/null
 scp -r dist/* welishi:/home/ubuntu/wiki/wiki-docker-master/frontend/frontend-aidata > /dev/null
 echo 'aidata end'
 
+# branch infor: infor
 git checkout infor
 echo 'infor start'
 npm run build:infor > /dev/null
