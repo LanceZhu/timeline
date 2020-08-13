@@ -12,6 +12,7 @@
     "build:aidata": "cross-env VUE_APP_SUBDOMAIN=aidata vue-cli-service build",
     "build:edudata": "cross-env VUE_APP_SUBDOMAIN=edudata vue-cli-service build",
     "build:dev": "cross-env VUE_APP_SUBDOMAIN=dev vue-cli-service build",
+    "build:cis": "cross-env VUE_APP_SUBDOMAIN=cis vue-cli-service build",
     "lint": "npm run eslint && npm run stylelint",
     "lint:fix": "npm run eslint:fix && npm run stylelint:fix",
     "eslint:fix": "vue-cli-service lint",
@@ -26,7 +27,8 @@
     "serve:education": "cross-env VUE_APP_SUBDOMAIN=education vue-cli-service serve --open",
     "serve:internet": "cross-env VUE_APP_SUBDOMAIN=internet vue-cli-service serve --open",
     "serve:invention": "cross-env VUE_APP_SUBDOMAIN=invention vue-cli-service serve --open",
-    "serve:eechina": "cross-env VUE_APP_SUBDOMAIN=eechina vue-cli-service serve --open"
+    "serve:eechina": "cross-env VUE_APP_SUBDOMAIN=eechina vue-cli-service serve --open",
+    "serve:cis": "cross-env VUE_APP_SUBDOMAIN=cis vue-cli-service serve --open"
   },
   "dependencies": {
     "@sentry/browser": "^5.17.0",
