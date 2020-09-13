@@ -19,6 +19,11 @@ const Devlog = () => import('@/page/devlog/index')
 
 const Feedback = () => import('@/components/Feedback')
 
+const Discuss = () => import('@/page/discuss/index')
+const DiscussList = () => import('@/page/discuss/list')
+const DiscussAdd = () => import('@/page/discuss/add')
+const DiscussView = () => import('@/page/discuss/view')
+
 export default [{
   path: '/',
   component: Home,
@@ -28,7 +33,6 @@ export default [{
       redirect: 'timeline'
     }, {
       path: '/timeline',
-      name: 'Timeline',
       component: Timeline,
       children: [{
         path: '',
@@ -57,6 +61,25 @@ export default [{
         name: 'TimepointDiff',
         component: TimepointDiff
       }]
+    }, {
+      path: '/discuss',
+      component: Discuss,
+      children: [
+        {
+          path: '',
+          name: 'list',
+          component: DiscussList
+        }, {
+          path: 'add',
+          name: 'add',
+          component: DiscussAdd,
+          meta: { requiresAuth: true }
+        }, {
+          path: ':id',
+          name: 'view',
+          component: DiscussView
+        }
+      ]
     }, {
       path: 'login',
       name: 'login',

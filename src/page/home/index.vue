@@ -31,6 +31,13 @@
             </span>
           </div>
         </el-menu-item>
+        <el-submenu index="history-analysis">
+          <template slot="title">
+            历史分析
+          </template>
+          <el-menu-item route="/discuss" index="browse">浏览</el-menu-item>
+          <el-menu-item route="/discuss/add" index="create">创建</el-menu-item>
+        </el-submenu>
         <el-menu-item
           index="login"
           :route="this.$store.state.logged ? '/user' : '/login'"
@@ -71,11 +78,18 @@
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
           </el-menu-item>
-          <el-menu-item index="mobile-usage">
+          <el-menu-item>
             <span>
               <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明</a>
             </span>
           </el-menu-item>
+          <el-submenu index="history-analysis">
+            <template slot="title">
+              历史分析
+            </template>
+            <el-menu-item route="/discuss" index="browse">浏览</el-menu-item>
+            <el-menu-item route="/discuss/add" index="create">创建</el-menu-item>
+          </el-submenu>
         </el-submenu>
       </el-menu>
     </el-header>
