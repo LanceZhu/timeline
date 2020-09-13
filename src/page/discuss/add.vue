@@ -1,0 +1,57 @@
+<template>
+  <div class="container">
+    <el-input v-model="discuss.postId" placeholder="分析词条 id"></el-input>
+    <Editor ref="Editor" :defaultTitle="discuss.title" :defaultContent="discuss.content"></Editor>
+    <div class="submit">
+      <el-button type="primary" @click="submit()">提交</el-button>
+    </div>
+  </div>
+</template>
+
+<script>
+import Editor from '@/components/Editor'
+export default {
+  data () {
+    return {
+      discuss: {
+        title: '',
+        content: '',
+        postId: ''
+      }
+    }
+  },
+  components: {
+    Editor
+  },
+  methods: {
+    async submit () {
+      const { title, content } = this.$refs.Editor.getData()
+      const { postId } = this.discuss
+      const discuss = {
+        title,
+        content,
+        post_id: postId
+      }
+
+      const res = await this.$axios.post('/api/discuss/new', discuss)
+
+      const { thread_id: threadId } = res.data.data
+      this.$router.push(`/discuss/${threadId}`)
+    }
+  }
+}
+</script>
+
+<style scoped>
+.container {
+  width: 50%;
+  min-width: 375px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  padding-top: 50px;;
+}
+.submit {
+  margin: 10px 0 20px;
+}
+</style>
