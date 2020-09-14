@@ -44,13 +44,15 @@ export default {
 
 <style scoped>
 .container {
+  box-sizing: border-box;
   width: 50%;
   min-width: 375px;
   height: 100%;
   margin: 0 auto;
   padding: 0 20px;
-  padding-top: 50px;;
+  padding-top: 50px;
 }
+
 .submit {
   margin: 10px 0 20px;
 }

@@ -22,7 +22,7 @@
     </div>
     </div>
     <el-divider />
-    <div>
+    <div v-loading="loading.replies">
       <div class="reply-box">
         <div class="reply-box-content">
           <el-input
@@ -38,8 +38,9 @@
         </el-button>
       </div>
       <el-divider />
-      <div class="replies" v-loading="loading.replies">
-        <div v-for="(reply, index) in replies" :key="index" class="reply">
+      <div class="replies">
+        <div v-if="replies.length === 0"></div>
+        <div v-else v-for="(reply, index) in replies" :key="index" class="reply">
           <div>
             {{ reply.content.content }}
           </div>
@@ -166,41 +167,48 @@ export default {
   padding: 0 20px;
   padding-top: 50px;
   background-color: #fafafa;
-  border-radius: 20rpx;
+  border-radius: 20px;
 }
+
 .thread {
   text-align: left;
 }
+
 .title {
   position: relative;
   font-size: 20px;
 }
-.title:before {
+
+.title::before {
   content: '';
   border-left: 4px solid #409eff;
   position: absolute;
   height: 100%;
   left: -10px;
 }
+
 .content {
   padding: 10px;
 }
+
 .time {
   font-size: 12px;
   color: gray;
   padding: 5px;
 }
+
 .reply-box {
   display: flex;
 }
+
 .reply-box-content {
   flex: 1;
 }
+
 .replies {
   text-align: left;
 }
-.reply {
-}
+
 .reply-toolbar {
   text-align: right;
 }
