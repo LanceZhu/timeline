@@ -26,6 +26,34 @@
         <div v-html="timepoint.content" ref="content" class="article"></div>
         <Tags :defaultTagsChoosed="timepoint.tags"></Tags>
         <Citation :defaultCitations="timepoint.citations"></Citation>
+        <div class="threads">
+          <div class="threads-title">
+            <span class="mark">
+              历史分析
+            </span>
+            <router-link v-if="threads.length > 2" :to="{ path: '/discuss', query: { timepointId: this.$route.params.id } }" class="threads-more">
+              查看更多
+            </router-link>
+            <router-link v-if="threads.length === 0" to="/discuss/add" class="threads-more">
+              前往发表
+            </router-link>
+          </div>
+          <div v-if="threads.length === 0" class="threads-empty">
+            暂无文章！
+          </div>
+          <div v-else>
+            <div v-for="(thread, index) in threads.slice(0, 2)" :key="index" class="threads-thread">
+              <router-link :to="`/discuss/${thread._id}`">
+                <el-card
+                  :body-style="{padding: '5px', backgroundColor: 'rgb(250, 250, 250)'}"
+                  shadow="hover"
+                >
+                  <span style="color: #606266;">{{ thread.title }}</span>
+                </el-card>
+              </router-link>
+            </div>
+         </div>
+       </div>
         <div class="last-edited-user">
           创建者：<span v-html="timepoint.creator"></span>
         </div>
@@ -69,7 +97,8 @@ export default {
         lastEditedUser: '', // 最后编辑用户
         creator: '' // 词条最初创建者
       },
-      loading: true
+      loading: true,
+      threads: []
     }
   },
   components: {
@@ -79,18 +108,27 @@ export default {
     Citation,
     Tags
   },
-  created () {
-    this.updateContent()
+  async created () {
+    const timepointId = await this.getTimepointId()
+    await this.updateContent()
+    const threads = await this.getThreadsByTimepointId(timepointId)
+    this.threads = threads
   },
   watch: {
-    $route (to, from) {
+    async $route (to, from) {
       if (to.name !== 'TimelineView') {
         return
       }
       this.updateContent()
+      const timepointId = to.params.id
+      const threads = await this.getThreadsByTimepointId(timepointId)
+      this.threads = threads
     }
   },
   methods: {
+    async getTimepointId () {
+      return this.$route.params.id
+    },
     async updateContent () {
       this.loading = true
       const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
@@ -136,6 +174,14 @@ export default {
         visible: true
       })
       this.loading = false
+    },
+    async getThreadsByTimepointId (timepointId) {
+      const res = await this.$axios.get(`/api/discuss/getThreadsList/${timepointId}`)
+      const { threads } = await res.data.data
+
+      const filterdThreads = threads.filter(thread => thread.status === 'publish')
+
+      return filterdThreads
     }
   }
 }
@@ -193,6 +239,43 @@ export default {
 
 .nationality-inventor span {
   padding-right: 10px;
+}
+
+.threads {
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.threads:not(:hover) {
+  opacity: 0.8;
+}
+
+.threads-title {
+  margin-bottom: 10px;
+}
+
+.threads-more {
+  font-size: 12px;
+}
+
+.threads-empty {
+  font-size: 14px;
+}
+
+.threads-thread a {
+  text-decoration: none;
+}
+
+.mark {
+  position: relative;
+}
+
+.mark::before {
+  content: '';
+  border-left: 4px solid #409eff;
+  position: absolute;
+  height: 100%;
+  left: -10px;
 }
 </style>
 
