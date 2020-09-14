@@ -14,6 +14,12 @@ const TimepointHistory = () => import('@/page/timepoint/history')
 const TimepointDiff = () => import('@/page/timepoint/historyDiff')
 
 const User = () => import('@/page/user/index')
+const UserTimepoint = () => import('@/page/user/components/Wikis')
+const UserSendMessage = () => import('@/components/WriteMessage')
+const UserMessages = () => import('@/components/Messages')
+const UserLogout = () => import('@/page/user/components/Logout')
+const UserDelWiki = () => import('@/page/user/components/Management')
+const UserCheckWiki = () => import('@/page/user/components/PendingWikis')
 
 const Devlog = () => import('@/page/devlog/index')
 
@@ -88,7 +94,34 @@ export default [{
       path: 'user',
       name: 'User',
       component: User,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'timepoint',
+          name: 'timepoint',
+          component: UserTimepoint
+        }, {
+          path: 'sendMessage',
+          name: 'sendMessage',
+          component: UserSendMessage
+        }, {
+          path: 'messages',
+          name: 'messages',
+          component: UserMessages
+        }, {
+          path: 'logout',
+          name: 'logout',
+          component: UserLogout
+        }, {
+          path: 'delWiki',
+          name: 'delWiki',
+          component: UserDelWiki
+        }, {
+          path: 'checkWiki',
+          name: 'checkWiki',
+          component: UserCheckWiki
+        }
+      ]
     }, {
       path: 'devlog',
       name: 'Devlog',
