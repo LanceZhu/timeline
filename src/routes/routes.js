@@ -20,6 +20,8 @@ const UserMessages = () => import('@/components/Messages')
 const UserLogout = () => import('@/page/user/components/Logout')
 const UserDelWiki = () => import('@/page/user/components/Management')
 const UserCheckWiki = () => import('@/page/user/components/PendingWikis')
+const UserDiscussReplies = () => import('@/page/user/components/DiscussReplies')
+const UserDiscussArticles = () => import('@/page/discuss/list')
 
 const Devlog = () => import('@/page/devlog/index')
 
@@ -120,6 +122,14 @@ export default [{
           path: 'checkWiki',
           name: 'checkWiki',
           component: UserCheckWiki
+        }, {
+          path: 'discuss/articles',
+          name: 'discuss/articles',
+          component: UserDiscussArticles
+        }, {
+          path: 'discuss/replies',
+          name: 'discuss/replies',
+          component: UserDiscussReplies
         }
       ]
     }, {
