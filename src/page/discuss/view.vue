@@ -74,7 +74,7 @@ export default {
   async created () {
     const threadId = this.getThreadId()
 
-    const userId = await this.getUserId()
+    const userId = await this.$api.getUserId()
     this.userId = userId
 
     const thread = await this.getThread(threadId)
@@ -94,6 +94,10 @@ export default {
     },
     async getThread (threadId) {
       const res = await this.$axios.get(`/api/discuss/getThread/${threadId}`)
+
+      if (res.data.code !== 100) {
+        return []
+      }
       const { thread } = res.data.data
 
       thread.timestamp = dayjs(thread.timestamp * 1000).format('YYYY-MM-DD')
@@ -143,15 +147,6 @@ export default {
 
       const newReplies = await this.getThreadReplies(this.thread.id)
       this.replies = newReplies
-    },
-    async getUserId () {
-      const logged = await this.$api.checkLogin()
-      if (!logged) {
-        return
-      }
-      const res = await this.$axios.get('/api/user/getDetail')
-      const { id: userId } = res.data.data.mysql
-      return userId
     }
   }
 }
