@@ -1,53 +1,56 @@
 <template>
   <div class="container">
-    <div class="thread" v-loading="loading.thread">
-      <div class="title">
-        {{ thread.title }}
-      </div>
-      <div v-html="thread.content" class="content"></div>
-      <div class="time">
-        <span>
-          {{ thread.timestamp }}
-        </span>
-        <span>
-          uid: {{ thread.uid }}
-        </span>
-      </div>
-      <div>
-    </div>
-    <div class="toolbar">
-      <el-button v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))" @click="delThread(thread.id)" size="mini">
-       删除该贴
-     </el-button>
-    </div>
-    </div>
-    <el-divider />
-    <div v-loading="loading.replies">
-      <div class="reply-box">
-        <div class="reply-box-content">
-          <el-input
-            type="textarea"
-            maxlength="400"
-            show-word-limit
-            placeholder="发表评论"
-            v-model="reply">
-          </el-input>
+    <div v-if="thread.status === 'deleted'">文章已删除!</div>
+    <div v-else>
+      <div class="thread" v-loading="loading.thread">
+        <div class="title">
+          {{ thread.title }}
         </div>
-        <el-button type="primary" @click="replyThread(thread.id)">
-          回复该贴
-        </el-button>
+        <div v-html="thread.content" class="content"></div>
+        <div class="time">
+          <span>
+            {{ thread.timestamp }}
+          </span>
+          <span>
+            uid: {{ thread.uid }}
+          </span>
+        </div>
+        <div>
+      </div>
+      <div class="toolbar">
+        <el-button v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))" @click="delThread(thread.id)" size="mini">
+        删除该贴
+      </el-button>
+      </div>
       </div>
       <el-divider />
-      <div class="replies">
-        <div v-if="replies.length === 0"></div>
-        <div v-else v-for="(reply, index) in replies" :key="index" class="reply">
-          <div>
-            {{ reply.content.content }}
+      <div v-loading="loading.replies">
+        <div class="reply-box">
+          <div class="reply-box-content">
+            <el-input
+              type="textarea"
+              maxlength="400"
+              show-word-limit
+              placeholder="发表评论"
+              v-model="reply">
+            </el-input>
           </div>
-          <div class="reply-toolbar">
-            <el-button v-if="Number(reply.content.uid) === userId" type="text" size="mini" @click="delReply(reply.content._id)">删除</el-button>
+          <el-button type="primary" @click="replyThread(thread.id)">
+            回复该贴
+          </el-button>
+        </div>
+        <el-divider />
+        <div class="replies">
+          <div v-if="replies.length === 0"></div>
+          <div v-else v-for="(reply, index) in replies" :key="index" class="reply">
+            <div>
+              {{ reply.content.content }}
+            </div>
+            <div class="reply-toolbar">
+              <el-button v-if="Number(reply.content.uid) === userId" type="text" size="mini" @click="delReply(reply.content._id)">删除</el-button>
+            </div>
+            <el-divider />
           </div>
-          <el-divider />
         </div>
       </div>
     </div>
@@ -96,7 +99,9 @@ export default {
       const res = await this.$axios.get(`/api/discuss/getThread/${threadId}`)
 
       if (res.data.code !== 100) {
-        return []
+        return {
+          status: 'deleted'
+        }
       }
       const { thread } = res.data.data
 
