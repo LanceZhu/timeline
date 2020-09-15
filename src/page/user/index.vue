@@ -19,6 +19,15 @@
           </span>
         </el-menu-item>
         <el-submenu
+          index="/user/discuss/articles"
+        >
+          <template slot="title">
+            历史分析
+          </template>
+          <el-menu-item index="/user/discuss/articles" :route="{ path: '/user/discuss/articles', query: { userId } }">文章</el-menu-item>
+          <el-menu-item index="/user/discuss/replies">回复</el-menu-item>
+        </el-submenu>
+        <el-submenu
           index="/user/delWiki"
           v-if="this.$store.state.userGroup.includes('admin')"
           style="border-top: 1px solid lightgray;"
@@ -40,6 +49,20 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      userId: ''
+    }
+  },
+  async created () {
+    const userId = await this.$api.getUserId()
+    this.userId = userId
+  }
+}
+</script>
 
 <style scoped>
 .container-user {

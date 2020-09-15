@@ -23,10 +23,22 @@ async function checkMessage () {
   return res.data.message
 }
 
+// 获取用户 id
+async function getUserId () {
+  const logged = await checkLogin()
+  if (!logged) {
+    return
+  }
+  const res = await axios.get('/api/user/getDetail')
+  const { id: userId } = res.data.data.mysql
+  return userId
+}
+
 const api = {
   getNickname,
   checkLogin,
-  checkMessage
+  checkMessage,
+  getUserId
 }
 
 export default api

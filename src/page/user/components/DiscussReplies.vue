@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <div class="menu-title">
-      历史分析
+      我的回复
     </div>
-    <div v-if="threads.length === 0" style="padding: 5px;">暂无分析文章</div>
-    <div v-else v-for="(thread, index) in threads" :key="index" class="thread-wrapper" v-loading="loading">
-        <router-link :to="`/discuss/${thread._id}`" tag="li">
+    <div v-if="replies.length === 0" style="padding: 5px;">暂无回复</div>
+    <div v-else v-for="(reply, index) in replies" :key="index" class="thread-wrapper" v-loading="loading">
+        <router-link :to="`/discuss/${reply.thread_id}`" tag="li">
           <div class="thread">
             <div>
-              {{ thread.title }}
+              {{ reply.content }}
             </div>
             <div class="info">
-              {{ thread.timestamp }}
+              {{ reply.timestamp }}
             </div>
           </div>
         </router-link>
@@ -21,48 +21,27 @@
 
 <script>
 import dayjs from 'dayjs'
-
 export default {
-  data: () => {
+  data () {
     return {
-      threads: [],
-      loading: true
+      replies: []
     }
   },
   async created () {
-    const timepointId = this.getTimepointId()
-    const userId = this.getUserId()
-
-    const threads = await this.getThreadsList(timepointId, userId)
-    this.threads = threads
-
-    this.loading = false
+    const replies = await this.getRepliesByUid()
+    this.replies = replies
   },
   methods: {
-    getTimepointId () {
-      return this.$route.query.timepointId
-    },
-    getUserId () {
-      return this.$route.query.userId
-    },
-    async getThreadsList (timepointId, userId) {
-      let API = 'api/discuss/getThreadsList'
-      if (timepointId) {
-        API = `${API}/${timepointId}`
-      } else if (userId) {
-        API = '/api/discuss/getThreadsByUid'
-      }
+    async getRepliesByUid () {
+      const res = await this.$axios.get('/api/discuss/getRepliesByUid')
+      const { replies } = res.data.data
 
-      const res = await this.$axios.get(API)
-      const { threads } = res.data.data
-
-      threads.forEach(thread => {
+      const filterdReplies = replies.filter(reply => reply.status === 'publish')
+      filterdReplies.forEach(thread => {
         thread.timestamp = dayjs(thread.timestamp * 1000).format('YYYY/MM/DD')
       })
 
-      const filterdThreads = threads.filter(thread => thread.status === 'publish')
-
-      return filterdThreads
+      return filterdReplies
     }
   }
 }
