@@ -16,7 +16,7 @@
       <div>
     </div>
     <div class="toolbar">
-      <el-button v-if="thread.id === userId" @click="delThread(thread.id)" size="mini">
+      <el-button v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))" @click="delThread(thread.id)" size="mini">
        删除该贴
      </el-button>
     </div>
@@ -114,6 +114,16 @@ export default {
         thread_id: threadId
       }
       const res = await this.$axios.post('/api/discuss/delThread', data)
+
+      if (res.data.code === 100) {
+        this.$message({
+          type: 'success',
+          message: '删除成功！'
+        })
+        this.$router.push('/discuss')
+      } else {
+        this.$message.error('删除失败！')
+      }
     },
     async getThreadReplies (threadId) {
       const res = await this.$axios.get(`/api/discuss/getReplies/${threadId}`)
@@ -144,6 +154,15 @@ export default {
         reply_id: replyId
       }
       const res = await this.$axios.post('/api/discuss/delReply', data)
+
+      if (res.data.code === 100) {
+        this.$message({
+          type: 'success',
+          message: '删除成功！'
+        })
+      } else {
+        this.$message.error('删除失败！')
+      }
 
       const newReplies = await this.getThreadReplies(this.thread.id)
       this.replies = newReplies
