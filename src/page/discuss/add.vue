@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-input v-model="discuss.postId" placeholder="分析词条 id"></el-input>
+    <TimepointSelect ref="TimepointSelect" />
     <Editor ref="Editor" :defaultTitle="discuss.title" :defaultContent="discuss.content"></Editor>
     <div class="submit">
       <el-button type="primary" @click="submit()">提交</el-button>
@@ -10,27 +10,30 @@
 
 <script>
 import Editor from '@/components/Editor'
+import TimepointSelect from './components/TimepointSelect'
+
 export default {
   data () {
     return {
       discuss: {
         title: '',
-        content: '',
-        postId: ''
+        content: ''
       }
     }
   },
   components: {
-    Editor
+    Editor,
+    TimepointSelect
   },
   methods: {
     async submit () {
       const { title, content } = this.$refs.Editor.getData()
+      const timepointId = this.$refs.TimepointSelect.getData()
       const { postId } = this.discuss
       const discuss = {
         title,
         content,
-        post_id: postId
+        post_id: timepointId
       }
 
       const res = await this.$axios.post('/api/discuss/new', discuss)
