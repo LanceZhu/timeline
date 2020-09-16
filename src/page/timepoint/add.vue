@@ -3,7 +3,7 @@
     <Recovery ref="Recovery" :curTimepoint="timepoint" :localStorageKey="'NEW_TIMEPOINT'" @recover="(recoveredTimepoint) => { this.timepoint = recoveredTimepoint }"></Recovery>
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="timepoint.dateValue" :defaultDate="timepoint.date" :defaultType="timepoint.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="timepoint.title" :defaultContent="timepoint.content"></Editor>
-    <NationalityAndInventor v-if="this.$view.showNationalityAndInventor" ref="NationalityAndInventor"></NationalityAndInventor>
+    <NationalityAndInventor v-if="this.$view.showNationalityAndCreator" ref="NationalityAndInventor"></NationalityAndInventor>
     <Tags ref="Tags" :defaultTagsChoosed="timepoint.tagsChoosed" editable></Tags>
     <Citation ref="Citation" :defaultCitations="timepoint.citations" editable></Citation>
     <div class="submit">
