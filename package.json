@@ -30,7 +30,9 @@
     "serve:invention": "cross-env VUE_APP_SUBDOMAIN=invention vue-cli-service serve --open",
     "serve:eechina": "cross-env VUE_APP_SUBDOMAIN=eechina vue-cli-service serve --open",
     "serve:infor": "cross-env VUE_APP_SUBDOMAIN=infor vue-cli-service serve --open",
-    "serve:cis": "cross-env VUE_APP_SUBDOMAIN=cis vue-cli-service serve --open"
+    "serve:cis": "cross-env VUE_APP_SUBDOMAIN=cis vue-cli-service serve --open",
+    "deploy": "bash scripts/deploy.sh",
+    "flushCDN": "bash scripts/flushCDN.sh"
   },
   "dependencies": {
     "@sentry/browser": "^5.17.0",
