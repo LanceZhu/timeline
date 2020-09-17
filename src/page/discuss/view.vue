@@ -18,9 +18,17 @@
         <div>
       </div>
       <div class="toolbar">
-        <el-button v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))" @click="delThread(thread.id)" size="mini">
-        删除该贴
-      </el-button>
+        <el-popconfirm
+          title="确定删除该文章？"
+          v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))"
+          @onConfirm="delThread(thread.id)"
+        >
+          <el-button
+            size="mini"
+            slot="reference">
+            删除该贴
+        </el-button>
+        </el-popconfirm>
       </div>
       </div>
       <el-divider />

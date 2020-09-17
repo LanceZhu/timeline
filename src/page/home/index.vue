@@ -24,13 +24,6 @@
           style="margin-left: auto;">
           <Search></Search>
         </el-menu-item>
-        <el-menu-item index="usage">
-          <div style="display: flex; align-items: center; line-height: 1; height: 60px;">
-            <span>
-              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明<i class="el-icon-question"></i></a>
-            </span>
-          </div>
-        </el-menu-item>
         <el-submenu index="history-analysis">
           <template slot="title">
             历史分析
@@ -77,11 +70,6 @@
           </el-menu-item>
           <el-menu-item :route="'/timeline/add'" index="'/new-post'">
             创建词条
-          </el-menu-item>
-          <el-menu-item>
-            <span>
-              <a href="https://shimo.im/docs/vVAXVYrz96cK8pqm/" target="_blank" style="text-decoration: none; color: gray;">使用说明</a>
-            </span>
           </el-menu-item>
           <el-submenu index="history-analysis">
             <template slot="title">
