@@ -5,14 +5,14 @@
       <el-button size="small" round icon="el-icon-refresh" @click="changeRecomendtion">换一换</el-button>
     </div>
     <div v-if="recomendations.length !== 0">
-      <a v-for="item in recomendations" :key="item._id" :href="`/#/timeline/${item._id}`">
+      <router-link v-for="item in recomendations" :key="item._id" :to="`/timeline/${item._id}`">
         <el-card
           :body-style="{padding: '10px', backgroundColor: 'rgb(250, 250, 250)'}"
           shadow="never"
         >
         <span style="color: #606266;">{{ item.show }} {{ item.title }}</span>
         </el-card>
-      </a>
+      </router-link>
     </div>
     <div v-else>暂无推荐词条</div>
   </div>
