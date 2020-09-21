@@ -28,12 +28,20 @@ export default {
   methods: {
     async submit () {
       const { title, content } = this.$refs.Editor.getData()
-      const timepointId = this.$refs.TimepointSelect.getData()
+      const timepointIdArr = this.$refs.TimepointSelect.getData()
+
+      if (title === '') {
+        this.$message.error('请填写标题！')
+      }
+      if (timepointIdArr.length === 0) {
+        this.$message.error('至少选择一个时间点！')
+      }
+
       const { postId } = this.discuss
       const discuss = {
         title,
         content,
-        post_id: timepointId
+        post_id: timepointIdArr
       }
 
       const res = await this.$axios.post('/api/discuss/new', discuss)

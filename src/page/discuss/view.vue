@@ -6,6 +6,16 @@
         <div class="title">
           {{ thread.title }}
         </div>
+        <div class="timepoints">
+          <div>
+            关联时间点：
+          </div>
+          <div class="timepoints-link" v-for="(time, index) in thread._timepoints" :key="index">
+            <router-link :to="`/timeline/${time.id}`">
+              {{ time.title }}
+            </router-link>
+          </div>
+        </div>
         <div v-html="thread.content" class="content"></div>
         <div class="time">
           <span>
@@ -114,6 +124,13 @@ export default {
       const { thread } = res.data.data
 
       thread.timestamp = dayjs(thread.timestamp * 1000).format('YYYY-MM-DD')
+      thread._timepoints = await Promise.all(thread.parent_id.map(async id => {
+        const timepoint = await this.getTimepoint(id)
+        return {
+          id,
+          title: timepoint.title
+        }
+      }))
       return thread
     },
     async delThread (threadId) {
@@ -179,6 +196,10 @@ export default {
 
       const newReplies = await this.getThreadReplies(this.thread.id)
       this.replies = newReplies
+    },
+    async getTimepoint (timepointId) {
+      const res = await this.$axios.get(`/api/timepoint/show/${timepointId}`)
+      return res.data.data.post
     }
   }
 }
@@ -212,6 +233,23 @@ export default {
   position: absolute;
   height: 100%;
   left: -10px;
+}
+
+.timepoints {
+  border: 1px solid #dcdfe6;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.timepoints-link a {
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
+}
+
+.timepoints-link a:hover {
+  text-decoration: underline;
 }
 
 .content {
