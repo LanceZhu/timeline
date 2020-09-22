@@ -30,6 +30,7 @@ const Feedback = () => import('@/components/Feedback')
 const Discuss = () => import('@/page/discuss/index')
 const DiscussList = () => import('@/page/discuss/list')
 const DiscussAdd = () => import('@/page/discuss/add')
+const DiscussEdit = () => import('@/page/discuss/edit')
 const DiscussView = () => import('@/page/discuss/view')
 
 export default [{
@@ -86,6 +87,10 @@ export default [{
           path: ':id',
           name: 'view',
           component: DiscussView
+        }, {
+          path: ':id/edit',
+          name: 'edit',
+          component: DiscussEdit
         }
       ]
     }, {

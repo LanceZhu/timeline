@@ -13,13 +13,13 @@
         :key="index"
         >
         <el-tag
-          closable
+          :closable="!disabled"
           @close="delTimepointById(time.id)">
           {{ time.title }}
         </el-tag>
       </div>
     </div>
-    <el-button @click="timelineVisible = true">
+    <el-button :disabled="disabled" @click="timelineVisible = true">
       选择时间点
     </el-button>
     <el-dialog
@@ -48,10 +48,16 @@ export default {
       default: function () {
         return []
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
-  created () {
-    this.timepoints = this.defaultTimepoints
+  watch: {
+    defaultTimepoints (newV) {
+      this.timepoints = newV
+    }
   },
   methods: {
     selectTimepoint (timepoint) {

@@ -39,6 +39,12 @@
             删除该贴
         </el-button>
         </el-popconfirm>
+        <el-button
+          v-if="Number(thread.uid) === userId"
+          size="mini"
+          @click="editThread(thread.id)">
+          编辑该贴
+        </el-button>
       </div>
       </div>
       <el-divider />
@@ -76,7 +82,6 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
 import checkLogin from '@/utils/checkLogin'
 
 export default {
@@ -123,7 +128,7 @@ export default {
       }
       const { thread } = res.data.data
 
-      thread.timestamp = dayjs(thread.timestamp * 1000).format('YYYY-MM-DD')
+      thread.timestamp = this.$dayjs(thread.timestamp * 1000).format('YYYY-MM-DD')
       thread._timepoints = await Promise.all(thread.parent_id.map(async id => {
         const timepoint = await this.getTimepoint(id)
         return {
@@ -154,6 +159,9 @@ export default {
       } else {
         this.$message.error('删除失败！')
       }
+    },
+    editThread (threadId) {
+      this.$router.push(`/discuss/${threadId}/edit`)
     },
     async getThreadReplies (threadId) {
       const res = await this.$axios.get(`/api/discuss/getReplies/${threadId}`)

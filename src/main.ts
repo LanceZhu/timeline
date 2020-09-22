@@ -10,6 +10,7 @@ import 'quill/dist/quill.bubble.css'
 import store from './store/store'
 import Vuex from 'vuex'
 import axios from 'axios'
+import dayjs from '@/utils/dayjs'
 import api from '@/API/API'
 import checkLogin from '@/utils/checkLogin'
 import * as Sentry from '@sentry/browser'
@@ -67,6 +68,9 @@ Vue.prototype.$axios = axios
 
 // api
 Vue.prototype.$api = api
+
+// dayjs
+Vue.prototype.$dayjs = dayjs
 
 // vue-router
 const originalPush = VueRouter.prototype.push
