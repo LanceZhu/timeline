@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TimepointSelect ref="TimepointSelect" />
+    <TimepointSelect ref="TimepointSelect" :defaultTimepoints="discuss._timepoints" />
     <Editor ref="Editor" :defaultTitle="discuss.title" :defaultContent="discuss.content"></Editor>
     <div class="submit">
       <el-button type="primary" @click="submit()">提交</el-button>
@@ -24,6 +24,9 @@ export default {
   components: {
     Editor,
     TimepointSelect
+  },
+  created () {
+    this.discuss._timepoints = this.$route.params.timepoints || []
   },
   methods: {
     async submit () {

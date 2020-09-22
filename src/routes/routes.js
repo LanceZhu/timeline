@@ -76,20 +76,20 @@ export default [{
       children: [
         {
           path: '',
-          name: 'list',
+          name: 'discussList',
           component: DiscussList
         }, {
           path: 'add',
-          name: 'add',
+          name: 'discussAdd',
           component: DiscussAdd,
           meta: { requiresAuth: true }
         }, {
           path: ':id',
-          name: 'view',
+          name: 'discussView',
           component: DiscussView
         }, {
           path: ':id/edit',
-          name: 'edit',
+          name: 'discussEdit',
           component: DiscussEdit
         }
       ]

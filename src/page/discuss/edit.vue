@@ -18,9 +18,9 @@ export default {
       thread: {
         id: '',
         title: '',
-        content: ''
+        content: '',
+        _timepoints: []
       },
-      timepoints: [],
       loading: true
     }
   },
@@ -62,7 +62,6 @@ export default {
           title: timepoint.title
         }
       }))
-      // console.log(this.timepoints)
       return thread
     },
     async getTimepoint (timepointId) {

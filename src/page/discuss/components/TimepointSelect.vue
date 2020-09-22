@@ -59,6 +59,9 @@ export default {
       this.timepoints = newV
     }
   },
+  created () {
+    this.timepoints = this.defaultTimepoints
+  },
   methods: {
     selectTimepoint (timepoint) {
       const hasTime = this.timepoints.map(time => time.id).includes(timepoint._id)

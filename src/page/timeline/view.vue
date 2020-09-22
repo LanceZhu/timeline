@@ -34,7 +34,10 @@
             <router-link v-if="threads.length > 2" :to="{ path: '/discuss', query: { timepointId: this.$route.params.id } }" class="threads-more">
               查看更多
             </router-link>
-            <router-link v-if="threads.length === 0" to="/discuss/add" class="threads-more">
+            <router-link v-if="threads.length === 0" :to="{ name: 'discussAdd', path: '/discuss/add', params: {timepoints: [{
+              id: this.$route.params.id,
+              title: timepoint.title
+            }]}}" class="threads-more">
               前往发表
             </router-link>
           </div>
