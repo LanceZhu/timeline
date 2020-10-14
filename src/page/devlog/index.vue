@@ -19,7 +19,7 @@
           :color="log.color"
           :size="log.size"
           :timestamp="log.timestamp">
-          <pre>{{ log.content }}</pre>
+          <div v-html="log.content"></div>
         </el-timeline-item>
       </el-timeline>
     </div>
@@ -31,11 +31,15 @@ export default {
   data () {
     return {
       logs: [{
+        content: '增加历史分析<br/><a href="/#/discuss">点击查看</a>',
+        timestamp: '2020-09-22',
+        type: 'info'
+      }, {
         content: '词条编辑过程意外退出后可进行恢复操作',
         timestamp: '2020-6-27',
         type: 'info'
       }, {
-        content: '1. 用户可为词条添加自定义标签\n2. 根据标签筛选时间轴\n3. 词条编辑需审核',
+        content: '1. 用户可为词条添加自定义标签<br/>2. 根据标签筛选时间轴<br/>3. 词条编辑需审核',
         timestamp: '2020-6-10',
         type: 'info'
       }, {
