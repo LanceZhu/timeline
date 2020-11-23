@@ -133,50 +133,55 @@ export default {
       return this.$route.params.id
     },
     async updateContent () {
-      this.loading = true
-      const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
-      if (res.data.code !== 100) {
+      try {
+        this.loading = true
+        const res = await this.$axios.get(`/api/timepoint/show/${this.$route.params.id}`)
+        if (res.data.code !== 100) {
+          Object.assign(this.timepoint, {
+            status: {
+              visible: true,
+              tip: '该词条不存在'
+            },
+            visible: false
+          })
+          this.loading = false
+          return
+        }
+        const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor, status } = res.data.data.post
+
+        const statusVisible = (status !== 'publish')
+        let statusTip = ''
+        if (statusVisible) {
+          statusTip = TIMEPOINT_STATUS[status] || '该词条不存在'
+        }
         Object.assign(this.timepoint, {
+          nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
+          inventor: [null, undefined].includes(inventor) ? '不详' : inventor
+        })
+        const lastEditedUser = await this.$api.getNickname(owner) || owner
+        const creator = await this.$api.getNickname(createOwner) || createOwner
+
+        Object.assign(this.timepoint, {
+          id: _id,
+          title,
+          content,
           status: {
-            visible: true,
-            tip: '该词条不存在'
+            visible: statusVisible,
+            tip: statusTip
           },
-          visible: false
+          nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
+          inventor: [null, undefined].includes(inventor) ? '不详' : inventor,
+          lastEditedUser,
+          creator,
+          citations: supplement,
+          tags: tag,
+          visible: true
         })
         this.loading = false
-        return
+      } catch (err) {
+        this.$message.error('资源请求出错！')
+        console.error(err)
       }
-      const { content, title, _id, owner, tag = [], supplement, create_owner: createOwner, nationality, inventor, status } = res.data.data.post
-
-      const statusVisible = (status !== 'publish')
-      let statusTip = ''
-      if (statusVisible) {
-        statusTip = TIMEPOINT_STATUS[status] || '该词条不存在'
-      }
-      Object.assign(this.timepoint, {
-        nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
-        inventor: [null, undefined].includes(inventor) ? '不详' : inventor
-      })
-      const lastEditedUser = await this.$api.getNickname(owner) || owner
-      const creator = await this.$api.getNickname(createOwner) || createOwner
-
-      Object.assign(this.timepoint, {
-        id: _id,
-        title,
-        content,
-        status: {
-          visible: statusVisible,
-          tip: statusTip
-        },
-        nationality: [null, undefined].includes(nationality) ? '不详' : nationality,
-        inventor: [null, undefined].includes(inventor) ? '不详' : inventor,
-        lastEditedUser,
-        creator,
-        citations: supplement,
-        tags: tag,
-        visible: true
-      })
-      this.loading = false
     },
     async getThreadsByTimepointId (timepointId) {
       const res = await this.$axios.get(`/api/discuss/getThreadsList/${timepointId}`)

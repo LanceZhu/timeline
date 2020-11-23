@@ -81,7 +81,8 @@ module.exports = {
   chainWebpack: config => {
     config.plugin('html').tap(args => {
       args[0].meta = {
-        version: `${commitDate} ${commitNumber}`
+        version: `${commitDate} ${commitNumber}`,
+        publish: `${new Date()}`
       }
       return args
     })
