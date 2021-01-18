@@ -108,6 +108,8 @@ export default {
       id: threadId,
       ...thread
     }
+
+    document.title = this.thread.title
     this.loading.thread = false
 
     const replies = await this.getThreadReplies(threadId)

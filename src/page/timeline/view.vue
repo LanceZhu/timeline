@@ -177,6 +177,8 @@ export default {
           tags: tag,
           visible: true
         })
+
+        document.title = this.timepoint.title
         this.loading = false
       } catch (err) {
         this.$message.error('资源请求出错！')

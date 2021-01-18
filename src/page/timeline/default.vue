@@ -22,6 +22,9 @@ export default {
   components: {
     Footer,
     Recomendations
+  },
+  created () {
+    document.title = config.websiteName
   }
 }
 </script>
