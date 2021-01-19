@@ -32,7 +32,7 @@
         <el-popconfirm
           title="确定删除该文章？"
           v-if="Number(thread.uid) === userId || (this.$store.state.logged && this.$store.state.userGroup.includes('admin'))"
-          @onConfirm="delThread(thread.id)"
+          @confirm="delThread(thread.id)"
         >
           <el-button
             size="mini"

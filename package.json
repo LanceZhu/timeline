@@ -41,7 +41,7 @@
     "core-js": "^3.6.5",
     "cross-env": "^6.0.3",
     "dayjs": "^1.8.27",
-    "element-ui": "^2.13.2",
+    "element-ui": "^2.15.0",
     "lodash": "^4.17.15",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
