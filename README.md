@@ -77,6 +77,7 @@ npm run lint
 
 
 ## 更新日志
+
 2020-1-9
 
 - 优化包体积：使用 Vue 懒加载，Webpack SplitChunkPlugin，通过 CDN 加载 script
@@ -89,3 +90,7 @@ npm run lint
 2019-11-16
 
 - 更改为单词条显示
+
+## 维护日志
+
+[docs/log.md](./docs/log.md)
