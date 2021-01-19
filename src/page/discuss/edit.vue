@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-loading="loading">
-    <TimepointSelect ref="TimepointSelect" :defaultTimepoints="thread._timepoints" disabled />
+    <TimepointSelect ref="TimepointSelect" :defaultTimepoints="thread._timepoints" />
     <Editor ref="Editor" :defaultTitle="thread.title" :defaultContent="thread.content"></Editor>
     <div class="submit">
       <el-button type="primary" @click="editThread(thread.id)">提交</el-button>
@@ -83,7 +83,7 @@ export default {
       const newThread = {
         title,
         content,
-        post_id: timepointIdArr
+        parent_id: timepointIdArr
       }
       const res = await this.$axios.post(`/api/discuss/modifyThread/${threadId}`, newThread)
 
