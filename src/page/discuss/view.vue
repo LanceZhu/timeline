@@ -12,6 +12,7 @@
           </div>
           <div class="timepoints-link" v-for="(time, index) in thread._timepoints" :key="index">
             <router-link :to="`/timeline/${time.id}`">
+              {{ time.time }}
               {{ time.title }}
             </router-link>
           </div>
@@ -135,7 +136,8 @@ export default {
         const timepoint = await this.getTimepoint(id)
         return {
           id,
-          title: timepoint.title
+          title: timepoint.title,
+          time: timepoint.show.show
         }
       }))
       return thread
@@ -253,13 +255,14 @@ export default {
 }
 
 .timepoints-link a {
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: #409eff;
   color: black;
   font-size: 12px;
 }
 
 .timepoints-link a:hover {
-  text-decoration: underline;
+  font-weight: bold;
 }
 
 .content {
