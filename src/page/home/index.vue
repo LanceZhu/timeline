@@ -13,7 +13,7 @@
               {{ websiteName }}
               <el-image
                 style="width: 50px; height: 8px; position: absolute; top: 0; right: 0; transform: translate(100%, -50%);"
-                src="https://pic.f00bar.cn/images/2020/06/12/beta.png"
+                src="https://i.loli.net/2021/01/26/PE3JasIoHAm17pb.png"
                 fit="contain">
               <div slot="error" style="font-size: 1px; line-height: 8px; text-align: left; padding-left: 2px;">beta</div>
             </el-image>
