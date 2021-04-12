@@ -90,14 +90,24 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: `http://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
+        target: `htttp://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
         changeOrigin: true,
-        onProxyRes: function (proxyRes, req, res) {
+        router: {
+          'localhost:8081': 'http://dev.internal.feel.ac.cn'
+        },
+        headers: {
+          Host: `${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`
         }
       },
       '/attachment': {
         target: `http://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
-        changeOrigin: true
+        changeOrigin: true,
+        router: {
+          'localhost:8081': 'http://dev.internal.feel.ac.cn'
+        },
+        headers: {
+          Host: `${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`
+        }
       }
     }
   }
