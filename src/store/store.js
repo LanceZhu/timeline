@@ -7,7 +7,18 @@ const state = {
   filteredTimeline: [], // 用户筛选后的时间轴, 例如 标签筛选
   messages: [], // 是否有消息通知,
   userGroup: [], // 用户组 user admin
-  recomendations: [] // 首页词条推荐
+  recomendations: [], // 首页词条推荐
+  config: {
+    tags: [
+      {
+        value: '默认',
+        label: '默认'
+      }
+    ],
+    preface: '',
+    view: {},
+    websiteName: '时间轴wiki'
+  } // 网站配置
 }
 
 const mutations = {
@@ -40,6 +51,9 @@ const mutations = {
       timeline[randomIndex] = tmp
     }
     state.recomendations = timeline.slice(0, 4)
+  },
+  updateConfig (state, config) {
+    state.config = config
   }
 }
 

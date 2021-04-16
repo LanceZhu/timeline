@@ -7,9 +7,12 @@
 </template>
 
 <script>
+import { getConfig } from '@/API/API'
 export default {
-  created () {
+  async created () {
     this.persistVuex()
+    await this.getConfig()
+    this.applyBaiduAnalysis()
   },
   methods: {
     // 持久化 Vuex，避免页面刷新状态丢失
@@ -20,6 +23,26 @@ export default {
       window.addEventListener('beforeunload', () => {
         sessionStorage.setItem('Vuex', JSON.stringify(this.$store.state))
       })
+    },
+    async getConfig () {
+      const config = await getConfig()
+      this.$store.commit('updateConfig', config)
+    },
+    applyBaiduAnalysis () {
+      // 百度统计
+      if (this.$store.state.config.BAIDU_ANALYSIS_URL !== undefined && process.env.NODE_ENV === 'production') {
+        // @ts-ignore
+        var _hmt = _hmt || []
+        // @ts-ignore
+        window._hmt = _hmt; // 修改为window 全局变量
+        (function () {
+          var hm = document.createElement('script')
+          hm.src = config.BAIDU_ANALYSIS_URL
+          var s = document.getElementsByTagName('script')[0]
+          // @ts-ignore
+          s.parentNode.insertBefore(hm, s)
+        })()
+      }
     }
   }
 }

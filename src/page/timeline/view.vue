@@ -19,7 +19,7 @@
       </div>
       <el-divider></el-divider>
       <div class="content">
-        <div v-if="this.$view.showNationalityAndInventor" class="nationality-inventor">
+        <div v-if="this.$store.state.config.view.showNationalityAndInventor" class="nationality-inventor">
           <div>发明人：{{ timepoint.inventor }}</div>
           <div>发明国家：{{ timepoint.nationality }}</div>
         </div>
@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import config from '../../../config'
 import TIMEPOINT_STATUS from '@/constant/TimepointStatus'
 
 const Toolbar = () => import('./components/Toolbar')

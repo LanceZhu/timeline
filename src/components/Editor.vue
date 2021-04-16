@@ -11,7 +11,6 @@
 <script>
 import { Quill } from 'vue-quill-editor'
 import { container, ImageExtend, QuillWatch } from 'quill-image-extend-module'
-import config from '../../config'
 
 Quill.register('modules/ImageExtend', ImageExtend)
 
@@ -29,7 +28,7 @@ export default {
             size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
             action: '/api/supplement/upload',
             response: (res) => {
-              return config.baseURL + res.allowList[0].filepath
+              return res.allowList[0].filepath
             }
           },
           toolbar: {

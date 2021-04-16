@@ -91,15 +91,13 @@
 </template>
 
 <script>
-import config from '../../../config'
-
 const Search = () => import('./components/Search')
 const Acount = () => import('./components/Acount')
 
 export default {
   data () {
     return {
-      websiteName: config.websiteName
+      websiteName: this.$store.state.config.websiteName
     }
   },
   components: {

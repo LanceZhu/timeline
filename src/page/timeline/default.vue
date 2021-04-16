@@ -8,15 +8,13 @@
 </template>
 
 <script>
-import config from '../../../config'
-
 const Footer = () => import('../../components/Footer')
 const Recomendations = () => import('./components/Recomendations')
 
 export default {
   data () {
     return {
-      content: config.preface || '暂无前言'
+      content: this.$store.state.config.preface || '暂无前言'
     }
   },
   components: {
@@ -24,7 +22,7 @@ export default {
     Recomendations
   },
   created () {
-    document.title = config.websiteName
+    document.title = this.$store.state.config.websiteName
   }
 }
 </script>

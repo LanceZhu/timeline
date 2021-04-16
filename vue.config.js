@@ -90,7 +90,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: `htttp://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
+        target: `http://${process.env.VUE_APP_SUBDOMAIN}.welishi.cn`,
         changeOrigin: true,
         router: {
           'localhost:8081': 'http://dev.internal.feel.ac.cn'

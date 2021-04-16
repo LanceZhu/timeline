@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import config from '../config'
 import App from './App.vue'
 import routes from './routes/routes'
 import VueRouter from 'vue-router'
@@ -62,7 +61,7 @@ Vue.use(VueQuillEditor)
 Vue.use(Vuex)
 
 // axios
-axios.defaults.baseURL = config.baseURL
+axios.defaults.baseURL = ''
 // axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 
@@ -83,7 +82,6 @@ VueRouter.prototype.push = function push (location, onResolve, onReject) {
 const router = new VueRouter({
   routes
 })
-// router.push('/index')
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const logged = await checkLogin.checkLogin()
@@ -101,39 +99,26 @@ router.beforeEach(async (to, from, next) => {
 })
 
 // 百度统计
-if (config.BAIDU_ANALYSIS_URL !== undefined && process.env.NODE_ENV === 'production') {
+router.beforeEach((to, from, next) => {
   // @ts-ignore
-  var _hmt = _hmt || []
-  // @ts-ignore
-  window._hmt = _hmt; // 修改为window 全局变量
-  (function () {
-    var hm = document.createElement('script')
-    hm.src = config.BAIDU_ANALYSIS_URL
-    var s = document.getElementsByTagName('script')[0]
-    // @ts-ignore
-    s.parentNode.insertBefore(hm, s)
-  })()
-
-  router.beforeEach((to, from, next) => {
-    // @ts-ignore
-    if (window._hmt) {
-      if (to.path) {
-        // @ts-ignore
-        window._hmt.push(['_trackPageview', '/#' + to.fullPath])
-      }
+  if (window._hmt) {
+    if (to.path) {
+      // @ts-ignore
+      window._hmt.push(['_trackPageview', '/#' + to.fullPath])
     }
-    next()
-  })
-}
+  }
+  next()
+})
 
-if (config.SENTRY_DSN !== undefined && process.env.NODE_ENV === 'production') {
+// Sentry
+if (process.env.NODE_ENV === 'production') {
   Sentry.init({
-    dsn: config.SENTRY_DSN,
+    dsn: 'https://4ca2646ee8c1435b80b7f0c79eeb59c0@o338003.ingest.sentry.io/5283859',
     integrations: [new VueIntegration({ Vue, attachProps: true, logErrors: false })]
   })
 }
 
-Vue.prototype.$view = config.view
+// Vue.prototype.$view = config.view
 
 new Vue({
   router,

@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import config from '../../../../config'
 import Tags from '@/components/Tags'
 
 export default {
@@ -131,7 +130,7 @@ export default {
     },
     // 树 -> 到达叶子结点路径 数组
     formatTags () {
-      const treeTags = config.tags
+      const treeTags = this.$store.state.config.tags
       const formatedTags = []
       for (let i = 0; i < treeTags.length; i++) {
         dfs(treeTags[i], [])

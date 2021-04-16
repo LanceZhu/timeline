@@ -46,8 +46,6 @@
 </template>
 
 <script>
-import config from '../../config'
-
 export default {
   data () {
     return {
@@ -127,6 +125,7 @@ export default {
       this.tagsChoosed.splice(this.tagsChoosed.indexOf(tag), 1)
     },
     async searchTag (querystring, cb) {
+      const { config } = this.$store.state
       const tags = config.tags.slice()
       const customTags = await this.getCustomTags()
       tags.push(...customTags)

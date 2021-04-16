@@ -34,6 +34,23 @@ async function getUserId () {
   return userId
 }
 
+// 获取配置文件
+export async function getConfig () {
+  // const res = await axios.get('/api/config')
+  const res = {
+    tags: [
+      {
+        value: '默认',
+        label: '默认'
+      }
+    ],
+    preface: '一个前言',
+    view: {},
+    websiteName: '时间轴wiki'
+  }
+  return res
+}
+
 const api = {
   getNickname,
   checkLogin,

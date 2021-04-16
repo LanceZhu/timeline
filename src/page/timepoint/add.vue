@@ -3,7 +3,7 @@
     <Recovery ref="Recovery" :curTimepoint="timepoint" :localStorageKey="'NEW_TIMEPOINT'" @recover="(recoveredTimepoint) => { this.timepoint = recoveredTimepoint }"></Recovery>
     <FuzzyTimePicker ref="FuzzyTimePicker" :defaultValue="timepoint.dateValue" :defaultDate="timepoint.date" :defaultType="timepoint.dateType"></FuzzyTimePicker>
     <Editor ref="Editor" :defaultTitle="timepoint.title" :defaultContent="timepoint.content"></Editor>
-    <NationalityAndInventor v-if="this.$view.showNationalityAndCreator" ref="NationalityAndInventor"></NationalityAndInventor>
+    <NationalityAndInventor v-if="this.$store.state.config.view.showNationalityAndCreator" ref="NationalityAndInventor"></NationalityAndInventor>
     <Tags ref="Tags" :defaultTagsChoosed="timepoint.tagsChoosed" editable></Tags>
     <Citation ref="Citation" :defaultCitations="timepoint.citations" editable></Citation>
     <div class="submit">
@@ -55,7 +55,7 @@ export default {
       const { year, month, day, show } = this.$refs.FuzzyTimePicker.getData()
 
       let nationalityAndCreator = {}
-      if (this.$view.showNationalityAndCreator) {
+      if (this.$store.state.config.view.showNationalityAndCreator) {
         // 发明简史国籍和发明人字段
         try {
           nationalityAndCreator = await this.$refs.NationalityAndInventor.getData()
